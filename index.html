@@ -7,26 +7,27 @@
 <meta name="description" content="Kyle Thumm — Head of Marketing & Growth. I build the systems that make companies scale.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0f1a;
-  --bg-light: #0f1525;
-  --bg-card: #131a2b;
-  --bg-card-hover: #182035;
-  --text: #e8ecf4;
-  --text-muted: #8892a6;
-  --text-dim: #4a5468;
-  --blue: #2563eb;
-  --blue-dim: rgba(37, 99, 235, 0.15);
-  --blue-glow: rgba(37, 99, 235, 0.25);
-  --gold: #e5a220;
-  --gold-dim: rgba(229, 162, 32, 0.12);
-  --green: #22c55e;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.1);
-  --font: 'Outfit', -apple-system, sans-serif;
+  --bg: #0c0c0e;
+  --bg-light: #121214;
+  --bg-card: #18181b;
+  --bg-card-hover: #1f1f23;
+  --text: #f0ece4;
+  --text-muted: #9c978e;
+  --text-dim: #5c5750;
+  --blue: #c9a96e;
+  --blue-dim: rgba(201, 169, 110, 0.12);
+  --blue-glow: rgba(201, 169, 110, 0.15);
+  --gold: #c9a96e;
+  --gold-dim: rgba(201, 169, 110, 0.10);
+  --green: #8a9a7b;
+  --border: rgba(255, 255, 255, 0.05);
+  --border-hover: rgba(201, 169, 110, 0.15);
+  --font: 'DM Sans', -apple-system, sans-serif;
   --mono: 'JetBrains Mono', monospace;
+  --serif: 'Cormorant Garamond', Georgia, serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -44,10 +45,10 @@ body {
 
 ::selection {
   background: var(--blue);
-  color: #fff;
+  color: #0c0c0e;
 }
 
-a { color: var(--blue); text-decoration: none; transition: all 0.2s; }
+a { color: var(--blue); text-decoration: none; transition: all 0.3s; }
 a:hover { opacity: 0.85; }
 
 img { max-width: 100%; display: block; }
@@ -63,7 +64,7 @@ nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(10, 15, 26, 0.9);
+  background: rgba(12, 12, 14, 0.92);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
 }
@@ -79,10 +80,11 @@ nav {
 }
 
 .nav-logo {
+  font-family: var(--serif);
   font-weight: 600;
-  font-size: 18px;
+  font-size: 20px;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.02em;
 }
 
 .nav-links { display: flex; gap: 32px; }
@@ -101,7 +103,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 140px 0 100px;
+  padding: 160px 0 120px;
 }
 
 .hero-badge {
@@ -124,7 +126,7 @@ nav {
   height: 8px;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  box-shadow: 0 0 8px rgba(138, 154, 123, 0.4);
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -134,17 +136,18 @@ nav {
 }
 
 .hero h1 {
+  font-family: var(--serif);
   font-size: clamp(40px, 5.5vw, 72px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
   color: var(--text);
-  margin-bottom: 48px;
+  margin-bottom: 56px;
   max-width: 720px;
 }
 
 .hero h1 span {
-  background: linear-gradient(135deg, var(--blue), #60a5fa);
+  background: linear-gradient(135deg, #c9a96e, #e0d5b7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -158,13 +161,14 @@ nav {
 }
 
 .hero-stat {
-  border-left: 2px solid var(--blue);
+  border-left: 1px solid var(--blue);
   padding-left: 16px;
 }
 
 .hero-stat-number {
+  font-family: var(--serif);
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text);
   line-height: 1;
   margin-bottom: 4px;
@@ -178,7 +182,7 @@ nav {
 
 /* ── SECTION COMMON ── */
 .section {
-  padding: 100px 0;
+  padding: 120px 0;
 }
 
 .section-dark {
@@ -187,19 +191,20 @@ nav {
 
 .section-label {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--blue);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .section-heading {
+  font-family: var(--serif);
   font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin-bottom: 20px;
   color: var(--text);
 }
@@ -235,10 +240,10 @@ nav {
 .headshot-wrap {
   width: 220px;
   height: 220px;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 2px solid var(--border);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
 }
 
 .headshot {
@@ -311,7 +316,7 @@ nav {
   left: 140px;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 1px;
   background: var(--border);
 }
 
@@ -331,20 +336,20 @@ nav {
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: 135px;
+  left: 136px;
   top: 44px;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--bg-light);
-  border: 2px solid var(--text-dim);
+  border: 1.5px solid var(--text-dim);
   z-index: 1;
 }
 
 .timeline-item.current::before {
   border-color: var(--gold);
   background: var(--gold);
-  box-shadow: 0 0 12px rgba(229, 162, 32, 0.4);
+  box-shadow: 0 0 12px rgba(201, 169, 110, 0.25);
 }
 
 .timeline-date {
@@ -360,7 +365,8 @@ nav {
 }
 
 .timeline-content h3 {
-  font-size: 20px;
+  font-family: var(--serif);
+  font-size: 22px;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 4px;
@@ -404,7 +410,7 @@ nav {
 .expertise-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 32px 28px;
   transition: all 0.3s;
   position: relative;
@@ -417,7 +423,7 @@ nav {
   top: 0; left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, var(--blue), var(--gold));
+  background: linear-gradient(90deg, #c9a96e, #e0d5b7);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -425,8 +431,8 @@ nav {
 .expertise-card:hover::after { opacity: 1; }
 .expertise-card:hover {
   border-color: var(--border-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
 .expertise-icon {
@@ -442,7 +448,8 @@ nav {
 }
 
 .expertise-card h3 {
-  font-size: 18px;
+  font-family: var(--serif);
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 8px;
   color: var(--text);
@@ -465,14 +472,15 @@ nav {
 .result-stat {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 28px 24px;
   text-align: center;
 }
 
 .result-stat-number {
+  font-family: var(--serif);
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--gold);
   line-height: 1;
   margin-bottom: 6px;
@@ -493,7 +501,7 @@ nav {
 .result-highlight {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 28px;
   display: flex;
   gap: 16px;
@@ -565,7 +573,7 @@ nav {
 .quote-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 32px 28px;
   position: relative;
   transition: border-color 0.3s;
@@ -579,9 +587,9 @@ nav {
   font-size: 48px;
   line-height: 1;
   color: var(--blue);
-  opacity: 0.4;
+  opacity: 0.3;
   margin-bottom: 12px;
-  font-family: Georgia, serif;
+  font-family: var(--serif);
 }
 
 .quote-card blockquote {
@@ -610,7 +618,7 @@ nav {
 .consulting-step {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 32px 24px;
   position: relative;
   transition: all 0.3s;
@@ -619,21 +627,22 @@ nav {
 
 .consulting-step:hover {
   border-color: var(--border-hover);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .step-number {
-  font-family: var(--mono);
-  font-size: 32px;
-  font-weight: 700;
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 400;
   color: var(--blue);
-  opacity: 0.3;
+  opacity: 0.2;
   margin-bottom: 16px;
   line-height: 1;
 }
 
 .consulting-step h3 {
-  font-size: 17px;
+  font-family: var(--serif);
+  font-size: 19px;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 8px;
@@ -648,7 +657,7 @@ nav {
 /* ── CTA ── */
 .cta-section {
   text-align: center;
-  padding: 120px 0;
+  padding: 140px 0;
 }
 
 .cta-section .section-heading {
@@ -695,9 +704,9 @@ nav {
 }
 
 .btn-primary:hover {
-  background: #3b82f6;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--blue-glow);
+  background: #d4b87a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 169, 110, 0.2);
   opacity: 1;
 }
 
@@ -708,8 +717,8 @@ nav {
 }
 
 .btn-secondary:hover {
-  border-color: var(--text-muted);
-  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
   opacity: 1;
 }
 
@@ -771,7 +780,7 @@ footer {
   .nav-links { gap: 20px; }
   .nav-links a { font-size: 12px; }
   .footer-inner { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
-  .section { padding: 80px 0; }
+  .section { padding: 100px 0; }
   .hero { padding: 120px 0 80px; }
   .expertise-grid { grid-template-columns: 1fr; }
   .results-top { grid-template-columns: repeat(2, 1fr); }
