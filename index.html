@@ -477,6 +477,182 @@ footer {
 }
 .footer-links a:hover { color: var(--text); }
 
+/* ── CAREER JOURNEY ── */
+.journey-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.journey-text p {
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.journey-takeaways {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.takeaway-item {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.takeaway-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.takeaway-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.takeaway-value {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--text);
+}
+
+.takeaway-highlight .takeaway-value {
+  color: var(--accent);
+}
+
+/* ── THOUGHT LEADERSHIP ── */
+.thinking-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.thinking-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 32px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.thinking-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.thinking-card:hover::before { transform: scaleX(1); }
+.thinking-card:hover {
+  border-color: rgba(212, 168, 85, 0.2);
+  background: var(--bg-elevated);
+}
+
+.thinking-quote {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.thinking-topic {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.thinking-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── TECH STACK ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.stack-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stack-item:hover {
+  border-color: rgba(212, 168, 85, 0.2);
+  background: var(--bg-elevated);
+}
+
+.stack-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.stack-name {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.stack-category {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── RESULTS DETAILS ── */
+.results-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.result-detail-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.result-detail-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.result-detail-accent {
+  color: var(--accent);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -503,7 +679,10 @@ footer {
   .hero-stats { gap: 40px; flex-wrap: wrap; }
   .hero::after { display: none; }
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .journey-content { grid-template-columns: 1fr; gap: 40px; }
   .expertise-grid { grid-template-columns: 1fr; }
+  .thinking-grid { grid-template-columns: 1fr; }
+  .stack-grid { grid-template-columns: repeat(3, 1fr); }
   .results-grid { grid-template-columns: repeat(2, 1fr); }
   footer { flex-direction: column; gap: 20px; text-align: center; }
 }
@@ -513,6 +692,7 @@ footer {
   .hero { padding-top: 120px; }
   .stat-number { font-size: 32px; }
   .results-grid { grid-template-columns: 1fr; }
+  .stack-grid { grid-template-columns: repeat(2, 1fr); }
   .approach-item { grid-template-columns: 50px 1fr; gap: 20px; }
   .approach-num { font-size: 36px; }
 }
@@ -524,9 +704,10 @@ footer {
   <div class="nav-logo">Kyle Thumm</div>
   <div class="nav-links">
     <a href="#about">About</a>
+    <a href="#journey">Journey</a>
     <a href="#expertise">Expertise</a>
+    <a href="#stack">Stack</a>
     <a href="#results">Results</a>
-    <a href="#approach">Approach</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
@@ -588,6 +769,38 @@ footer {
 
 <div class="divider"></div>
 
+<!-- CAREER JOURNEY -->
+<section id="journey">
+  <div class="section-label">Career Journey</div>
+  <div class="section-heading">From the gym floor<br>to the <em>marketing war room.</em></div>
+  <div class="journey-content reveal">
+    <div class="journey-text">
+      <p>I started my career in fitness — personal training at Equinox, managing aquatics at Life Time, running recreation programs for the City of Santa Barbara. I learned how to manage people, build systems, and obsess over performance metrics before I ever touched a Google Ad.</p>
+      <p>In 2018, I launched Measure Twice Media, a digital marketing agency for contractors and small businesses. That led to business development at TwineSpot, then Director of Marketing & Lead Generation at Boundless (a national solar company), and now Head of Marketing at Rooftop Power, where I run the entire marketing and sales pipeline for a $30M+ multi-state operation.</p>
+    </div>
+    <div class="journey-takeaways">
+      <div class="takeaway-item">
+        <div class="takeaway-label">Fitness Industry</div>
+        <div class="takeaway-value">Discipline & coaching</div>
+      </div>
+      <div class="takeaway-item">
+        <div class="takeaway-label">The Agency</div>
+        <div class="takeaway-value">Building from nothing</div>
+      </div>
+      <div class="takeaway-item">
+        <div class="takeaway-label">Corporate Solar</div>
+        <div class="takeaway-value">How to scale</div>
+      </div>
+      <div class="takeaway-item takeaway-highlight">
+        <div class="takeaway-label">Now</div>
+        <div class="takeaway-value">Putting it all together</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- EXPERTISE -->
 <section id="expertise">
   <div class="section-label">Expertise</div>
@@ -628,26 +841,129 @@ footer {
 
 <div class="divider"></div>
 
+<!-- THOUGHT LEADERSHIP -->
+<section id="thinking">
+  <div class="section-label">Thinking</div>
+  <div class="section-heading">Ideas that <em>shape</em> my work.</div>
+  <div class="thinking-grid">
+    <div class="thinking-card reveal">
+      <div class="thinking-quote">"Most setters aren't setting appointments. They're setting churn."</div>
+      <div class="thinking-topic">On Sales Enablement</div>
+      <p class="thinking-desc">If your setters are booking unqualified appointments, your closers burn out, your no-show rate climbs, and your cost-per-sale explodes. The fix isn't more leads — it's better qualification systems and comp plans that reward quality over volume.</p>
+    </div>
+    <div class="thinking-card reveal">
+      <div class="thinking-quote">"Winning in solar marketing isn't about spending more. It's about wasting less."</div>
+      <div class="thinking-topic">On Solar Marketing in 2025</div>
+      <p class="thinking-desc">The companies scaling right now aren't outspending their competitors — they're out-systeming them. Better lead routing, faster follow-up, tighter attribution, and the discipline to cut channels that look busy but don't close.</p>
+    </div>
+    <div class="thinking-card reveal">
+      <div class="thinking-quote">"Stop checking your bank account. Start checking your to-do list."</div>
+      <div class="thinking-topic">On Founder Vulnerability</div>
+      <p class="thinking-desc">Revenue anxiety is a symptom, not the problem. The founders who win are the ones who obsess over the inputs — the daily actions, the systems, the follow-through — and let the outputs take care of themselves.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TECH STACK -->
+<section id="stack">
+  <div class="section-label">Tech Stack</div>
+  <div class="section-heading">The tools I <em>run</em> every day.</div>
+  <div class="stack-grid">
+    <div class="stack-item reveal">
+      <div class="stack-icon">⬡</div>
+      <div class="stack-name">GoHighLevel</div>
+      <div class="stack-category">CRM & Automation</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">◎</div>
+      <div class="stack-name">Google Ads</div>
+      <div class="stack-category">Paid Search</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">◉</div>
+      <div class="stack-name">Meta Ads</div>
+      <div class="stack-category">Paid Social</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">▶</div>
+      <div class="stack-name">YouTube Ads</div>
+      <div class="stack-category">Video Acquisition</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">◈</div>
+      <div class="stack-name">Google Analytics</div>
+      <div class="stack-category">Analytics & Reporting</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">⟡</div>
+      <div class="stack-name">Demand Gen</div>
+      <div class="stack-category">Discovery Campaigns</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">⚙</div>
+      <div class="stack-name">Make.com</div>
+      <div class="stack-category">Workflow Automation</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">▣</div>
+      <div class="stack-name">ClickUp</div>
+      <div class="stack-category">Project Management</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">△</div>
+      <div class="stack-name">ActiveProspect</div>
+      <div class="stack-category">Lead Validation</div>
+    </div>
+    <div class="stack-item reveal">
+      <div class="stack-icon">◇</div>
+      <div class="stack-name">LeadConduit</div>
+      <div class="stack-category">Lead Routing</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- RESULTS -->
 <section id="results">
   <div class="section-label">Results</div>
   <div class="section-heading">Numbers that <em>matter.</em></div>
   <div class="results-grid">
     <div class="result-card reveal">
-      <div class="result-number">3</div>
-      <div class="result-desc">States managed<br>(RI, MA, CT)</div>
+      <div class="result-number">72%</div>
+      <div class="result-desc">Reduction in cost-per-sale<br>by optimizing lead sources</div>
     </div>
     <div class="result-card reveal">
       <div class="result-number">6+</div>
-      <div class="result-desc">Active paid channels<br>running simultaneously</div>
+      <div class="result-desc">Active paid channels<br>managed simultaneously</div>
     </div>
     <div class="result-card reveal">
-      <div class="result-number">28</div>
-      <div class="result-desc">Deals per month<br>(scaling to 60)</div>
+      <div class="result-number">13</div>
+      <div class="result-desc">Person sales team managed<br>with custom comp plans & dashboards</div>
     </div>
     <div class="result-card reveal">
-      <div class="result-number">5</div>
-      <div class="result-desc">Service verticals<br>(solar, roof, HVAC, windows, battery)</div>
+      <div class="result-number">3</div>
+      <div class="result-desc">States managed<br>(RI, MA, CT)</div>
+    </div>
+  </div>
+  <div class="results-details reveal">
+    <div class="result-detail-item">
+      <span class="result-detail-accent">→</span>
+      Built Spanish-language acquisition campaigns expanding total addressable market
+    </div>
+    <div class="result-detail-item">
+      <span class="result-detail-accent">→</span>
+      Designed setter comp plans and performance dashboards for a 13-person sales team
+    </div>
+    <div class="result-detail-item">
+      <span class="result-detail-accent">→</span>
+      Scaling from 28 deals/month toward 60 across 5 service verticals
+    </div>
+    <div class="result-detail-item">
+      <span class="result-detail-accent">→</span>
+      Managing multi-channel ad spend across Google, Meta, YouTube, and Demand Gen
     </div>
   </div>
 </section>
