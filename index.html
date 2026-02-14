@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kyle Thumm — Marketing Leader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-elevated: #111111;
+  --bg-card: #161616;
+  --text: #e8e4df;
+  --text-muted: #8a857f;
+  --text-dim: #5a5650;
+  --accent: #d4a855;
+  --accent-dim: rgba(212, 168, 85, 0.12);
+  --border: #222;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+a:hover { opacity: 0.8; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--text); opacity: 1; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 48px 80px;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.4s;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.6s;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 64px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.8s;
+}
+
+.stat-item {}
+.stat-number {
+  font-family: var(--serif);
+  font-size: 42px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  letter-spacing: 0.03em;
+}
+
+/* Decorative line */
+.hero::after {
+  content: '';
+  position: absolute;
+  right: 48px;
+  top: 30%;
+  width: 1px;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  opacity: 0.3;
+}
+
+/* ── SECTION COMMON ── */
+section {
+  padding: 120px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.section-heading {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 48px;
+}
+
+.section-heading em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* ── ABOUT ── */
+.about-photo-row {
+  margin-bottom: 56px;
+}
+
+.headshot-wrap {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,168,85,0.15);
+}
+
+.headshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  filter: grayscale(20%);
+  transition: filter 0.4s;
+}
+
+.headshot-wrap:hover .headshot {
+  filter: grayscale(0%);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text p {
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.about-text p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.about-details {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.detail-block {
+  padding: 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.detail-block h4 {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.detail-block p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── EXPERTISE ── */
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.expertise-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 32px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.expertise-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.expertise-card:hover::before { transform: scaleX(1); }
+.expertise-card:hover {
+  border-color: rgba(212, 168, 85, 0.2);
+  background: var(--bg-elevated);
+}
+
+.expertise-icon {
+  font-size: 28px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.expertise-card h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.expertise-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── RESULTS ── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+.result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px 28px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.result-card:hover { border-color: rgba(212,168,85,0.2); }
+
+.result-number {
+  font-family: var(--serif);
+  font-size: 40px;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.result-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── APPROACH ── */
+.approach-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.approach-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 40px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+  transition: all 0.3s;
+}
+
+.approach-item:first-child { border-top: 1px solid var(--border); }
+
+.approach-item:hover { padding-left: 12px; }
+
+.approach-num {
+  font-family: var(--serif);
+  font-size: 48px;
+  color: var(--text-dim);
+  line-height: 1;
+}
+
+.approach-item:hover .approach-num { color: var(--accent); }
+
+.approach-content h3 {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.approach-content p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── CTA ── */
+.cta-section {
+  text-align: center;
+  padding: 160px 48px;
+}
+
+.cta-section .section-heading {
+  margin-bottom: 20px;
+}
+
+.cta-sub {
+  color: var(--text-muted);
+  font-size: 17px;
+  margin-bottom: 48px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 18px 48px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.cta-btn:hover {
+  background: #e0b860;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212,168,85,0.25);
+  opacity: 1;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+}
+
+.footer-left {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-dim);
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--text); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 12px; }
+  .hero, section, .cta-section { padding-left: 24px; padding-right: 24px; }
+  .hero-stats { gap: 40px; flex-wrap: wrap; }
+  .hero::after { display: none; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .expertise-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .hero { padding-top: 120px; }
+  .stat-number { font-size: 32px; }
+  .results-grid { grid-template-columns: 1fr; }
+  .approach-item { grid-template-columns: 50px 1fr; gap: 20px; }
+  .approach-num { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Kyle Thumm</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#results">Results</a>
+    <a href="#approach">Approach</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Marketing Leader · Huntsville, AL</div>
+  <h1>I build the systems<br>that make companies <em>scale.</em></h1>
+  <p class="hero-sub">Head of Marketing for a $30M+ home services company. I run everything from paid acquisition to CRM automation, lead follow-up systems, and sales pipeline — remotely, from Alabama.</p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-number">$30M+</div>
+      <div class="stat-label">Company revenue</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">285</div>
+      <div class="stat-label">Service area zip codes</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">13</div>
+      <div class="stat-label">Sales team managed</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <div class="section-heading">Marketing isn't just ads.<br>It's the <em>entire machine.</em></div>
+  <div class="about-photo-row reveal">
+    <div class="headshot-wrap">
+      <img src="kyle-headshot.png" alt="Kyle Thumm" class="headshot" />
+    </div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p><strong>Most companies think marketing means running ads.</strong> That's one piece. I build the full system — the ads, the landing pages, the CRM workflows, the automated follow-up, the appointment booking, the sales pipeline tracking, and the reporting that tells you what's actually working.</p>
+      <p>I remotely lead marketing for a solar, roofing, and HVAC company serving Rhode Island, Massachusetts, and Connecticut. I manage a team of 13 — closers and setters — and I'm responsible for every lead that hits the pipeline and every system that moves it toward a closed deal.</p>
+      <p>I also work with select local businesses in Huntsville to bring enterprise-level marketing infrastructure to companies that are too good at what they do to be held back by weak marketing.</p>
+    </div>
+    <div class="about-details reveal">
+      <div class="detail-block">
+        <h4>Current Role</h4>
+        <p>Head of Marketing — Rooftop Power (RTP). Solar, roofing, and HVAC across 3 states. Full P&L ownership of marketing spend and lead generation.</p>
+      </div>
+      <div class="detail-block">
+        <h4>Consulting</h4>
+        <p>Measure3 Consulting — Helping home service companies in Huntsville, AL build the same systems that power a $30M+ operation. Free audits available.</p>
+      </div>
+      <div class="detail-block">
+        <h4>Background</h4>
+        <p>Exercise physiology degree. Data-driven by nature. Hockey player. Husband and father of three. Based in Huntsville for 5 years.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="section-label">Expertise</div>
+  <div class="section-heading">What I <em>actually</em> do.</div>
+  <div class="expertise-grid">
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">◎</span>
+      <h3>Paid Acquisition</h3>
+      <p>Google Ads, Facebook/Meta, Demand Gen, YouTube. Campaign architecture, bid strategy, keyword research, ad copy, and relentless optimization. Multi-state, multi-service, multi-language.</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">⬡</span>
+      <h3>CRM & Automation</h3>
+      <p>GoHighLevel power user. Automated lead follow-up, SMS/email sequences, pipeline management, appointment booking workflows, and AI-powered call handling.</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">△</span>
+      <h3>Landing Pages & Funnels</h3>
+      <p>Custom-built landing pages, quiz funnels, and qualification surveys. Fast-loading, mobile-first, conversion-optimized. Not template junk — real pages that convert.</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">◇</span>
+      <h3>Lead Generation</h3>
+      <p>First-party and third-party lead sourcing. Vendor management, lead quality scoring, cost-per-sale analysis, and scaling from 30 deals/month toward 60.</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">▣</span>
+      <h3>Sales Enablement</h3>
+      <p>Setter and closer management, comp plan design, performance dashboards, leaderboards, and the systems that turn leads into booked appointments into closed deals.</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">◈</span>
+      <h3>Data & Analytics</h3>
+      <p>Lead source attribution, cost-per-acquisition tracking, campaign performance reporting, and the ability to tell you exactly where your money is going and what it's returning.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="section-label">Results</div>
+  <div class="section-heading">Numbers that <em>matter.</em></div>
+  <div class="results-grid">
+    <div class="result-card reveal">
+      <div class="result-number">3</div>
+      <div class="result-desc">States managed<br>(RI, MA, CT)</div>
+    </div>
+    <div class="result-card reveal">
+      <div class="result-number">6+</div>
+      <div class="result-desc">Active paid channels<br>running simultaneously</div>
+    </div>
+    <div class="result-card reveal">
+      <div class="result-number">28</div>
+      <div class="result-desc">Deals per month<br>(scaling to 60)</div>
+    </div>
+    <div class="result-card reveal">
+      <div class="result-number">5</div>
+      <div class="result-desc">Service verticals<br>(solar, roof, HVAC, windows, battery)</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- APPROACH -->
+<section id="approach">
+  <div class="section-label">Approach</div>
+  <div class="section-heading">How I work with <em>local businesses.</em></div>
+  <div class="approach-list">
+    <div class="approach-item reveal">
+      <div class="approach-num">01</div>
+      <div class="approach-content">
+        <h3>Free Marketing Audit</h3>
+        <p>I review your Google Ads, website, Google Business Profile, and follow-up process. I show you exactly where you're leaving money on the table — no charge, no strings.</p>
+      </div>
+    </div>
+    <div class="approach-item reveal">
+      <div class="approach-num">02</div>
+      <div class="approach-content">
+        <h3>Identify the Gaps</h3>
+        <p>Most home service businesses don't have a lead problem — they have a follow-up problem. I find the leaks in your system and prioritize what will move the needle fastest.</p>
+      </div>
+    </div>
+    <div class="approach-item reveal">
+      <div class="approach-num">03</div>
+      <div class="approach-content">
+        <h3>Build the Systems</h3>
+        <p>CRM setup, automated follow-up sequences, landing pages, ad campaigns, appointment booking — whatever your business needs to stop losing leads and start closing more deals.</p>
+      </div>
+    </div>
+    <div class="approach-item reveal">
+      <div class="approach-num">04</div>
+      <div class="approach-content">
+        <h3>Manage & Optimize</h3>
+        <p>For ongoing clients, I run your marketing like it's my own company. Monthly reporting, continuous optimization, and a direct line to someone who actually knows what they're doing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="section-label">Get in Touch</div>
+  <div class="section-heading">Ready to stop guessing<br>and start <em>growing?</em></div>
+  <p class="cta-sub">I'm taking on a small number of local businesses for free marketing audits. No pitch, no pressure — just a clear look at what's working and what's not.</p>
+  <a href="mailto:kylethumm@gmail.com" class="cta-btn">Get Your Free Audit</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 Kyle Thumm. Huntsville, Alabama.</div>
+  <div class="footer-links">
+    <a href="mailto:kylethumm@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/kylethumm" target="_blank">LinkedIn</a>
+    <a href="https://www.facebook.com/kylethumm" target="_blank">Facebook</a>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
