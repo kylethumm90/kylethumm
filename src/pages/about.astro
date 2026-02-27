@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tools = [
+  'Google Ads', 'Meta Ads', 'YouTube Ads', 'Demand Gen',
+  'GoHighLevel', 'Make.com', 'ActiveProspect', 'Lead Conduit',
+  'ClickUp', 'GA4', 'GTM', 'Looker Studio',
+  'HTML/CSS/JS', 'Vercel', 'GitHub', 'Notion', 'Canva',
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Kyle Thumm',
+  url: 'https://kylethumm.com',
+  jobTitle: 'Head of Marketing & Growth',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Rooftop Power',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'California State University, Northridge',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Huntsville',
+    addressRegion: 'AL',
+  },
+  knowsAbout: ['Digital Marketing', 'Lead Generation', 'Solar Energy', 'CRM Automation', 'Google Ads'],
+};
+---
+
+<BaseLayout
+  title="About"
+  description="Kyle Thumm -- Head of Marketing & Growth at Rooftop Power. Running a $35M marketing operation across solar, roofing, and HVAC."
+  structuredData={structuredData}
+>
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-3xl px-6">
+      <!-- Heading -->
+      <div class="mb-12 fade-in">
+        <p class="text-xs font-mono font-medium uppercase tracking-widest text-[--color-accent] mb-3">About</p>
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight">The short version: I build marketing machines for home service companies.</h1>
+      </div>
+
+      <!-- Photo + Intro -->
+      <div class="flex flex-col md:flex-row gap-8 mb-16 fade-in">
+        <div class="shrink-0">
+          <div class="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border-2 border-[--color-border] shadow-xl">
+            <img
+              src="/kyle-headshot.png"
+              alt="Kyle Thumm"
+              class="w-full h-full object-cover object-[center_15%] grayscale-[20%] hover:grayscale-0 transition-all duration-300"
+            />
+          </div>
+        </div>
+        <div>
+          <p class="text-lg text-[--color-text-secondary] leading-relaxed">
+            I am Head of Marketing & Growth at Rooftop Power, where I run the full marketing operation for a company doing $35M+ across solar, roofing, and HVAC. That means I manage a 13-person sales team, 6+ paid channels, 285 zip codes across 3 states, and every system connecting lead generation to closed deals.
+          </p>
+        </div>
+      </div>
+
+      <!-- Career narrative -->
+      <div class="prose-section space-y-6 mb-16 fade-in">
+        <p class="text-[--color-text-secondary] leading-relaxed">
+          I did not start in marketing. I started in fitness -- personal training at Equinox, running the aquatics department for the City of Santa Barbara, managing teams at 24 Hour Fitness and Life Time. That taught me how to build systems, manage people, and obsess over metrics. Turns out those skills translate directly to growth marketing.
+        </p>
+        <p class="text-[--color-text-secondary] leading-relaxed">
+          In 2019, I started Measure Twice Media with $0, a new baby, and zero connections in a new state. I built a digital marketing agency from nothing -- learning SEO, Google Ads, web design, and client management by doing it for real businesses that were counting on me. That agency became Measure Twice Solar and eventually led me into the home services industry full time.
+        </p>
+        <p class="text-[--color-text-secondary] leading-relaxed">
+          From there I went to SolarSesame/TwineSpot where I scaled lead generation to 1,000+ leads per day across 4,000+ zip codes. Then to Boundless Inc. where I built marketing operations for a national solar company. Now at Rooftop Power, I have full P&L ownership and I am building the marketing machine from the ground up.
+        </p>
+        <p class="text-[--color-text-secondary] leading-relaxed">
+          On the side, I run Measure3 Consulting out of Huntsville, AL, helping local service businesses build the same enterprise-level marketing systems I use at my day job. Same playbook, scaled down.
+        </p>
+      </div>
+
+      <!-- Current Focus -->
+      <div class="mb-16 fade-in">
+        <h2 class="text-2xl font-bold tracking-tight mb-6">What I am working on now</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { title: 'Scaling Rooftop Power', desc: 'Expanding from 3 states into new markets while keeping cost-per-sale below $1,400.' },
+            { title: 'AI in Home Services', desc: 'Testing AI-powered lead scoring, automated quality filtering, and intelligent routing.' },
+            { title: 'Spanish-Language Growth', desc: 'Building out Spanish marketing funnels for underserved markets in our service areas.' },
+            { title: 'Measure3 Consulting', desc: 'Helping Huntsville-area service businesses build real marketing systems, not just run ads.' },
+          ].map(item => (
+            <div class="rounded-xl border border-[--color-border] bg-[--color-surface] p-5">
+              <h3 class="text-sm font-bold text-[--color-text-primary] mb-1">{item.title}</h3>
+              <p class="text-sm text-[--color-text-secondary] leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="fade-in">
+        <h2 class="text-2xl font-bold tracking-tight mb-6">Tools I use every day</h2>
+        <div class="flex flex-wrap gap-2">
+          {tools.map(tool => (
+            <span class="px-4 py-2 text-sm rounded-full border border-[--color-border] bg-[--color-surface] text-[--color-text-secondary] hover:border-[--color-accent] hover:text-[--color-text-primary] hover:bg-[--color-accent-dim] transition-all">
+              {tool}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

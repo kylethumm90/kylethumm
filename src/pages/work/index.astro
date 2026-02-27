@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseStudyCard from '../../components/CaseStudyCard.astro';
+import { getCollection } from 'astro:content';
+
+const allWork = await getCollection('work', ({ data }) => !data.draft);
+const sortedWork = allWork.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Work"
+  description="Case studies and results from Kyle Thumm's marketing work across solar, roofing, HVAC, and home services."
+>
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <div class="max-w-2xl mb-12 fade-in">
+        <p class="text-xs font-mono font-medium uppercase tracking-widest text-[--color-accent] mb-3">Case Studies</p>
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-4">Work that moved the needle.</h1>
+        <p class="text-lg text-[--color-text-secondary] leading-relaxed">
+          Real results from real companies. No vanity metrics. Every number here connects directly to revenue.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 fade-in">
+        {sortedWork.map(study => (
+          <CaseStudyCard
+            slug={study.id}
+            title={study.data.title}
+            industry={study.data.industry}
+            keyMetric={study.data.keyMetric}
+            description={study.data.description}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

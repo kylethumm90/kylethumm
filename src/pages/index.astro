@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ResultsBar from '../components/ResultsBar.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import { getCollection } from 'astro:content';
+
+const allWork = await getCollection('work', ({ data }) => !data.draft);
+const featuredWork = allWork.sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+
+const allBlog = await getCollection('blog', ({ data }) => !data.draft);
+const latestPosts = allBlog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Kyle Thumm',
+  url: 'https://kylethumm.com',
+  jobTitle: 'Head of Marketing & Growth',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Rooftop Power',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Huntsville',
+    addressRegion: 'AL',
+  },
+  sameAs: [
+    'https://www.linkedin.com/in/kylethumm',
+    'https://x.com/kylethumm',
+    'https://github.com/kylethumm90',
+  ],
+};
+---
+
+<BaseLayout
+  title="Kyle Thumm"
+  description="Kyle Thumm -- Head of Marketing & Growth. I turn home service companies into lead generation machines. $35M+ revenue managed across solar, roofing, and HVAC."
+  structuredData={structuredData}
+>
+  <Hero />
+  <ResultsBar />
+  <BentoGrid />
+
+  <!-- Featured Case Studies -->
+  <section class="py-20 md:py-28 border-t border-[--color-border]">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <div class="mb-12 fade-in">
+        <p class="text-xs font-mono font-medium uppercase tracking-widest text-[--color-accent] mb-3">Case Studies</p>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Work that moved the needle.</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 fade-in">
+        {featuredWork.map(study => (
+          <CaseStudyCard
+            slug={study.id}
+            title={study.data.title}
+            industry={study.data.industry}
+            keyMetric={study.data.keyMetric}
+            description={study.data.description}
+          />
+        ))}
+      </div>
+      <div class="mt-10 text-center fade-in">
+        <a href="/work" class="text-sm font-medium text-[--color-accent] hover:text-[--color-accent-hover] transition-colors">
+          View all case studies &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Blog Posts -->
+  <section class="py-20 md:py-28 border-t border-[--color-border] bg-[--color-surface]/30">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <div class="mb-12 fade-in">
+        <p class="text-xs font-mono font-medium uppercase tracking-widest text-[--color-accent] mb-3">Blog</p>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Latest thinking.</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 fade-in">
+        {latestPosts.map(post => (
+          <BlogCard
+            slug={post.id}
+            title={post.data.title}
+            date={post.data.date}
+            description={post.data.description}
+            category={post.data.category}
+          />
+        ))}
+      </div>
+      <div class="mt-10 text-center fade-in">
+        <a href="/blog" class="text-sm font-medium text-[--color-accent] hover:text-[--color-accent-hover] transition-colors">
+          Read more posts &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 md:py-32 border-t border-[--color-border]">
+    <div class="mx-auto max-w-[1200px] px-6 text-center">
+      <div class="max-w-lg mx-auto fade-in">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Want results like these for your business?</h2>
+        <p class="text-[--color-text-secondary] mb-8 leading-relaxed">
+          Whether you run a national home services operation or a local business in Huntsville, I can help you build the marketing systems that drive real growth.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 h-12 px-7 rounded-lg bg-[--color-accent] text-white font-semibold text-sm hover:bg-[--color-accent-hover] transition-all hover:-translate-y-0.5 shadow-lg shadow-[--color-accent]/20"
+          >
+            Let's Talk
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+          </a>
+          <a
+            href="mailto:kylethumm@gmail.com"
+            class="inline-flex items-center gap-2 h-12 px-7 rounded-lg border border-[--color-border] text-[--color-text-primary] font-semibold text-sm hover:bg-[--color-surface] transition-all hover:-translate-y-0.5"
+          >
+            Email Me
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

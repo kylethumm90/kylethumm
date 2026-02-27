@@ -1,0 +1,29 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+const h2s = headings.filter(h => h.depth === 2);
+
+// Only show TOC if there are 3+ h2 headings
+const show = h2s.length >= 3;
+---
+
+{show && (
+  <nav class="rounded-xl border border-[--color-border] bg-[--color-surface] p-5 mb-10">
+    <p class="text-xs font-mono font-medium uppercase tracking-widest text-[--color-text-dim] mb-3">On this page</p>
+    <ul class="space-y-2">
+      {h2s.map(h => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            class="text-sm text-[--color-text-secondary] hover:text-[--color-accent] transition-colors"
+          >
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

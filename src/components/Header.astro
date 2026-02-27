@@ -1,0 +1,109 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Work', href: '/work' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="mx-auto max-w-[1200px] px-6 h-16 flex items-center justify-between">
+    <a href="/" class="text-lg font-bold tracking-tight text-[--color-text-primary] hover:opacity-80 transition-opacity">
+      Kyle Thumm
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-8">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'text-sm font-medium transition-colors',
+            currentPath.startsWith(link.href)
+              ? 'text-[--color-text-primary]'
+              : 'text-[--color-text-secondary] hover:text-[--color-text-primary]',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <ThemeToggle />
+    </nav>
+
+    <!-- Mobile menu button -->
+    <div class="flex items-center gap-3 md:hidden">
+      <ThemeToggle />
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        aria-label="Toggle menu"
+        class="w-9 h-9 flex items-center justify-center rounded-lg border border-[--color-border] bg-[--color-surface] cursor-pointer"
+      >
+        <svg id="menu-open" class="w-4 h-4 text-[--color-text-secondary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-close" class="w-4 h-4 text-[--color-text-secondary] hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu panel -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-[--color-border] bg-[--color-bg]/95 backdrop-blur-xl">
+    <nav class="flex flex-col px-6 py-4 gap-1">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'py-3 text-base font-medium transition-colors',
+            currentPath.startsWith(link.href)
+              ? 'text-[--color-text-primary]'
+              : 'text-[--color-text-secondary]',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (function() {
+    const header = document.getElementById('site-header');
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-open');
+    const closeIcon = document.getElementById('menu-close');
+
+    // Blur on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', function() {
+      const y = window.scrollY;
+      if (y > 20) {
+        header.style.backgroundColor = 'rgba(10, 10, 10, 0.85)';
+        header.style.backdropFilter = 'blur(20px)';
+        header.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+      } else {
+        header.style.backgroundColor = 'transparent';
+        header.style.backdropFilter = 'none';
+        header.style.borderBottom = '1px solid transparent';
+      }
+      lastScroll = y;
+    }, { passive: true });
+
+    // Mobile menu toggle
+    btn.addEventListener('click', function() {
+      const isOpen = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden');
+      openIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+  })();
+</script>

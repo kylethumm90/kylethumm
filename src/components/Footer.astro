@@ -1,0 +1,50 @@
+---
+import NewsletterSignup from './NewsletterSignup.astro';
+---
+
+<footer class="border-t border-[--color-border]">
+  <div class="mx-auto max-w-[1200px] px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-12 md:gap-16 mb-12">
+      <!-- Brand -->
+      <div>
+        <a href="/" class="text-lg font-bold tracking-tight text-[--color-text-primary]">Kyle Thumm</a>
+        <p class="mt-3 text-sm text-[--color-text-secondary] max-w-xs leading-relaxed">
+          Head of Marketing & Growth. Building the systems that make companies scale.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h4 class="text-xs font-medium uppercase tracking-wider text-[--color-text-dim] mb-4">Pages</h4>
+        <nav class="flex flex-col gap-2">
+          <a href="/about" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">About</a>
+          <a href="/work" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">Work</a>
+          <a href="/blog" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">Blog</a>
+          <a href="/contact" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">Contact</a>
+        </nav>
+      </div>
+
+      <!-- Social -->
+      <div>
+        <h4 class="text-xs font-medium uppercase tracking-wider text-[--color-text-dim] mb-4">Connect</h4>
+        <nav class="flex flex-col gap-2">
+          <a href="https://www.linkedin.com/in/kylethumm" target="_blank" rel="noopener" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">LinkedIn</a>
+          <a href="https://x.com/kylethumm" target="_blank" rel="noopener" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">X / Twitter</a>
+          <a href="https://github.com/kylethumm90" target="_blank" rel="noopener" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">GitHub</a>
+          <a href="mailto:kylethumm@gmail.com" class="text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors">Email</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="border-t border-[--color-border] pt-8 mb-8">
+      <NewsletterSignup compact />
+    </div>
+
+    <!-- Bottom -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[--color-text-dim]">
+      <p>&copy; {new Date().getFullYear()} Kyle Thumm. Huntsville, Alabama.</p>
+      <p>Built with <a href="https://astro.build" target="_blank" rel="noopener" class="hover:text-[--color-text-secondary] transition-colors">Astro</a></p>
+    </div>
+  </div>
+</footer>

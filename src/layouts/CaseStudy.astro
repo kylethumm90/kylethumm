@@ -1,0 +1,66 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  industry: string;
+  keyMetric: string;
+}
+
+const { title, description, industry, keyMetric } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+>
+  <article class="py-20 md:py-28">
+    <div class="mx-auto max-w-3xl px-6">
+      <!-- Hero -->
+      <div class="mb-12 fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-xs font-mono font-medium text-[--color-accent] uppercase tracking-wider">{industry}</span>
+          <span class="text-xs text-[--color-text-dim]">&middot;</span>
+          <span class="text-xs text-[--color-text-dim]">Case Study</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-4">{title}</h1>
+        <p class="text-lg text-[--color-text-secondary] leading-relaxed">{description}</p>
+        <div class="mt-6 inline-flex items-center gap-2 rounded-xl bg-[--color-accent-dim] border border-[--color-accent]/20 px-5 py-3">
+          <span class="text-2xl font-extrabold text-[--color-accent]">{keyMetric}</span>
+          <span class="text-sm text-[--color-text-secondary]">key result</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="prose prose-invert max-w-none
+        [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:tracking-tight [&>h2]:text-[--color-text-primary] [&>h2]:mt-12 [&>h2]:mb-4
+        [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[--color-text-primary] [&>h3]:mt-8 [&>h3]:mb-3
+        [&>p]:text-[--color-text-secondary] [&>p]:leading-relaxed [&>p]:mb-4
+        [&>ul]:text-[--color-text-secondary] [&>ul]:leading-relaxed [&>ul]:mb-4 [&>ul]:list-disc [&>ul]:pl-6
+        [&>ul>li]:mb-2
+        [&>ol]:text-[--color-text-secondary] [&>ol]:leading-relaxed [&>ol]:mb-4 [&>ol]:list-decimal [&>ol]:pl-6
+        [&>ol>li]:mb-2
+        [&_strong]:text-[--color-text-primary] [&_strong]:font-semibold
+        [&_a]:text-[--color-accent] [&_a]:underline [&_a:hover]:text-[--color-accent-hover]
+        [&>hr]:border-[--color-border] [&>hr]:my-8
+        fade-in
+      ">
+        <slot />
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-16 rounded-2xl border border-[--color-border] bg-[--color-surface] p-8 text-center fade-in">
+        <h3 class="text-xl font-bold text-[--color-text-primary] mb-2">Want similar results?</h3>
+        <p class="text-sm text-[--color-text-secondary] mb-6">Let's talk about what's possible for your business.</p>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 h-11 px-6 rounded-lg bg-[--color-accent] text-white font-semibold text-sm hover:bg-[--color-accent-hover] transition-all hover:-translate-y-0.5"
+        >
+          Get In Touch
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

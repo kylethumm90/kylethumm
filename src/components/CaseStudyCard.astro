@@ -1,0 +1,31 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  industry: string;
+  keyMetric: string;
+  description: string;
+}
+
+const { slug, title, industry, keyMetric, description } = Astro.props;
+---
+
+<a
+  href={`/work/${slug}`}
+  class="group relative flex flex-col rounded-2xl border border-[--color-border] bg-[--color-surface] overflow-hidden transition-all duration-200 hover:border-[--color-accent]/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[--color-accent]/5"
+>
+  <!-- Abstract graphic header -->
+  <div class="h-40 bg-gradient-to-br from-[--color-accent]/10 to-[--color-accent]/5 flex items-center justify-center">
+    <span class="text-5xl font-extrabold text-[--color-accent]/20 tracking-tight">{keyMetric}</span>
+  </div>
+
+  <div class="p-6 flex flex-col flex-1">
+    <span class="text-xs font-mono font-medium text-[--color-accent] uppercase tracking-wider mb-2">{industry}</span>
+    <h3 class="text-lg font-bold text-[--color-text-primary] mb-2 group-hover:text-[--color-accent] transition-colors">{title}</h3>
+    <p class="text-sm text-[--color-text-secondary] leading-relaxed flex-1">{description}</p>
+    <div class="mt-4 flex items-center gap-1 text-sm font-medium text-[--color-accent]">
+      Read More
+      <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+    </div>
+  </div>
+</a>

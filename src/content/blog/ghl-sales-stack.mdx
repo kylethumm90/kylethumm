@@ -1,0 +1,65 @@
+---
+title: "The GoHighLevel Stack I Use to Run a 13-Person Sales Team"
+description: "A breakdown of the exact CRM setup, automations, and workflows powering a $35M home services sales operation."
+date: 2026-01-10
+category: "Marketing Ops"
+---
+
+I get asked about our tech stack a lot. People assume running marketing for a company doing $35M across solar, roofing, and HVAC requires some massive enterprise software setup. It does not.
+
+The core of everything is GoHighLevel. Here is exactly how we use it.
+
+## The Pipeline Setup
+
+We run three main pipelines in GHL, one for each vertical (solar, roofing, HVAC). Each pipeline has the same basic stages:
+
+1. **New Lead** -- untouched, just came in
+2. **Contacted** -- setter has made first contact
+3. **Appointment Set** -- appointment booked with a closer
+4. **Appointment Sat** -- closer met with the homeowner
+5. **Proposal Sent** -- deal is on the table
+6. **Closed Won / Closed Lost** -- final outcome
+
+Every stage has an expected time limit. If a lead sits in "Contacted" for more than 48 hours, it triggers an alert. If an appointment is set but not sat within 5 days, it triggers a re-engagement sequence. Nothing falls through the cracks.
+
+## The Automation Layer
+
+This is where GHL earns its money. Here is what fires automatically:
+
+**Inbound lead received:** Immediate SMS (within 30 seconds) with a personalized message. Immediate email with company info and what to expect. Lead gets assigned to a setter based on round-robin or territory rules.
+
+**No response after 2 hours:** Second SMS, different angle. Voicemail drop.
+
+**No response after 24 hours:** Email sequence begins. Three emails over 5 days, each with a different hook.
+
+**Appointment booked:** Confirmation SMS and email. Calendar invite. Reminder 24 hours before. Reminder 1 hour before.
+
+**Appointment no-show:** Automatic re-booking sequence fires. Three attempts over 48 hours to reschedule.
+
+This runs 24/7 without anyone touching it. The setters focus on live conversations while the system handles the grind work.
+
+## The Reporting Layer
+
+GHL's built-in reporting is fine for basics, but we pull everything into Looker Studio for the real dashboards.
+
+We track cost-per-sale by source, by setter, by closer, and by market. Every morning the sales managers get an automated email with yesterday's numbers. Every Monday the leadership team gets a weekly rollup.
+
+The most important metric we track is speed-to-lead: how many seconds between a form submission and the first outbound contact. We target under 60 seconds. When that number creeps up, close rates drop immediately.
+
+## The Integration Stack
+
+GHL does not run in isolation. Here is what connects to it:
+
+- **Make.com** handles complex routing logic and data transformation between systems
+- **ActiveProspect / LeadConduit** for real-time lead verification before leads even hit the CRM
+- **ClickUp** for task management and project tracking on the marketing ops side
+- **Looker Studio** for dashboards pulling from GHL, Google Ads, and Meta
+- **Google Tag Manager** for conversion tracking across all landing pages
+
+The whole thing runs on maybe $500/month in software costs. That is nothing compared to the ad spend it manages.
+
+## What I Would Do Differently
+
+If I was building this from scratch today, I would invest more time upfront in naming conventions and data hygiene. When you scale fast, messy data compounds. Tags get inconsistent, custom fields multiply, and six months later you are spending a full day just cleaning up your CRM before you can trust any report.
+
+Build the naming convention first. Enforce it religiously. Future you will be grateful.

@@ -1,0 +1,123 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  category: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, date, category, headings } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const isoDate = date.toISOString();
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description,
+  datePublished: isoDate,
+  author: {
+    '@type': 'Person',
+    name: 'Kyle Thumm',
+    url: 'https://kylethumm.com',
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{ publishedTime: isoDate, author: 'Kyle Thumm' }}
+  structuredData={structuredData}
+>
+  <article class="py-20 md:py-28">
+    <div class="mx-auto max-w-[680px] px-6">
+      <!-- Header -->
+      <div class="mb-10 fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-xs font-mono font-medium text-[--color-accent] uppercase tracking-wider">{category}</span>
+          <span class="text-xs text-[--color-text-dim]">&middot;</span>
+          <time datetime={isoDate} class="text-xs text-[--color-text-dim]">{formattedDate}</time>
+          <span class="text-xs text-[--color-text-dim]">&middot;</span>
+          <span class="text-xs text-[--color-text-dim]">5 min read</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-4">{title}</h1>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full overflow-hidden border border-[--color-border]">
+            <img src="/kyle-headshot.png" alt="Kyle Thumm" class="w-full h-full object-cover" />
+          </div>
+          <span class="text-sm text-[--color-text-secondary]">Kyle Thumm</span>
+        </div>
+      </div>
+
+      <!-- Table of Contents -->
+      <TableOfContents headings={headings} />
+
+      <!-- Content -->
+      <div class="
+        [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:tracking-tight [&>h2]:text-[--color-text-primary] [&>h2]:mt-12 [&>h2]:mb-4
+        [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[--color-text-primary] [&>h3]:mt-8 [&>h3]:mb-3
+        [&>p]:text-[--color-text-secondary] [&>p]:leading-relaxed [&>p]:mb-4
+        [&>ul]:text-[--color-text-secondary] [&>ul]:leading-relaxed [&>ul]:mb-4 [&>ul]:list-disc [&>ul]:pl-6
+        [&>ul>li]:mb-2
+        [&>ol]:text-[--color-text-secondary] [&>ol]:leading-relaxed [&>ol]:mb-4 [&>ol]:list-decimal [&>ol]:pl-6
+        [&>ol>li]:mb-2
+        [&_strong]:text-[--color-text-primary] [&_strong]:font-semibold
+        [&_code]:font-mono [&_code]:text-sm [&_code]:bg-[--color-surface] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded
+        [&_a]:text-[--color-accent] [&_a]:underline [&_a:hover]:text-[--color-accent-hover]
+        [&>hr]:border-[--color-border] [&>hr]:my-8
+        [&>blockquote]:border-l-2 [&>blockquote]:border-[--color-accent] [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-[--color-text-secondary]
+        fade-in
+      ">
+        <slot />
+      </div>
+
+      <!-- Share -->
+      <div class="mt-12 pt-8 border-t border-[--color-border] fade-in">
+        <p class="text-sm font-medium text-[--color-text-primary] mb-3">Share this post</p>
+        <div class="flex items-center gap-3">
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(Astro.url.href)}`}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 h-9 px-4 text-xs font-medium rounded-lg border border-[--color-border] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:border-[--color-border] transition-colors"
+          >
+            X / Twitter
+          </a>
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 h-9 px-4 text-xs font-medium rounded-lg border border-[--color-border] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:border-[--color-border] transition-colors"
+          >
+            LinkedIn
+          </a>
+          <button
+            type="button"
+            onclick={`navigator.clipboard.writeText('${Astro.url.href}')`}
+            class="inline-flex items-center gap-2 h-9 px-4 text-xs font-medium rounded-lg border border-[--color-border] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:border-[--color-border] transition-colors cursor-pointer"
+          >
+            Copy Link
+          </button>
+        </div>
+      </div>
+
+      <!-- Newsletter CTA -->
+      <div class="mt-12 fade-in">
+        <NewsletterSignup />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

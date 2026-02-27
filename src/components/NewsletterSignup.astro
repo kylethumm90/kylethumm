@@ -1,0 +1,51 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+{compact ? (
+  <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+    <div class="flex-1">
+      <p class="text-sm font-medium text-[--color-text-primary]">Get marketing insights in your inbox</p>
+      <p class="text-xs text-[--color-text-dim] mt-1">No spam. Unsubscribe anytime.</p>
+    </div>
+    <form class="flex gap-2 w-full sm:w-auto" action="#newsletter" method="POST">
+      <input
+        type="email"
+        name="email"
+        placeholder="you@company.com"
+        required
+        class="h-9 px-3 text-sm rounded-lg border border-[--color-border] bg-[--color-surface] text-[--color-text-primary] placeholder:text-[--color-text-dim] focus:outline-none focus:border-[--color-accent] w-full sm:w-56"
+      />
+      <button
+        type="submit"
+        class="h-9 px-4 text-sm font-medium rounded-lg bg-[--color-accent] text-white hover:bg-[--color-accent-hover] transition-colors whitespace-nowrap cursor-pointer"
+      >
+        Subscribe
+      </button>
+    </form>
+  </div>
+) : (
+  <div class="rounded-2xl border border-[--color-border] bg-[--color-surface] p-8 text-center max-w-lg mx-auto">
+    <h3 class="text-xl font-bold text-[--color-text-primary] mb-2">Stay in the loop</h3>
+    <p class="text-sm text-[--color-text-secondary] mb-6">Practical marketing insights from the trenches. No fluff, no spam.</p>
+    <form class="flex flex-col sm:flex-row gap-3" action="#newsletter" method="POST">
+      <input
+        type="email"
+        name="email"
+        placeholder="you@company.com"
+        required
+        class="flex-1 h-11 px-4 text-sm rounded-lg border border-[--color-border] bg-[--color-bg] text-[--color-text-primary] placeholder:text-[--color-text-dim] focus:outline-none focus:border-[--color-accent]"
+      />
+      <button
+        type="submit"
+        class="h-11 px-6 text-sm font-semibold rounded-lg bg-[--color-accent] text-white hover:bg-[--color-accent-hover] transition-colors cursor-pointer"
+      >
+        Subscribe
+      </button>
+    </form>
+  </div>
+)}

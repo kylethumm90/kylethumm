@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const categories = ['All', 'Paid Media', 'Marketing Ops', 'AI & Automation', 'Leadership', 'Home Services'];
+---
+
+<BaseLayout
+  title="Blog"
+  description="Marketing insights from the trenches. Paid media, marketing automation, AI, and growth strategy for home service companies."
+>
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <div class="max-w-2xl mb-12 fade-in">
+        <p class="text-xs font-mono font-medium uppercase tracking-widest text-[--color-accent] mb-3">Blog</p>
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-4">Insights from the trenches.</h1>
+        <p class="text-lg text-[--color-text-secondary] leading-relaxed">
+          Practical marketing thinking. No theory, no fluff. Just what actually works.
+        </p>
+      </div>
+
+      <!-- Category filters -->
+      <div class="flex flex-wrap gap-2 mb-10 fade-in">
+        {categories.map(cat => (
+          <button
+            data-category={cat}
+            class:list={[
+              'px-4 py-2 text-sm rounded-full border transition-all cursor-pointer',
+              cat === 'All'
+                ? 'border-[--color-accent] bg-[--color-accent-dim] text-[--color-accent]'
+                : 'border-[--color-border] text-[--color-text-secondary] hover:border-[--color-accent] hover:text-[--color-accent]',
+            ]}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 fade-in">
+        {sortedPosts.map(post => (
+          <div data-post-category={post.data.category}>
+            <BlogCard
+              slug={post.id}
+              title={post.data.title}
+              date={post.data.date}
+              description={post.data.description}
+              category={post.data.category}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function() {
+    const buttons = document.querySelectorAll('[data-category]');
+    const posts = document.querySelectorAll('[data-post-category]');
+
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const cat = btn.getAttribute('data-category');
+
+        buttons.forEach(function(b) {
+          b.classList.remove('border-[--color-accent]', 'bg-[--color-accent-dim]', 'text-[--color-accent]');
+          b.classList.add('border-[--color-border]', 'text-[--color-text-secondary]');
+        });
+        btn.classList.add('border-[--color-accent]', 'bg-[--color-accent-dim]', 'text-[--color-accent]');
+        btn.classList.remove('border-[--color-border]', 'text-[--color-text-secondary]');
+
+        posts.forEach(function(post) {
+          if (cat === 'All' || post.getAttribute('data-post-category') === cat) {
+            post.style.display = '';
+          } else {
+            post.style.display = 'none';
+          }
+        });
+      });
+    });
+  })();
+</script>
