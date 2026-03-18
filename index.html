@@ -446,6 +446,13 @@ input, textarea, button, select {
   line-height: 1.2;
   margin-bottom: 1px;
 }
+.ms-friend-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  margin-bottom: 1px;
+}
 .ms-friend-name {
   font-weight: bold;
   font-size: 9px;
@@ -1034,7 +1041,8 @@ body.sun-mode {
                 <div class="ms-friend-desc">Connect</div>
               </a>
               <a class="ms-friend-card" href="#" id="poppyCard" onclick="event.preventDefault();alert('Poppy says woof. She is 9 and she is the best.');">
-                <div class="ms-friend-emoji">&#128021;</div>
+                <img src="poppy.jpg" alt="Poppy" class="ms-friend-img"
+                     onerror="this.outerHTML='<div class=&quot;ms-friend-emoji&quot;>&#128021;</div>'">
                 <div class="ms-friend-name">Poppy</div>
                 <div class="ms-friend-desc">Golden, 9</div>
               </a>
