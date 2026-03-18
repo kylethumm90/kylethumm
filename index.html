@@ -9,10 +9,10 @@
 /* ── RESET & BASE ── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #b2c9dc;
+  background: #fff;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 10px;
-  color: #333;
+  color: #000;
   line-height: 1.4;
 }
 a { color: #003366; text-decoration: underline; }
@@ -24,69 +24,91 @@ input, textarea, button, select {
   font-size: 10px;
 }
 
-/* ── TOP NAV ── */
+/* ── TOP NAV BAR ── */
 .ms-topnav {
-  background: linear-gradient(to bottom, #1a3f6f, #0d2b52);
-  padding: 6px 12px;
+  background: #e2e2e2;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
 }
 .ms-topnav-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0;
+  white-space: nowrap;
 }
 .ms-topnav-logo {
-  color: #fff;
-  font-size: 14px;
+  color: #003366;
+  font-size: 12px;
   font-weight: bold;
   text-decoration: none;
-  letter-spacing: -0.5px;
 }
-.ms-topnav-logo:hover { color: #fff; }
-.ms-topnav-home {
-  color: #aac4e0;
+.ms-topnav-logo:hover { color: #003366; text-decoration: underline; }
+.ms-topnav-sep {
+  color: #666;
   font-size: 10px;
-  text-decoration: none;
+  margin: 0 4px;
 }
-.ms-topnav-home:hover { color: #fff; }
-.ms-topnav-right {
+.ms-topnav-link {
+  color: #003366;
+  font-size: 10px;
+  text-decoration: underline;
+}
+.ms-topnav-center {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
-.ms-topnav-right label {
-  color: #aac4e0;
+.ms-topnav-center label {
+  color: #000;
   font-size: 10px;
   cursor: pointer;
+  white-space: nowrap;
 }
-.ms-topnav-right input[type="radio"] {
-  margin: 0 2px 0 0;
+.ms-topnav-center input[type="radio"] {
+  margin: 0 1px 0 0;
   vertical-align: middle;
 }
 .ms-search-input {
   border: 1px solid #999;
-  padding: 2px 4px;
+  padding: 1px 3px;
   font-size: 10px;
-  width: 140px;
+  width: 120px;
+  background: #fff;
 }
 .ms-search-btn {
   background: #ddd;
   border: 1px solid #999;
-  padding: 2px 8px;
+  padding: 1px 8px;
   font-size: 10px;
   cursor: pointer;
-  color: #333;
+  color: #000;
 }
 .ms-search-btn:hover { background: #ccc; }
+.ms-topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+}
+.ms-topnav-right a {
+  color: #003366;
+  font-size: 10px;
+}
+.ms-topnav-right .sep {
+  color: #666;
+  font-size: 10px;
+  margin: 0 4px;
+}
 
-/* ── SECONDARY NAV ── */
+/* ── SECONDARY NAV BAR ── */
 .ms-subnav {
-  background: #7192ad;
-  padding: 4px 12px;
+  background: #003366;
+  padding: 3px 10px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -96,70 +118,76 @@ input, textarea, button, select {
   color: #fff;
   text-decoration: none;
   font-size: 10px;
-  padding: 2px 6px;
+  font-weight: bold;
+  padding: 1px 4px;
   white-space: nowrap;
 }
 .ms-subnav a:hover {
-  color: #FFD700;
+  color: #fff;
   text-decoration: underline;
 }
 .ms-subnav-sep {
-  color: #a0b8cf;
+  color: #6699cc;
   font-size: 10px;
   padding: 0 1px;
 }
 
 /* ── MAIN LAYOUT ── */
 .ms-main {
-  max-width: 960px;
-  margin: 8px auto;
-  padding: 0 8px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 8px;
 }
 .ms-profile-table {
   width: 100%;
-  border-spacing: 8px;
+  border-spacing: 0;
 }
 .ms-left-col {
-  width: 300px;
+  width: 280px;
   vertical-align: top;
+  padding-right: 10px;
 }
 .ms-right-col {
   vertical-align: top;
+  padding-left: 10px;
 }
 
 /* ── CONTENT BOXES ── */
 .ms-box {
   background: #fff;
   border: 1px solid #b0b0b0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .ms-box-header-orange {
   background: linear-gradient(to bottom, #ffa64d, #ff8800);
   color: #fff;
   font-weight: bold;
-  font-size: 11px;
-  padding: 4px 8px;
+  font-size: 10px;
+  padding: 3px 6px;
 }
 .ms-box-header-blue {
   background: linear-gradient(to bottom, #4a7da8, #3a6a92);
   color: #fff;
   font-weight: bold;
-  font-size: 11px;
-  padding: 4px 8px;
+  font-size: 10px;
+  padding: 3px 6px;
 }
 .ms-box-body {
-  padding: 8px;
+  padding: 6px;
 }
 
 /* ── PROFILE NAME ── */
 .ms-profile-name {
   font-size: 14px;
   font-weight: bold;
-  color: #003366;
-  padding: 4px 0 6px 0;
+  color: #000;
+  padding: 6px 0 4px 0;
 }
 
 /* ── PROFILE PIC AREA ── */
+.ms-profile-pic-wrap {
+  margin-bottom: 6px;
+}
 .ms-profile-pic-area {
   display: flex;
   gap: 8px;
@@ -168,32 +196,37 @@ input, textarea, button, select {
 .ms-profile-pic {
   width: 170px;
   min-width: 170px;
-  border: 1px solid #999;
   cursor: pointer;
 }
 .ms-profile-info {
   font-size: 10px;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: #000;
 }
 .ms-profile-info .quote {
-  font-style: italic;
-  color: #555;
-  margin-bottom: 6px;
-  border-left: 2px solid #ccc;
-  padding-left: 6px;
+  font-size: 10px;
+  color: #000;
+  margin-bottom: 8px;
+}
+.ms-profile-viewlinks {
+  margin-top: 4px;
+  font-size: 10px;
+}
+.ms-profile-viewlinks a {
+  color: #003366;
 }
 
 /* ── CONTACT BOX ── */
 .ms-contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
+  gap: 2px;
 }
 .ms-contact-item {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 4px;
+  gap: 3px;
+  padding: 2px 3px;
   font-size: 10px;
   position: relative;
 }
@@ -201,9 +234,10 @@ input, textarea, button, select {
   font-size: 10px;
 }
 .ms-contact-icon {
-  font-size: 12px;
-  width: 16px;
+  font-size: 11px;
+  width: 14px;
   text-align: center;
+  color: #666;
 }
 
 /* ── TOOLTIP ── */
@@ -235,9 +269,9 @@ input, textarea, button, select {
 /* ── MYSPACE URL BOX ── */
 .ms-url-box {
   background: #fff;
-  border: 3px solid #000;
-  padding: 6px 8px;
-  margin-bottom: 8px;
+  border: 2px solid #000;
+  padding: 4px 6px;
+  margin-bottom: 6px;
   font-size: 10px;
   word-break: break-all;
 }
@@ -247,15 +281,15 @@ input, textarea, button, select {
 .ms-player {
   background: #e8e8e8;
   border: 1px solid #999;
-  padding: 6px 8px;
-  margin-bottom: 8px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 .ms-play-btn {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background: #fff;
   border: 1px solid #999;
   border-radius: 50%;
@@ -263,7 +297,7 @@ input, textarea, button, select {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 10px;
   flex-shrink: 0;
 }
 .ms-play-btn:hover { background: #f0f0f0; }
@@ -274,7 +308,7 @@ input, textarea, button, select {
 .ms-player-title {
   font-weight: bold;
   font-size: 10px;
-  color: #333;
+  color: #000;
 }
 .ms-player-artist {
   font-size: 9px;
@@ -298,15 +332,15 @@ input, textarea, button, select {
 }
 .ms-interest-table td {
   border: 1px solid #ccc;
-  padding: 4px 6px;
+  padding: 3px 5px;
   font-size: 10px;
   vertical-align: top;
 }
 .ms-interest-label {
-  background: #dde8f0;
+  background: #b3ccdf;
   font-weight: bold;
-  width: 80px;
-  color: #003366;
+  width: 70px;
+  color: #000;
 }
 .ms-interest-value {
   background: #fff;
@@ -323,50 +357,63 @@ input, textarea, button, select {
 .ms-network-banner {
   background: #fff;
   border: 1px solid #b0b0b0;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-  color: #003366;
-  margin-bottom: 8px;
+  color: #000;
+  margin-bottom: 6px;
 }
 
-/* ── BLOG ENTRIES ── */
-.ms-blog-entry {
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
-}
-.ms-blog-entry:last-child { border-bottom: none; }
-.ms-blog-date {
-  font-size: 9px;
-  color: #999;
-}
-.ms-blog-title {
+/* ── BLOG SECTION ── */
+.ms-blog-header {
   font-weight: bold;
   font-size: 10px;
+  color: #000;
+  margin-bottom: 4px;
+}
+.ms-blog-header a {
+  font-weight: normal;
+  font-size: 10px;
+}
+.ms-blog-list {
+  margin-bottom: 8px;
+  padding-left: 0;
+}
+.ms-blog-entry {
+  padding: 2px 0;
+  font-size: 10px;
+  color: #000;
+}
+.ms-blog-entry a {
+  font-size: 10px;
+}
+.ms-blog-viewall {
+  font-size: 10px;
+  font-weight: bold;
 }
 
 /* ── BLURBS ── */
 .ms-blurb-section {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .ms-blurb-label {
   font-weight: bold;
   color: #FF5A00;
-  font-size: 11px;
+  font-size: 10px;
   margin-bottom: 2px;
 }
 .ms-blurb-text {
   font-size: 10px;
   line-height: 1.5;
-  color: #333;
-  margin-bottom: 8px;
+  color: #000;
+  margin-bottom: 6px;
 }
 
 /* ── FRIENDS GRID ── */
 .ms-friends-count {
-  font-size: 11px;
-  margin-bottom: 6px;
+  font-size: 10px;
+  margin-bottom: 4px;
 }
 .ms-friends-count span {
   color: #ff0000;
@@ -375,29 +422,29 @@ input, textarea, button, select {
 .ms-friends-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 6px;
 }
 .ms-friend-card {
   text-align: center;
-  padding: 6px;
+  padding: 4px;
   border: 1px solid #ddd;
-  background: #f9f9f9;
+  background: #fff;
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
   text-decoration: none;
-  color: #333;
+  color: #000;
   display: block;
 }
 .ms-friend-card:hover {
   transform: scale(1.05);
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  color: #333;
+  color: #000;
 }
 .ms-friend-emoji {
-  font-size: 32px;
+  font-size: 28px;
   line-height: 1.2;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 .ms-friend-name {
   font-weight: bold;
@@ -418,17 +465,17 @@ input, textarea, button, select {
 /* ── COMMENTS ── */
 .ms-comment {
   display: flex;
-  gap: 8px;
-  padding: 6px;
+  gap: 6px;
+  padding: 5px;
   border-bottom: 1px solid #ddd;
 }
 .ms-comment:nth-child(odd) {
   background: #eef3f7;
 }
 .ms-comment-avatar {
-  font-size: 24px;
-  width: 36px;
-  height: 36px;
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,18 +495,18 @@ input, textarea, button, select {
 .ms-comment-date {
   font-size: 9px;
   color: #999;
-  margin-left: 6px;
+  margin-left: 4px;
 }
 .ms-comment-text {
   font-size: 10px;
-  color: #333;
+  color: #000;
   line-height: 1.4;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 /* ── GUESTBOOK FORM ── */
 .ms-guestbook-form {
-  padding: 8px;
+  padding: 6px;
   background: #f5f5f5;
   border-top: 1px solid #ccc;
 }
@@ -467,26 +514,26 @@ input, textarea, button, select {
   display: block;
   font-weight: bold;
   font-size: 10px;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   color: #003366;
 }
 .ms-guestbook-form input[type="text"],
 .ms-guestbook-form textarea {
   width: 100%;
   border: 1px solid #999;
-  padding: 3px 4px;
+  padding: 2px 3px;
   font-size: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .ms-guestbook-form textarea {
-  height: 60px;
+  height: 50px;
   resize: vertical;
 }
 .ms-guestbook-submit {
   background: linear-gradient(to bottom, #ffa64d, #ff8800);
   color: #fff;
   border: 1px solid #cc6600;
-  padding: 4px 16px;
+  padding: 3px 12px;
   font-weight: bold;
   font-size: 10px;
   cursor: pointer;
@@ -497,25 +544,25 @@ input, textarea, button, select {
   background: #dff0d8;
   border: 1px solid #3c763d;
   color: #3c763d;
-  padding: 6px 8px;
-  margin-top: 6px;
+  padding: 4px 6px;
+  margin-top: 4px;
   font-size: 10px;
   font-weight: bold;
 }
 
 /* ── FOOTER ── */
 .ms-footer {
-  max-width: 960px;
-  margin: 16px auto 32px;
+  max-width: 800px;
+  margin: 12px auto 24px;
   padding: 0 8px;
   text-align: center;
 }
 .ms-footer-links {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .ms-footer-links a {
   font-size: 10px;
-  margin: 0 6px;
+  margin: 0 4px;
 }
 .ms-footer-copy {
   font-size: 9px;
@@ -538,10 +585,10 @@ input, textarea, button, select {
   background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
   color: #333;
   text-align: center;
-  padding: 12px 16px;
-  font-size: 13px;
+  padding: 10px 16px;
+  font-size: 12px;
   font-weight: bold;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   animation: bannerSlide 0.4s ease-out;
 }
 .ms-easter-banner a {
@@ -550,11 +597,11 @@ input, textarea, button, select {
 }
 .ms-easter-banner .close-banner {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   color: #666;
   background: none;
   border: none;
@@ -578,7 +625,7 @@ input, textarea, button, select {
 
 /* ── SCHOOLS ── */
 .ms-school-entry {
-  padding: 4px 0;
+  padding: 3px 0;
   border-bottom: 1px solid #eee;
 }
 .ms-school-entry:last-child { border-bottom: none; }
@@ -592,11 +639,21 @@ input, textarea, button, select {
   color: #666;
 }
 
+/* ── HORIZONTAL RULE ── */
+.ms-hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 6px 0;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 700px) {
   .ms-topnav {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .ms-topnav-center {
+    flex-wrap: wrap;
   }
   .ms-subnav {
     flex-wrap: wrap;
@@ -608,6 +665,8 @@ input, textarea, button, select {
   .ms-right-col {
     display: block;
     width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
   .ms-profile-pic-area {
     flex-direction: column;
@@ -623,18 +682,15 @@ input, textarea, button, select {
   .ms-contact-grid {
     grid-template-columns: 1fr;
   }
-  .ms-topnav-right {
-    flex-wrap: wrap;
-  }
   .ms-search-input {
-    width: 100px;
+    width: 80px;
   }
 }
 
 /* ── SUN EMOJI BG (easter egg) ── */
 body.sun-mode {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ctext x='15' y='40' font-size='30'%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E");
-  background-color: #b2c9dc;
+  background-color: #fff;
 }
 </style>
 </head>
@@ -655,16 +711,21 @@ body.sun-mode {
 <div class="ms-topnav">
   <div class="ms-topnav-left">
     <a href="#" class="ms-topnav-logo">MySpace.com</a>
-    <span style="color:#aac4e0;font-size:10px;">|</span>
-    <a href="#" class="ms-topnav-home">Home</a>
-    <a href="#" class="ms-topnav-home">Help</a>
-    <a href="#" class="ms-topnav-home">SignOut</a>
+    <span class="ms-topnav-sep">|</span>
+    <a href="#" class="ms-topnav-link">Home</a>
+  </div>
+  <div class="ms-topnav-center">
+    <label><input type="radio" name="searchType" value="web" checked> The Web</label>
+    &nbsp;
+    <label><input type="radio" name="searchType" value="myspace"> MySpace</label>
+    &nbsp;
+    <input type="text" class="ms-search-input" id="searchInput" placeholder="">
+    <button class="ms-search-btn" id="searchBtn">Search</button>
   </div>
   <div class="ms-topnav-right">
-    <label><input type="radio" name="searchType" value="web" checked> The Web</label>
-    <label><input type="radio" name="searchType" value="myspace"> MySpace</label>
-    <input type="text" class="ms-search-input" id="searchInput" placeholder="Search...">
-    <button class="ms-search-btn" id="searchBtn">Search</button>
+    <a href="#">Help</a>
+    <span class="sep">|</span>
+    <a href="#">SignOut</a>
   </div>
 </div>
 
@@ -674,15 +735,16 @@ body.sun-mode {
   <a href="#">Browse</a><span class="ms-subnav-sep">|</span>
   <a href="#">Search</a><span class="ms-subnav-sep">|</span>
   <a href="#">Invite</a><span class="ms-subnav-sep">|</span>
-  <a href="#">Rank</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Film</a><span class="ms-subnav-sep">|</span>
   <a href="#">Mail</a><span class="ms-subnav-sep">|</span>
   <a href="#">Blog</a><span class="ms-subnav-sep">|</span>
   <a href="#">Favorites</a><span class="ms-subnav-sep">|</span>
   <a href="#">Forum</a><span class="ms-subnav-sep">|</span>
   <a href="#">Groups</a><span class="ms-subnav-sep">|</span>
   <a href="#">Events</a><span class="ms-subnav-sep">|</span>
-  <a href="#">Games</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Videos</a><span class="ms-subnav-sep">|</span>
   <a href="#">Music</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Comedy</a><span class="ms-subnav-sep">|</span>
   <a href="#">Classifieds</a>
 </div>
 
@@ -697,28 +759,32 @@ body.sun-mode {
         <!-- Profile Name -->
         <div class="ms-profile-name">Kyle</div>
 
-        <!-- Profile Pic + Info -->
-        <div class="ms-box">
-          <div class="ms-box-body">
-            <div class="ms-profile-pic-area">
+        <!-- Profile Pic + Info (no box, open layout like screenshot) -->
+        <div class="ms-profile-pic-wrap">
+          <div class="ms-profile-pic-area">
+            <div>
               <img src="kyle-headshot.png" alt="Kyle Thumm" class="ms-profile-pic" id="profilePic"
                    onerror="this.outerHTML='<div style=&quot;width:170px;height:170px;background:#dde8f0;border:1px solid #999;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:bold;color:#4a7da8;&quot; id=&quot;profilePic&quot;>KT</div>'">
-              <div class="ms-profile-info">
-                <div class="quote">&ldquo;Building the future of home services, one lead at a time.&rdquo;</div>
-                <div><b>Male</b></div>
-                <div><b>35</b> years old</div>
-                <div>Huntsville, <b>ALABAMA</b></div>
-                <div>United States</div>
-                <div style="margin-top:4px;color:#666;">Last Login: <span id="lastLogin"></span></div>
-                <div style="margin-top:4px;"><a href="https://www.linkedin.com/in/kylethumm" target="_blank">View more pics</a></div>
+              <div class="ms-profile-viewlinks">
+                View My: <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Pics</a> | <a href="https://www.youtube.com/@kylethumm" target="_blank">Videos</a>
               </div>
+            </div>
+            <div class="ms-profile-info">
+              <div class="quote">&ldquo;Building the future of home services, one lead at a time.&rdquo;</div>
+              <div><b>Male</b></div>
+              <div><b>35</b> years old</div>
+              <div>Huntsville,</div>
+              <div><b>ALABAMA</b></div>
+              <div>United States</div>
+              <br>
+              <div>Last Login:<br><span id="lastLogin"></span></div>
             </div>
           </div>
         </div>
 
-        <!-- Contact Kyle -->
+        <!-- Contacting Kyle (orange header like screenshot) -->
         <div class="ms-box">
-          <div class="ms-box-header-blue">Contact Kyle</div>
+          <div class="ms-box-header-orange">Contacting Kyle</div>
           <div class="ms-box-body">
             <div class="ms-contact-grid">
               <div class="ms-contact-item">
@@ -879,38 +945,37 @@ body.sun-mode {
           Kyle is in your extended network
         </div>
 
-        <!-- Blog Entries -->
-        <div class="ms-box">
-          <div class="ms-box-header-orange">Kyle's Blog</div>
-          <div class="ms-box-body">
-            <div class="ms-blog-entry">
-              <div class="ms-blog-date">Mar 15, 2026</div>
-              <div class="ms-blog-title"><a href="https://www.youtube.com/@kylethumm" target="_blank">Road to 60 Deals/Month</a></div>
-              <div style="font-size:10px;color:#555;">The full strategy behind scaling Rooftop Power to 60 solar deals/month. Ads, CRM, follow-up, and the numbers behind it.</div>
-            </div>
-            <div class="ms-blog-entry">
-              <div class="ms-blog-date">Feb 28, 2026</div>
-              <div class="ms-blog-title"><a href="https://usehandled.ai" target="_blank">Building handled.</a></div>
-              <div style="font-size:10px;color:#555;">Why I'm building an AI platform for home services, and how Ava, Stella, and Scout are changing the game.</div>
-            </div>
-            <div class="ms-blog-entry">
-              <div class="ms-blog-date">Jan 10, 2026</div>
-              <div class="ms-blog-title"><a href="https://solargrade.co" target="_blank">SolarGrade Launch</a></div>
-              <div style="font-size:10px;color:#555;">Launching SolarGrade &mdash; the review platform built specifically for solar companies.</div>
-            </div>
+        <!-- Blog Entries (plain text style like screenshot) -->
+        <div style="margin-bottom:8px;">
+          <div class="ms-blog-header">
+            Kyle's Latest Blog Entry [<a href="#">Subscribe to this Blog</a>]
           </div>
+          <hr class="ms-hr">
+          <div class="ms-blog-entry">
+            <a href="https://www.youtube.com/@kylethumm" target="_blank">Road to 60 Deals/Month</a> &nbsp;(<a href="https://www.youtube.com/@kylethumm" target="_blank">view more</a>)
+          </div>
+          <div class="ms-blog-entry">
+            <a href="https://usehandled.ai" target="_blank">Building handled.</a> &nbsp;(<a href="https://usehandled.ai" target="_blank">view more</a>)
+          </div>
+          <div class="ms-blog-entry">
+            <a href="https://solargrade.co" target="_blank">SolarGrade Launch</a> &nbsp;(<a href="https://solargrade.co" target="_blank">view more</a>)
+          </div>
+          <br>
+          <div class="ms-blog-viewall">[<a href="https://www.youtube.com/@kylethumm" target="_blank">View All Blog Entries</a>]</div>
         </div>
+
+        <hr class="ms-hr">
 
         <!-- Kyle's Blurbs -->
         <div class="ms-box">
           <div class="ms-box-header-orange">Kyle's Blurbs</div>
           <div class="ms-box-body">
             <div class="ms-blurb-section">
-              <div class="ms-blurb-label">About Me:</div>
+              <div class="ms-blurb-label">About me:</div>
               <div class="ms-blurb-text">
                 I'm Kyle Thumm. I'm the <b>Head of Marketing at <a href="https://rooftoppowerco.com" target="_blank">Rooftop Power Co</a></b>, a solar, roofing, and HVAC company where I run a 13-person sales team across 285 zip codes in RI, MA, and CT. I manage everything from Google Ads and Meta to CRM builds in GoHighLevel, lead vendor management, and sales pipeline optimization.
                 <br><br>
-                On the side, I'm building <b><a href="https://usehandled.ai" target="_blank">handled.</a></b> &mdash; an AI-powered platform for home service companies. Three AI agents: <b>Ava</b> (speed-to-lead & appointment setting), <b>Stella</b> (review & reputation management), and <b>Scout</b> (lead qualification & routing). It's the system I wish I had when I was running lead gen at scale.
+                On the side, I'm building <b><a href="https://usehandled.ai" target="_blank">handled.</a></b> &mdash; an AI-powered platform for home service companies. Three AI agents: <b>Ava</b> (speed-to-lead &amp; appointment setting), <b>Stella</b> (review &amp; reputation management), and <b>Scout</b> (lead qualification &amp; routing). It's the system I wish I had when I was running lead gen at scale.
                 <br><br>
                 I also run <b><a href="https://solargrade.co" target="_blank">SolarGrade</a></b> (a review platform for solar companies), host the <b><a href="https://www.youtube.com/@kylethumm" target="_blank">Solar Growth Podcast</a></b>, and do consulting through <b>Measure3</b> for local businesses in Huntsville, AL.
                 <br><br>
