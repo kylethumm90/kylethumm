@@ -28,7 +28,7 @@ input, textarea, button, select {
 .ms-topnav {
   background: #e2e2e2;
   border-bottom: 1px solid #ccc;
-  padding: 5px 10px;
+  padding: 5px 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,7 +108,7 @@ input, textarea, button, select {
 /* ── SECONDARY NAV BAR ── */
 .ms-subnav {
   background: #003366;
-  padding: 3px 10px;
+  padding: 3px 4px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -134,22 +134,22 @@ input, textarea, button, select {
 
 /* ── MAIN LAYOUT ── */
 .ms-main {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 8px;
+  max-width: 900px;
+  margin: 0;
+  padding: 4px 2px;
 }
 .ms-profile-table {
   width: 100%;
   border-spacing: 0;
 }
 .ms-left-col {
-  width: 280px;
+  width: 200px;
   vertical-align: top;
-  padding-right: 10px;
+  padding-right: 8px;
 }
 .ms-right-col {
   vertical-align: top;
-  padding-left: 10px;
+  padding-left: 4px;
 }
 
 /* ── CONTENT BOXES ── */
@@ -181,21 +181,21 @@ input, textarea, button, select {
   font-size: 14px;
   font-weight: bold;
   color: #000;
-  padding: 6px 0 4px 0;
+  padding: 4px 0 2px 0;
 }
 
 /* ── PROFILE PIC AREA ── */
 .ms-profile-pic-wrap {
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 .ms-profile-pic-area {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: flex-start;
 }
 .ms-profile-pic {
-  width: 170px;
-  min-width: 170px;
+  width: 130px;
+  min-width: 130px;
   cursor: pointer;
 }
 .ms-profile-info {
@@ -220,7 +220,7 @@ input, textarea, button, select {
 .ms-contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2px;
+  gap: 1px;
 }
 .ms-contact-item {
   display: flex;
@@ -229,15 +229,6 @@ input, textarea, button, select {
   padding: 2px 3px;
   font-size: 10px;
   position: relative;
-}
-.ms-contact-item a {
-  font-size: 10px;
-}
-.ms-contact-icon {
-  font-size: 11px;
-  width: 14px;
-  text-align: center;
-  color: #666;
 }
 
 /* ── TOOLTIP ── */
@@ -269,7 +260,7 @@ input, textarea, button, select {
 /* ── MYSPACE URL BOX ── */
 .ms-url-box {
   background: #fff;
-  border: 2px solid #000;
+  border: 1px solid #000;
   padding: 4px 6px;
   margin-bottom: 6px;
   font-size: 10px;
@@ -356,10 +347,10 @@ input, textarea, button, select {
 /* ── NETWORK BANNER ── */
 .ms-network-banner {
   background: #fff;
-  border: 1px solid #b0b0b0;
-  padding: 8px;
+  border: 1px solid #000;
+  padding: 6px;
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   color: #000;
   margin-bottom: 6px;
@@ -559,9 +550,9 @@ input, textarea, button, select {
 
 /* ── FOOTER ── */
 .ms-footer {
-  max-width: 800px;
-  margin: 12px auto 24px;
-  padding: 0 8px;
+  max-width: 900px;
+  margin: 12px 0 24px;
+  padding: 0 2px;
   text-align: center;
 }
 .ms-footer-links {
@@ -680,7 +671,7 @@ input, textarea, button, select {
     align-items: center;
   }
   .ms-profile-pic {
-    width: 200px;
+    width: 160px;
     min-width: auto;
   }
   .ms-friends-grid {
@@ -766,18 +757,16 @@ body.sun-mode {
         <!-- Profile Name -->
         <div class="ms-profile-name">Kyle</div>
 
-        <!-- Profile Pic + Info (no box, open layout like screenshot) -->
+        <!-- Profile Pic + Info (open layout like Tom's) -->
         <div class="ms-profile-pic-wrap">
           <div class="ms-profile-pic-area">
             <div>
               <img src="kyle-headshot.png" alt="Kyle Thumm" class="ms-profile-pic" id="profilePic"
-                   onerror="this.outerHTML='<div style=&quot;width:170px;height:170px;background:#dde8f0;border:1px solid #999;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:bold;color:#4a7da8;&quot; id=&quot;profilePic&quot;>KT</div>'">
-              <div class="ms-profile-viewlinks">
-                View My: <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Pics</a> | <a href="https://www.youtube.com/@kylethumm" target="_blank">Videos</a>
-              </div>
+                   onerror="this.outerHTML='<div style=&quot;width:130px;height:130px;background:#dde8f0;border:1px solid #999;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#4a7da8;&quot; id=&quot;profilePic&quot;>KT</div>'">
             </div>
             <div class="ms-profile-info">
               <div class="quote">&ldquo;Building the future of home services, one lead at a time.&rdquo;</div>
+              <br>
               <div><b>Male</b></div>
               <div><b>35</b> years old</div>
               <div>Huntsville,</div>
@@ -787,6 +776,9 @@ body.sun-mode {
               <div>Last Login:<br><span id="lastLogin"></span></div>
             </div>
           </div>
+          <div class="ms-profile-viewlinks">
+            View My: <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Pics</a> | <a href="https://www.youtube.com/@kylethumm" target="_blank">Videos</a>
+          </div>
         </div>
 
         <!-- Contacting Kyle (orange header like screenshot) -->
@@ -795,37 +787,29 @@ body.sun-mode {
           <div class="ms-box-body">
             <div class="ms-contact-grid">
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#9993;</span>
                 <a href="mailto:kyle@usehandled.ai">Send Message</a>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#10140;</span>
                 <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Forward to Friend</a>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#10133;</span>
                 <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Add to Friends</a>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#9733;</span>
                 <a href="#guestbook">Add to Favorites</a>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#128172;</span>
                 <a href="https://www.facebook.com/groups/aiautomationshomeservices" target="_blank">Instant Message</a>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#128683;</span>
                 <span class="ms-tooltip">Block User
                   <span class="ms-tooltip-text">You can't block Kyle. Kyle blocks you.</span>
                 </span>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#128101;</span>
                 <a href="https://www.facebook.com/groups/aiautomationshomeservices" target="_blank">Add to Group</a>
               </div>
               <div class="ms-contact-item">
-                <span class="ms-contact-icon">&#11088;</span>
                 <span class="ms-tooltip">Rank User
                   <span class="ms-tooltip-text">11/10 would recommend</span>
                 </span>
