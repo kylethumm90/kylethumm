@@ -571,6 +571,143 @@ input, textarea, button, select {
   font-weight: bold;
 }
 
+/* ── CONTACT MODAL ── */
+.ms-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+.ms-modal-overlay.active {
+  display: flex;
+}
+.ms-modal {
+  background: #DBE1E8;
+  border: 2px solid #336699;
+  width: 400px;
+  max-width: 95vw;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+.ms-modal-titlebar {
+  background: linear-gradient(to right, #6699BB, #336699);
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ms-modal-close {
+  background: #ccc;
+  border: 1px solid #999;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.ms-modal-close:hover { background: #ddd; }
+.ms-modal-body {
+  padding: 12px;
+}
+.ms-modal-body label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 2px;
+  margin-top: 8px;
+}
+.ms-modal-body label:first-child {
+  margin-top: 0;
+}
+.ms-modal-body .ms-required {
+  color: #cc0000;
+}
+.ms-modal-body input[type="text"],
+.ms-modal-body input[type="email"],
+.ms-modal-body input[type="tel"],
+.ms-modal-body select,
+.ms-modal-body textarea {
+  width: 100%;
+  border: 1px solid #999;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background: #fff;
+  box-sizing: border-box;
+}
+.ms-modal-body textarea {
+  height: 80px;
+  resize: vertical;
+}
+.ms-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+.ms-modal-btn-cancel {
+  background: #ccc;
+  border: 1px solid #999;
+  padding: 4px 16px;
+  font-size: 12px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+}
+.ms-modal-btn-cancel:hover { background: #bbb; }
+.ms-modal-btn-send {
+  background: #336699;
+  border: 1px solid #224466;
+  padding: 4px 16px;
+  font-size: 12px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+}
+.ms-modal-btn-send:hover { background: #2a5580; }
+.ms-modal-btn-send:disabled {
+  background: #999;
+  border-color: #777;
+  cursor: default;
+  color: #ccc;
+}
+.ms-modal-confirm {
+  text-align: center;
+  padding: 24px 12px;
+}
+.ms-modal-confirm .mail-emoji {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+.ms-modal-confirm .sent-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+}
+.ms-modal-confirm .sent-sub {
+  font-size: 12px;
+  color: #333;
+}
+
 /* ── FOOTER ── */
 .ms-footer {
   max-width: 800px;
@@ -1050,7 +1187,7 @@ body.sun-mode {
             <div class="ms-blurb-section">
               <div class="ms-blurb-label">Contact:</div>
               <div class="ms-blurb-text">
-                <a href="mailto:kyle@usehandled.ai">kyle@usehandled.ai</a>
+                <a href="#" id="contactLink" onclick="event.preventDefault();document.getElementById('contactModal').classList.add('active');" style="color:#336699;text-decoration:underline;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;">Send me a message</a>
               </div>
             </div>
           </div>
@@ -1179,6 +1316,44 @@ body.sun-mode {
       </td>
     </tr>
   </table>
+</div>
+
+<!-- ═══ CONTACT MODAL ═══ -->
+<div class="ms-modal-overlay" id="contactModal" onclick="if(event.target===this)this.classList.remove('active');">
+  <div class="ms-modal">
+    <div class="ms-modal-titlebar">
+      <span>Send Kyle a Message</span>
+      <button class="ms-modal-close" onclick="document.getElementById('contactModal').classList.remove('active');">&times;</button>
+    </div>
+    <div class="ms-modal-body" id="contactFormBody">
+      <label>Name <span class="ms-required">*</span></label>
+      <input type="text" id="cmName" placeholder="Tom Anderson">
+      <label>Email <span class="ms-required">*</span></label>
+      <input type="email" id="cmEmail" placeholder="tom@myspace.com">
+      <label>Phone</label>
+      <input type="tel" id="cmPhone" placeholder="(555) 867-5309">
+      <label>What's this about? <span class="ms-required">*</span></label>
+      <select id="cmTopic">
+        <option value="">-- Select --</option>
+        <option value="handled. demo request">handled. demo request</option>
+        <option value="Consulting inquiry">Consulting inquiry</option>
+        <option value="Partnership / collab">Partnership / collab</option>
+        <option value="Solar / roofing question">Solar / roofing question</option>
+        <option value="Just saying what's up">Just saying what's up</option>
+      </select>
+      <label>Message <span class="ms-required">*</span></label>
+      <textarea id="cmMessage" placeholder="What's on your mind?"></textarea>
+      <div class="ms-modal-buttons">
+        <button class="ms-modal-btn-cancel" onclick="document.getElementById('contactModal').classList.remove('active');">Cancel</button>
+        <button class="ms-modal-btn-send" id="cmSend" disabled>Send</button>
+      </div>
+    </div>
+    <div class="ms-modal-confirm" id="contactConfirm" style="display:none;">
+      <div class="mail-emoji">&#128236;</div>
+      <div class="sent-title">Message sent!</div>
+      <div class="sent-sub">I'll get back to you soon.</div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ FOOTER ═══ -->
@@ -1371,6 +1546,80 @@ function closeEasterBanner() {
   document.getElementById('easterBanner').style.display = 'none';
   document.body.classList.remove('sun-mode');
 }
+
+// ── Contact Modal ──
+(function() {
+  var nameEl = document.getElementById('cmName');
+  var emailEl = document.getElementById('cmEmail');
+  var topicEl = document.getElementById('cmTopic');
+  var msgEl = document.getElementById('cmMessage');
+  var sendBtn = document.getElementById('cmSend');
+
+  function validateForm() {
+    var valid = nameEl.value.trim() !== '' &&
+                emailEl.value.trim() !== '' &&
+                topicEl.value !== '' &&
+                msgEl.value.trim() !== '';
+    sendBtn.disabled = !valid;
+  }
+
+  nameEl.addEventListener('input', validateForm);
+  emailEl.addEventListener('input', validateForm);
+  topicEl.addEventListener('change', validateForm);
+  msgEl.addEventListener('input', validateForm);
+
+  sendBtn.addEventListener('click', function() {
+    if (sendBtn.disabled) return;
+    var fullName = nameEl.value.trim();
+    var parts = fullName.split(/\s+/);
+    var firstName = parts[0];
+    var lastName = parts.length > 1 ? parts.slice(1).join(' ') : '';
+
+    var payload = {
+      firstName: firstName,
+      lastName: lastName,
+      email: emailEl.value.trim(),
+      phone: document.getElementById('cmPhone').value.trim(),
+      topic: topicEl.value,
+      message: msgEl.value.trim(),
+      source: 'kylethumm.com'
+    };
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+
+    fetch('https://services.leadconnectorhq.com/hooks/9fPcgvYEwoWt8LWdzp9n/webhook-trigger/30807f6e-dd84-4890-9bcd-cbd26e8cffae', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function() {
+      document.getElementById('contactFormBody').style.display = 'none';
+      document.getElementById('contactConfirm').style.display = 'block';
+    }).catch(function() {
+      document.getElementById('contactFormBody').style.display = 'none';
+      document.getElementById('contactConfirm').style.display = 'block';
+    });
+  });
+
+  // Reset modal when closed
+  var modal = document.getElementById('contactModal');
+  var observer = new MutationObserver(function() {
+    if (!modal.classList.contains('active')) {
+      setTimeout(function() {
+        nameEl.value = '';
+        emailEl.value = '';
+        document.getElementById('cmPhone').value = '';
+        topicEl.selectedIndex = 0;
+        msgEl.value = '';
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Send';
+        document.getElementById('contactFormBody').style.display = 'block';
+        document.getElementById('contactConfirm').style.display = 'none';
+      }, 300);
+    }
+  });
+  observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
+})();
 </script>
 </body>
 </html>
