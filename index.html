@@ -708,6 +708,25 @@ input, textarea, button, select {
   }
 }
 
+/* ── Online Now pulse waves ── */
+@keyframes wave1 {
+  0% { opacity: 0.85; transform: scale(0.8); }
+  60% { opacity: 0; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes wave2 {
+  0%, 20% { opacity: 0; transform: scale(0.8); }
+  25% { opacity: 0.85; transform: scale(0.8); }
+  75% { opacity: 0; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes wave3 {
+  0%, 40% { opacity: 0; transform: scale(0.8); }
+  45% { opacity: 0.75; transform: scale(0.8); }
+  90% { opacity: 0; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
 /* ── SUN EMOJI BG (easter egg) ── */
 body.sun-mode {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ctext x='15' y='40' font-size='30'%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E");
@@ -797,6 +816,27 @@ body.sun-mode {
               <div>Huntsville,</div>
               <div><b>ALABAMA</b></div>
               <div>United States</div>
+              <br>
+              <!-- Online Now graphic -->
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="position:relative;width:56px;height:52px;">
+                  <svg width="56" height="52" viewBox="0 0 56 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="28" cy="42" rx="11" ry="7.5" fill="#E8751A"/>
+                    <circle cx="28" cy="24" r="8" fill="#E8751A"/>
+                    <g style="transform-origin:36px 23px">
+                      <path d="M37 31 C39 27, 39 21, 37 17" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave1 1.8s ease-out infinite;transform-origin:37px 24px"/>
+                      <path d="M41 33 C44 27, 44 19, 41 14" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave2 1.8s ease-out infinite;transform-origin:41px 24px"/>
+                      <path d="M45 35 C49 27, 49 17, 45 11" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave3 1.8s ease-out infinite;transform-origin:45px 24px"/>
+                    </g>
+                    <g style="transform-origin:20px 23px">
+                      <path d="M19 31 C17 27, 17 21, 19 17" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave1 1.8s ease-out infinite;transform-origin:19px 24px"/>
+                      <path d="M15 33 C12 27, 12 19, 15 14" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave2 1.8s ease-out infinite;transform-origin:15px 24px"/>
+                      <path d="M11 35 C7 27, 7 17, 11 11" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave3 1.8s ease-out infinite;transform-origin:11px 24px"/>
+                    </g>
+                  </svg>
+                </div>
+                <span style="font-size:28px;font-weight:700;color:#4CAF50;letter-spacing:-0.5px;line-height:1;">Online Now!</span>
+              </div>
               <br>
               <div>Last Login:<br><span id="lastLogin"></span></div>
             </div>
