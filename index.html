@@ -26,8 +26,8 @@ input, textarea, button, select {
 
 /* ── TOP NAV BAR ── */
 .ms-topnav {
-  background: #e2e2e2;
-  border-bottom: 1px solid #ccc;
+  background: #003366;
+  border-bottom: 1px solid #002244;
   padding: 5px 10px;
   display: flex;
   align-items: center;
@@ -42,19 +42,19 @@ input, textarea, button, select {
   white-space: nowrap;
 }
 .ms-topnav-logo {
-  color: #003366;
+  color: #fff;
   font-size: 12px;
   font-weight: bold;
   text-decoration: none;
 }
-.ms-topnav-logo:hover { color: #003366; text-decoration: underline; }
+.ms-topnav-logo:hover { color: #fff; text-decoration: underline; }
 .ms-topnav-sep {
-  color: #666;
+  color: #99bbdd;
   font-size: 10px;
   margin: 0 4px;
 }
 .ms-topnav-link {
-  color: #003366;
+  color: #fff;
   font-size: 10px;
   text-decoration: underline;
 }
@@ -64,7 +64,7 @@ input, textarea, button, select {
   gap: 4px;
 }
 .ms-topnav-center label {
-  color: #000;
+  color: #fff;
   font-size: 10px;
   cursor: pointer;
   white-space: nowrap;
@@ -96,11 +96,11 @@ input, textarea, button, select {
   white-space: nowrap;
 }
 .ms-topnav-right a {
-  color: #003366;
+  color: #fff;
   font-size: 10px;
 }
 .ms-topnav-right .sep {
-  color: #666;
+  color: #99bbdd;
   font-size: 10px;
   margin: 0 4px;
 }
@@ -165,9 +165,23 @@ input, textarea, button, select {
   font-size: 10px;
   padding: 3px 6px;
 }
+.ms-box-header-lightblue {
+  background: #5b91b5;
+  color: #fff;
+  font-weight: bold;
+  font-size: 10px;
+  padding: 3px 6px;
+}
 .ms-box-header-blue {
   background: linear-gradient(to bottom, #4a7da8, #3a6a92);
   color: #fff;
+  font-weight: bold;
+  font-size: 10px;
+  padding: 3px 6px;
+}
+.ms-box-header-tan {
+  background: #D5C19E;
+  color: #6B4B2A;
   font-weight: bold;
   font-size: 10px;
   padding: 3px 6px;
@@ -357,7 +371,7 @@ input, textarea, button, select {
 .ms-network-banner {
   background: #fff;
   border: 1px solid #b0b0b0;
-  padding: 8px;
+  padding: 18px 24px;
   text-align: center;
   font-size: 14px;
   font-weight: bold;
@@ -694,6 +708,25 @@ input, textarea, button, select {
   }
 }
 
+/* ── Online Now pulse waves ── */
+@keyframes wave1 {
+  0% { opacity: 0.85; transform: scale(0.8); }
+  60% { opacity: 0; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes wave2 {
+  0%, 20% { opacity: 0; transform: scale(0.8); }
+  25% { opacity: 0.85; transform: scale(0.8); }
+  75% { opacity: 0; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes wave3 {
+  0%, 40% { opacity: 0; transform: scale(0.8); }
+  45% { opacity: 0.75; transform: scale(0.8); }
+  90% { opacity: 0; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
 /* ── SUN EMOJI BG (easter egg) ── */
 body.sun-mode {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ctext x='15' y='40' font-size='30'%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E");
@@ -778,11 +811,30 @@ body.sun-mode {
             </div>
             <div class="ms-profile-info">
               <div class="quote">&ldquo;Building the future of home services, one lead at a time.&rdquo;</div>
-              <div><b>Male</b></div>
-              <div><b>35</b> years old</div>
-              <div>Huntsville,</div>
-              <div><b>ALABAMA</b></div>
-              <div>United States</div>
+              <div>Male</div>
+              <div>35 years old</div>
+              <div>Alabama,<br>United States</div>
+              <br>
+              <!-- Online Now graphic -->
+              <div style="display:flex;align-items:center;gap:3px;">
+                <div style="position:relative;width:28px;height:26px;">
+                  <svg width="28" height="26" viewBox="0 0 56 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="28" cy="42" rx="11" ry="7.5" fill="#E8751A"/>
+                    <circle cx="28" cy="24" r="8" fill="#E8751A"/>
+                    <g style="transform-origin:36px 23px">
+                      <path d="M37 31 C39 27, 39 21, 37 17" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave1 1.8s ease-out infinite;transform-origin:37px 24px"/>
+                      <path d="M41 33 C44 27, 44 19, 41 14" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave2 1.8s ease-out infinite;transform-origin:41px 24px"/>
+                      <path d="M45 35 C49 27, 49 17, 45 11" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave3 1.8s ease-out infinite;transform-origin:45px 24px"/>
+                    </g>
+                    <g style="transform-origin:20px 23px">
+                      <path d="M19 31 C17 27, 17 21, 19 17" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave1 1.8s ease-out infinite;transform-origin:19px 24px"/>
+                      <path d="M15 33 C12 27, 12 19, 15 14" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave2 1.8s ease-out infinite;transform-origin:15px 24px"/>
+                      <path d="M11 35 C7 27, 7 17, 11 11" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation:wave3 1.8s ease-out infinite;transform-origin:11px 24px"/>
+                    </g>
+                  </svg>
+                </div>
+                <span style="font-size:10px;font-weight:700;color:#4CAF50;letter-spacing:-0.5px;line-height:1;">Online Now!</span>
+              </div>
               <br>
               <div>Last Login:<br><span id="lastLogin"></span></div>
             </div>
@@ -791,7 +843,7 @@ body.sun-mode {
 
         <!-- Contacting Kyle (orange header like screenshot) -->
         <div class="ms-box">
-          <div class="ms-box-header-orange">Contacting Kyle</div>
+          <div class="ms-box-header-lightblue">Contacting Kyle</div>
           <div class="ms-box-body">
             <div class="ms-contact-grid">
               <div class="ms-contact-item">
@@ -855,7 +907,7 @@ body.sun-mode {
 
         <!-- Kyle's Interests -->
         <div class="ms-box">
-          <div class="ms-box-header-orange">Kyle's Interests</div>
+          <div class="ms-box-header-lightblue">Kyle's Interests</div>
           <div class="ms-box-body" style="padding:0;">
             <table class="ms-interest-table">
               <tr>
@@ -888,7 +940,7 @@ body.sun-mode {
 
         <!-- Kyle's Details -->
         <div class="ms-box">
-          <div class="ms-box-header-orange">Kyle's Details</div>
+          <div class="ms-box-header-lightblue">Kyle's Details</div>
           <div class="ms-box-body" style="padding:0;">
             <table class="ms-interest-table">
               <tr>
@@ -901,7 +953,7 @@ body.sun-mode {
               </tr>
               <tr>
                 <td class="ms-interest-label">Hometown:</td>
-                <td class="ms-interest-value">Rhode Island</td>
+                <td class="ms-interest-value">Lompoc, Ca</td>
               </tr>
               <tr>
                 <td class="ms-interest-label">Body Type:</td>
@@ -925,19 +977,19 @@ body.sun-mode {
 
         <!-- Kyle's Schools -->
         <div class="ms-box">
-          <div class="ms-box-header-orange">Kyle's Schools</div>
+          <div class="ms-box-header-lightblue">Kyle's Schools</div>
           <div class="ms-box-body">
             <div class="ms-school-entry">
               <div class="ms-school-name">California State University, Northridge</div>
               <div class="ms-school-detail">B.S. Exercise Physiology &mdash; Class of 2013</div>
             </div>
             <div class="ms-school-entry">
-              <div class="ms-school-name">University of Rhode Island</div>
-              <div class="ms-school-detail">Kinesiology (Transferred) &mdash; 2008&ndash;2010</div>
+              <div class="ms-school-name">Lompoc High School</div>
+              <div class="ms-school-detail">Class of 2009</div>
             </div>
             <div class="ms-school-entry">
               <div class="ms-school-name">The School of Hard Knocks</div>
-              <div class="ms-school-detail">Bootstrapping 101 &mdash; 2019&ndash;Present</div>
+              <div class="ms-school-detail">Bootstrapping 101 &mdash; 1990&ndash;Present</div>
             </div>
           </div>
         </div>
@@ -949,7 +1001,7 @@ body.sun-mode {
 
         <!-- Network Banner -->
         <div class="ms-network-banner">
-          Kyle is in your extended network
+          Kyle is building the AI front office for home service contractors.
         </div>
 
         <!-- Blog Entries (plain text style like screenshot) -->
@@ -959,13 +1011,13 @@ body.sun-mode {
           </div>
           <hr class="ms-hr">
           <div class="ms-blog-entry">
-            <a href="https://www.youtube.com/@kylethumm" target="_blank">Road to 60 Deals/Month</a> &nbsp;(<a href="https://www.youtube.com/@kylethumm" target="_blank">view more</a>)
+            Road to 60 Deals/Month &nbsp;(<a href="https://www.youtube.com/@kylethumm" target="_blank">view more</a>)
           </div>
           <div class="ms-blog-entry">
-            <a href="https://usehandled.ai" target="_blank">Building handled.</a> &nbsp;(<a href="https://usehandled.ai" target="_blank">view more</a>)
+            Building handled. &nbsp;(<a href="https://usehandled.ai" target="_blank">view more</a>)
           </div>
           <div class="ms-blog-entry">
-            <a href="https://solargrade.co" target="_blank">SolarGrade Launch</a> &nbsp;(<a href="https://solargrade.co" target="_blank">view more</a>)
+            SolarGrade: Why I Built a Review Platform for Solar &nbsp;(<a href="https://solargrade.co" target="_blank">view more</a>)
           </div>
           <br>
           <div class="ms-blog-viewall">[<a href="https://www.youtube.com/@kylethumm" target="_blank">View All Blog Entries</a>]</div>
@@ -975,7 +1027,7 @@ body.sun-mode {
 
         <!-- Kyle's Blurbs -->
         <div class="ms-box">
-          <div class="ms-box-header-orange">Kyle's Blurbs</div>
+          <div class="ms-box-header-tan">Kyle's Blurbs</div>
           <div class="ms-box-body">
             <div class="ms-blurb-section">
               <div class="ms-blurb-label">About me:</div>
@@ -1006,27 +1058,31 @@ body.sun-mode {
 
         <!-- Kyle's Friend Space -->
         <div class="ms-box">
-          <div class="ms-box-header-orange">Kyle's Friend Space</div>
+          <div class="ms-box-header-tan">Kyle's Friend Space</div>
           <div class="ms-box-body">
-            <div class="ms-friends-count">Kyle has <span>4,832</span> Friends</div>
+            <div class="ms-friends-count">Kyle has <span>5,183</span> Friends</div>
             <div class="ms-friends-grid">
               <a class="ms-friend-card" href="https://usehandled.ai" target="_blank">
-                <div class="ms-friend-emoji">&#129302;</div>
+                <img src="handled.png" alt="handled." class="ms-friend-img"
+                     onerror="this.outerHTML='<div class=&quot;ms-friend-emoji&quot;>&#129302;</div>'">
                 <div class="ms-friend-name">handled.</div>
                 <div class="ms-friend-desc">AI Platform</div>
               </a>
               <a class="ms-friend-card" href="https://solargrade.co" target="_blank">
-                <div class="ms-friend-emoji">&#9728;&#65039;</div>
+                <img src="solargrade.png" alt="SolarGrade" class="ms-friend-img"
+                     onerror="this.outerHTML='<div class=&quot;ms-friend-emoji&quot;>&#9728;&#65039;</div>'">
                 <div class="ms-friend-name">SolarGrade</div>
                 <div class="ms-friend-desc">Reviews</div>
               </a>
               <a class="ms-friend-card" href="https://www.youtube.com/@kylethumm" target="_blank">
-                <div class="ms-friend-emoji">&#127908;</div>
-                <div class="ms-friend-name">Solar Growth Podcast</div>
-                <div class="ms-friend-desc">323K views</div>
+                <img src="sgp.png" alt="Solar Growth" class="ms-friend-img"
+                     onerror="this.outerHTML='<div class=&quot;ms-friend-emoji&quot;>&#127908;</div>'">
+                <div class="ms-friend-name">Solar Growth</div>
+                <div class="ms-friend-desc">FB Group</div>
               </a>
               <a class="ms-friend-card" href="https://rooftoppowerco.com" target="_blank">
-                <div class="ms-friend-emoji">&#127968;</div>
+                <img src="rtp.png" alt="Rooftop Power Co" class="ms-friend-img"
+                     onerror="this.outerHTML='<div class=&quot;ms-friend-emoji&quot;>&#127968;</div>'">
                 <div class="ms-friend-name">Rooftop Power Co</div>
                 <div class="ms-friend-desc">Solar/HVAC</div>
               </a>
@@ -1046,10 +1102,11 @@ body.sun-mode {
                 <div class="ms-friend-name">Poppy</div>
                 <div class="ms-friend-desc">Golden, 9</div>
               </a>
-              <a class="ms-friend-card" href="#" id="famCard" onclick="event.preventDefault();showEasterBanner();">
-                <div class="ms-friend-emoji">&#128104;&#8205;&#128105;&#8205;&#128102;&#8205;&#128102;</div>
-                <div class="ms-friend-name">The Fam</div>
-                <div class="ms-friend-desc">W, L, C</div>
+              <a class="ms-friend-card" href="#" id="famCard" onclick="event.preventDefault();">
+                <img src="tom.jpeg" alt="Tom" class="ms-friend-img"
+                     onerror="this.outerHTML='<div class=&quot;ms-friend-emoji&quot;>&#128075;</div>'">
+                <div class="ms-friend-name">Tom</div>
+                <div class="ms-friend-desc">MySpace</div>
               </a>
             </div>
             <div><a href="https://www.linkedin.com/in/kylethumm" target="_blank" class="ms-view-all">View All of Kyle's Friends</a></div>
@@ -1058,7 +1115,7 @@ body.sun-mode {
 
         <!-- Kyle's Friends Comments -->
         <div class="ms-box" id="guestbook">
-          <div class="ms-box-header-orange">Kyle's Friends Comments</div>
+          <div class="ms-box-header-tan">Kyle's Friends Comments</div>
           <div class="ms-box-body" style="padding:0;">
             <!-- Visitor comments injected here -->
             <div id="visitorComments"></div>
