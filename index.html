@@ -10,25 +10,25 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   background: #fff;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
   color: #000;
   line-height: 1.4;
 }
-a { color: #003366; text-decoration: underline; }
-a:hover { color: #FF5A00; }
+a { color: #0000FF; text-decoration: underline; }
+a:visited { color: #551A8B; }
+a:hover { color: #0000FF; }
 img { border: 0; }
 table { border-collapse: collapse; }
 input, textarea, button, select {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
 }
 
 /* ── TOP NAV BAR ── */
 .ms-topnav {
-  background: #e2e2e2;
-  border-bottom: 1px solid #ccc;
-  padding: 5px 10px;
+  background: #003399;
+  padding: 4px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,20 +42,20 @@ input, textarea, button, select {
   white-space: nowrap;
 }
 .ms-topnav-logo {
-  color: #003366;
-  font-size: 12px;
+  color: #fff;
+  font-size: 13px;
   font-weight: bold;
   text-decoration: none;
 }
-.ms-topnav-logo:hover { color: #003366; text-decoration: underline; }
+.ms-topnav-logo:hover { color: #fff; text-decoration: underline; }
 .ms-topnav-sep {
-  color: #666;
-  font-size: 10px;
+  color: #fff;
+  font-size: 11px;
   margin: 0 4px;
 }
 .ms-topnav-link {
-  color: #003366;
-  font-size: 10px;
+  color: #fff;
+  font-size: 11px;
   text-decoration: underline;
 }
 .ms-topnav-center {
@@ -64,7 +64,7 @@ input, textarea, button, select {
   gap: 4px;
 }
 .ms-topnav-center label {
-  color: #000;
+  color: #fff;
   font-size: 10px;
   cursor: pointer;
   white-space: nowrap;
@@ -76,7 +76,7 @@ input, textarea, button, select {
 .ms-search-input {
   border: 1px solid #999;
   padding: 1px 3px;
-  font-size: 10px;
+  font-size: 11px;
   width: 120px;
   background: #fff;
 }
@@ -84,7 +84,7 @@ input, textarea, button, select {
   background: #ddd;
   border: 1px solid #999;
   padding: 1px 8px;
-  font-size: 10px;
+  font-size: 11px;
   cursor: pointer;
   color: #000;
 }
@@ -96,18 +96,19 @@ input, textarea, button, select {
   white-space: nowrap;
 }
 .ms-topnav-right a {
-  color: #003366;
-  font-size: 10px;
+  color: #fff;
+  font-size: 11px;
 }
 .ms-topnav-right .sep {
-  color: #666;
-  font-size: 10px;
+  color: #fff;
+  font-size: 11px;
   margin: 0 4px;
 }
 
 /* ── SECONDARY NAV BAR ── */
 .ms-subnav {
-  background: #003366;
+  background: #003399;
+  border-top: 1px solid #4466AA;
   padding: 3px 10px;
   display: flex;
   align-items: center;
@@ -127,7 +128,7 @@ input, textarea, button, select {
   text-decoration: underline;
 }
 .ms-subnav-sep {
-  color: #6699cc;
+  color: #6699CC;
   font-size: 10px;
   padding: 0 1px;
 }
@@ -143,7 +144,7 @@ input, textarea, button, select {
   border-spacing: 0;
 }
 .ms-left-col {
-  width: 280px;
+  width: 240px;
   vertical-align: top;
   padding-right: 10px;
 }
@@ -159,17 +160,17 @@ input, textarea, button, select {
   margin-bottom: 6px;
 }
 .ms-box-header-orange {
-  background: linear-gradient(to bottom, #ffa64d, #ff8800);
+  background: #4272A4;
   color: #fff;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   padding: 3px 6px;
 }
 .ms-box-header-blue {
-  background: linear-gradient(to bottom, #4a7da8, #3a6a92);
+  background: #4272A4;
   color: #fff;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   padding: 3px 6px;
 }
 .ms-box-body {
@@ -178,7 +179,7 @@ input, textarea, button, select {
 
 /* ── PROFILE NAME ── */
 .ms-profile-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #000;
   padding: 6px 0 4px 0;
@@ -199,21 +200,21 @@ input, textarea, button, select {
   cursor: pointer;
 }
 .ms-profile-info {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.6;
   color: #000;
 }
 .ms-profile-info .quote {
-  font-size: 10px;
+  font-size: 11px;
   color: #000;
   margin-bottom: 8px;
 }
 .ms-profile-viewlinks {
   margin-top: 4px;
-  font-size: 10px;
+  font-size: 11px;
 }
 .ms-profile-viewlinks a {
-  color: #003366;
+  color: #0000FF;
 }
 
 /* ── CONTACT BOX ── */
@@ -227,11 +228,12 @@ input, textarea, button, select {
   align-items: center;
   gap: 3px;
   padding: 2px 3px;
-  font-size: 10px;
+  font-size: 11px;
   position: relative;
 }
 .ms-contact-item a {
-  font-size: 10px;
+  font-size: 11px;
+  color: #0000FF;
 }
 .ms-contact-icon {
   font-size: 11px;
@@ -244,7 +246,7 @@ input, textarea, button, select {
 .ms-tooltip {
   cursor: help;
   text-decoration: underline dotted;
-  color: #003366;
+  color: #0000FF;
   position: relative;
 }
 .ms-tooltip:hover .ms-tooltip-text {
@@ -256,11 +258,11 @@ input, textarea, button, select {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #333;
-  color: #fff;
+  background: #FFFFCC;
+  color: #000;
   padding: 4px 8px;
-  border-radius: 3px;
-  font-size: 9px;
+  border: 1px solid #000;
+  font-size: 10px;
   white-space: nowrap;
   z-index: 50;
   font-style: normal;
@@ -272,10 +274,10 @@ input, textarea, button, select {
   border: 2px solid #000;
   padding: 4px 6px;
   margin-bottom: 6px;
-  font-size: 10px;
+  font-size: 11px;
   word-break: break-all;
 }
-.ms-url-box a { color: #003366; }
+.ms-url-box a { color: #0000FF; }
 
 /* ── MUSIC PLAYER ── */
 .ms-player {
@@ -292,7 +294,6 @@ input, textarea, button, select {
   height: 24px;
   background: #fff;
   border: 1px solid #999;
-  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -307,21 +308,21 @@ input, textarea, button, select {
 }
 .ms-player-title {
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   color: #000;
 }
 .ms-player-artist {
-  font-size: 9px;
+  font-size: 10px;
   color: #666;
 }
 .ms-player-links {
-  font-size: 9px;
+  font-size: 10px;
   color: #999;
 }
 .ms-player-links a {
-  color: #999;
-  text-decoration: none;
-  font-size: 9px;
+  color: #0000FF;
+  text-decoration: underline;
+  font-size: 10px;
 }
 .ms-player-links a:hover { text-decoration: line-through; }
 
@@ -333,13 +334,13 @@ input, textarea, button, select {
 .ms-interest-table td {
   border: 1px solid #ccc;
   padding: 3px 5px;
-  font-size: 10px;
+  font-size: 11px;
   vertical-align: top;
 }
 .ms-interest-label {
   background: #b3ccdf;
   font-weight: bold;
-  width: 70px;
+  width: 80px;
   color: #000;
 }
 .ms-interest-value {
@@ -347,19 +348,18 @@ input, textarea, button, select {
 }
 .ms-heroes-hidden {
   color: transparent;
-  transition: color 0.3s;
 }
 .ms-heroes-hidden:hover {
-  color: #FF5A00;
+  color: #FF6600;
 }
 
 /* ── NETWORK BANNER ── */
 .ms-network-banner {
   background: #fff;
-  border: 1px solid #b0b0b0;
+  border: 2px solid #000;
   padding: 8px;
   text-align: center;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   color: #000;
   margin-bottom: 6px;
@@ -368,13 +368,14 @@ input, textarea, button, select {
 /* ── BLOG SECTION ── */
 .ms-blog-header {
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   color: #000;
   margin-bottom: 4px;
 }
 .ms-blog-header a {
   font-weight: normal;
-  font-size: 10px;
+  font-size: 11px;
+  color: #0000FF;
 }
 .ms-blog-list {
   margin-bottom: 8px;
@@ -382,14 +383,15 @@ input, textarea, button, select {
 }
 .ms-blog-entry {
   padding: 2px 0;
-  font-size: 10px;
+  font-size: 11px;
   color: #000;
 }
 .ms-blog-entry a {
-  font-size: 10px;
+  font-size: 11px;
+  color: #0000FF;
 }
 .ms-blog-viewall {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
 }
 
@@ -399,20 +401,23 @@ input, textarea, button, select {
 }
 .ms-blurb-label {
   font-weight: bold;
-  color: #FF5A00;
-  font-size: 10px;
+  color: #FF6600;
+  font-size: 11px;
   margin-bottom: 2px;
 }
 .ms-blurb-text {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
   color: #000;
   margin-bottom: 6px;
 }
+.ms-blurb-text a {
+  color: #0000FF;
+}
 
 /* ── FRIENDS GRID ── */
 .ms-friends-count {
-  font-size: 10px;
+  font-size: 11px;
   margin-bottom: 4px;
 }
 .ms-friends-count span {
@@ -431,14 +436,11 @@ input, textarea, button, select {
   border: 1px solid #ddd;
   background: #fff;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
   text-decoration: none;
   color: #000;
   display: block;
 }
 .ms-friend-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   color: #000;
 }
 .ms-friend-emoji {
@@ -455,18 +457,18 @@ input, textarea, button, select {
 }
 .ms-friend-name {
   font-weight: bold;
-  font-size: 9px;
-  color: #003366;
+  font-size: 10px;
+  color: #0000FF;
   margin-bottom: 1px;
 }
 .ms-friend-desc {
-  font-size: 8px;
+  font-size: 9px;
   color: #666;
 }
 .ms-view-all {
-  color: #ff0000;
+  color: #0000FF;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 /* ── COMMENTS ── */
@@ -496,16 +498,16 @@ input, textarea, button, select {
 }
 .ms-comment-name {
   font-weight: bold;
-  font-size: 10px;
-  color: #003366;
+  font-size: 11px;
+  color: #0000FF;
 }
 .ms-comment-date {
-  font-size: 9px;
+  font-size: 10px;
   color: #999;
   margin-left: 4px;
 }
 .ms-comment-text {
-  font-size: 10px;
+  font-size: 11px;
   color: #000;
   line-height: 1.4;
   margin-top: 1px;
@@ -514,22 +516,22 @@ input, textarea, button, select {
 /* ── GUESTBOOK FORM ── */
 .ms-guestbook-form {
   padding: 6px;
-  background: #f5f5f5;
+  background: #fff;
   border-top: 1px solid #ccc;
 }
 .ms-guestbook-form label {
   display: block;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   margin-bottom: 1px;
-  color: #003366;
+  color: #000;
 }
 .ms-guestbook-form input[type="text"],
 .ms-guestbook-form textarea {
   width: 100%;
   border: 1px solid #999;
   padding: 2px 3px;
-  font-size: 10px;
+  font-size: 11px;
   margin-bottom: 4px;
 }
 .ms-guestbook-form textarea {
@@ -537,15 +539,15 @@ input, textarea, button, select {
   resize: vertical;
 }
 .ms-guestbook-submit {
-  background: linear-gradient(to bottom, #ffa64d, #ff8800);
-  color: #fff;
-  border: 1px solid #cc6600;
+  background: #ddd;
+  color: #000;
+  border: 1px solid #999;
   padding: 3px 12px;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   cursor: pointer;
 }
-.ms-guestbook-submit:hover { background: #ff9933; }
+.ms-guestbook-submit:hover { background: #ccc; }
 .ms-guestbook-confirm {
   display: none;
   background: #dff0d8;
@@ -553,7 +555,7 @@ input, textarea, button, select {
   color: #3c763d;
   padding: 4px 6px;
   margin-top: 4px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
 }
 
@@ -568,15 +570,16 @@ input, textarea, button, select {
   margin-bottom: 6px;
 }
 .ms-footer-links a {
-  font-size: 10px;
+  font-size: 11px;
   margin: 0 4px;
+  color: #0000FF;
 }
 .ms-footer-copy {
-  font-size: 9px;
+  font-size: 10px;
   color: #666;
 }
 .ms-footer-real {
-  font-size: 8px;
+  font-size: 9px;
   color: #999;
   margin-top: 2px;
 }
@@ -589,17 +592,16 @@ input, textarea, button, select {
   left: 0;
   right: 0;
   z-index: 9999;
-  background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
-  color: #333;
+  background: #FFFFCC;
+  color: #000;
   text-align: center;
   padding: 10px 16px;
   font-size: 12px;
   font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  animation: bannerSlide 0.4s ease-out;
+  border-bottom: 2px solid #000;
 }
 .ms-easter-banner a {
-  color: #003366;
+  color: #0000FF;
   font-weight: bold;
 }
 .ms-easter-banner .close-banner {
@@ -609,14 +611,10 @@ input, textarea, button, select {
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 14px;
-  color: #666;
+  color: #000;
   background: none;
   border: none;
   font-weight: bold;
-}
-@keyframes bannerSlide {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
 }
 
 /* ── HIDDEN YOUTUBE PLAYER ── */
@@ -638,11 +636,11 @@ input, textarea, button, select {
 .ms-school-entry:last-child { border-bottom: none; }
 .ms-school-name {
   font-weight: bold;
-  color: #003366;
-  font-size: 10px;
+  color: #0000FF;
+  font-size: 11px;
 }
 .ms-school-detail {
-  font-size: 9px;
+  font-size: 10px;
   color: #666;
 }
 
