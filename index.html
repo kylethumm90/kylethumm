@@ -985,39 +985,35 @@ body.sun-mode {
             <div class="ms-contact-grid">
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#9993;</span>
-                <a href="mailto:kyle@usehandled.ai">Send Message</a>
+                <a href="#" onclick="event.preventDefault();openContactModal();">Send Message</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#10140;</span>
-                <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Forward to Friend</a>
+                <a href="#" onclick="event.preventDefault();">Forward to Friend</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#10133;</span>
-                <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Add to Friends</a>
+                <a href="#" onclick="event.preventDefault();openContactModal('Just saying what\'s up');">Add to Friends</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#9733;</span>
-                <a href="#guestbook">Add to Favorites</a>
+                <a href="#" onclick="event.preventDefault();">Add to Favorites</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#128172;</span>
-                <a href="https://www.facebook.com/groups/aiautomationshomeservices" target="_blank">Instant Message</a>
+                <a href="#" onclick="event.preventDefault();openContactModal();">Instant Message</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#128683;</span>
-                <span class="ms-tooltip">Block User
-                  <span class="ms-tooltip-text">You can't block Kyle. Kyle blocks you.</span>
-                </span>
+                <a href="#" onclick="event.preventDefault();">Block User</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#128101;</span>
-                <a href="https://www.facebook.com/groups/aiautomationshomeservices" target="_blank">Add to Group</a>
+                <a href="#" onclick="event.preventDefault();">Add to Group</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#11088;</span>
-                <span class="ms-tooltip">Rank User
-                  <span class="ms-tooltip-text">11/10 would recommend</span>
-                </span>
+                <a href="#" onclick="event.preventDefault();">Rank User</a>
               </div>
             </div>
           </div>
@@ -1547,7 +1543,20 @@ function closeEasterBanner() {
   document.body.classList.remove('sun-mode');
 }
 
-// ── Contact Modal ──
+// ── Contact Modal (global opener for onclick handlers) ──
+function openContactModal(preselect) {
+  if (preselect) {
+    var topicEl = document.getElementById('cmTopic');
+    for (var i = 0; i < topicEl.options.length; i++) {
+      if (topicEl.options[i].value === preselect) {
+        topicEl.selectedIndex = i;
+        break;
+      }
+    }
+  }
+  document.getElementById('contactModal').classList.add('active');
+}
+
 (function() {
   var nameEl = document.getElementById('cmName');
   var emailEl = document.getElementById('cmEmail');
