@@ -734,44 +734,6 @@ body.sun-mode {
 }
 </style>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script>
-  // ══════════════════════════════════════════════════════════
-  // FIREBASE CONFIG — Replace with your Firebase project keys
-  // 1. Go to https://console.firebase.google.com
-  // 2. Create a new project (or use existing)
-  // 3. Add a Web app
-  // 4. Copy your config values below
-  // 5. In Firestore, create a database and set rules to:
-  //    rules_version = '2';
-  //    service cloud.firestore {
-  //      match /databases/{database}/documents {
-  //        match /guestbook/{comment} {
-  //          allow read: if true;
-  //          allow create: if request.resource.data.keys().hasAll(['name','text','date','createdAt'])
-  //                        && request.resource.data.name is string
-  //                        && request.resource.data.name.size() > 0
-  //                        && request.resource.data.name.size() <= 50
-  //                        && request.resource.data.text is string
-  //                        && request.resource.data.text.size() > 0
-  //                        && request.resource.data.text.size() <= 500;
-  //        }
-  //      }
-  //    }
-  // ══════════════════════════════════════════════════════════
-  var firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
-  var db = firebase.firestore();
-</script>
 </head>
 <body>
 
@@ -1316,8 +1278,52 @@ body.sun-mode {
     }
   });
 
-  // ── Guestbook / Comments (Firebase Firestore) ──
-  var GUESTBOOK_COLLECTION = 'guestbook';
+  // ── Guestbook / Comments (Google Sheets + Apps Script) ──
+  // ═══════════════════════════════════════════════════════════
+  // SETUP INSTRUCTIONS:
+  //
+  // 1. Create a new Google Sheet
+  // 2. Add headers in Row 1: Name | Message | Date
+  // 3. Go to Extensions > Apps Script
+  // 4. Delete any code there and paste this:
+  //
+  //    function doGet() {
+  //      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  //      var data = sheet.getDataRange().getValues();
+  //      var comments = [];
+  //      for (var i = 1; i < data.length; i++) {
+  //        comments.push({ name: data[i][0], text: data[i][1], date: data[i][2] });
+  //      }
+  //      comments.reverse();
+  //      return ContentService.createTextOutput(JSON.stringify(comments))
+  //        .setMimeType(ContentService.MimeType.JSON);
+  //    }
+  //
+  //    function doPost(e) {
+  //      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  //      var params = JSON.parse(e.postData.contents);
+  //      var name = (params.name || '').substring(0, 50);
+  //      var text = (params.text || '').substring(0, 500);
+  //      if (!name || !text) {
+  //        return ContentService.createTextOutput(JSON.stringify({error:'Missing fields'}))
+  //          .setMimeType(ContentService.MimeType.JSON);
+  //      }
+  //      var d = new Date();
+  //      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  //      var dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  //      sheet.appendRow([name, text, dateStr]);
+  //      return ContentService.createTextOutput(JSON.stringify({success:true}))
+  //        .setMimeType(ContentService.MimeType.JSON);
+  //    }
+  //
+  // 5. Click Deploy > New deployment
+  // 6. Type: Web app
+  //    Execute as: Me
+  //    Who has access: Anyone
+  // 7. Click Deploy, authorize when prompted
+  // 8. Copy the Web app URL and paste it below:
+  // ═══════════════════════════════════════════════════════════
+  var APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
 
   function hashName(name) {
     var emojis = [
@@ -1352,20 +1358,19 @@ body.sun-mode {
     return div;
   }
 
-  // Load comments from Firestore in real-time
-  function listenForComments() {
-    var container = document.getElementById('visitorComments');
-    db.collection(GUESTBOOK_COLLECTION)
-      .orderBy('createdAt', 'desc')
-      .limit(50)
-      .onSnapshot(function(snapshot) {
+  function loadComments() {
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+    fetch(APPS_SCRIPT_URL)
+      .then(function(res) { return res.json(); })
+      .then(function(comments) {
+        var container = document.getElementById('visitorComments');
         container.innerHTML = '';
-        snapshot.forEach(function(doc) {
-          var c = doc.data();
+        comments.forEach(function(c) {
           container.appendChild(renderComment(c));
         });
-      }, function(error) {
-        console.warn('Firestore listener error:', error);
+      })
+      .catch(function(err) {
+        console.warn('Failed to load comments:', err);
       });
   }
 
@@ -1375,21 +1380,22 @@ body.sun-mode {
     var name = nameInput.value.trim();
     var msg = msgInput.value.trim();
     if (!name || !msg) return;
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+      alert('Guestbook not configured yet. See setup instructions in the source code.');
+      return;
+    }
 
     var btn = document.getElementById('guestSubmit');
     btn.disabled = true;
     btn.textContent = 'Posting...';
 
-    var d = new Date();
-    var monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var dateStr = monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-
-    db.collection(GUESTBOOK_COLLECTION).add({
-      name: name,
-      text: msg,
-      date: dateStr,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ name: name, text: msg }),
+      headers: { 'Content-Type': 'text/plain' }
+    })
+    .then(function(res) { return res.json(); })
+    .then(function() {
       nameInput.value = '';
       msgInput.value = '';
       btn.disabled = false;
@@ -1398,16 +1404,19 @@ body.sun-mode {
       var confirmEl = document.getElementById('guestConfirm');
       confirmEl.style.display = 'block';
       setTimeout(function() { confirmEl.style.display = 'none'; }, 3000);
-    }).catch(function(error) {
-      console.error('Error posting comment:', error);
+
+      loadComments();
+    })
+    .catch(function(err) {
+      console.error('Error posting comment:', err);
       btn.disabled = false;
       btn.textContent = 'Submit';
       alert('Failed to post comment. Please try again.');
     });
   });
 
-  // Start listening for comments
-  listenForComments();
+  // Load existing comments on page load
+  loadComments();
 
 })();
 
