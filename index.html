@@ -1391,10 +1391,9 @@ body.sun-mode {
 
     fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      body: JSON.stringify({ name: name, text: msg }),
-      headers: { 'Content-Type': 'text/plain' }
+      mode: 'no-cors',
+      body: JSON.stringify({ name: name, text: msg })
     })
-    .then(function(res) { return res.json(); })
     .then(function() {
       nameInput.value = '';
       msgInput.value = '';
@@ -1405,7 +1404,8 @@ body.sun-mode {
       confirmEl.style.display = 'block';
       setTimeout(function() { confirmEl.style.display = 'none'; }, 3000);
 
-      loadComments();
+      // Small delay to let the sheet update before reloading
+      setTimeout(function() { loadComments(); }, 2000);
     })
     .catch(function(err) {
       console.error('Error posting comment:', err);
