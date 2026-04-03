@@ -1389,11 +1389,12 @@ body.sun-mode {
     btn.disabled = true;
     btn.textContent = 'Posting...';
 
-    fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify({ name: name, text: msg })
-    })
+    var postURL = APPS_SCRIPT_URL
+      + '?name=' + encodeURIComponent(name)
+      + '&text=' + encodeURIComponent(msg);
+
+    fetch(postURL)
+    .then(function(res) { return res.json(); })
     .then(function() {
       nameInput.value = '';
       msgInput.value = '';
