@@ -406,6 +406,38 @@ input, textarea, button, select {
   font-size: 10px;
   font-weight: bold;
 }
+.ms-blog-date {
+  color: #555;
+  font-size: 10px;
+}
+#blogPostView {
+  font-size: 11px;
+  color: #000;
+  padding: 6px 4px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  margin-top: 6px;
+}
+#blogPostView h3 {
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  color: #003399;
+}
+#blogPostView .ms-blog-back {
+  font-size: 10px;
+  font-weight: bold;
+  display: block;
+  margin-top: 8px;
+}
+#blogPostView .ms-blog-body {
+  margin-top: 6px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+#blogPostView .ms-blog-body p { margin: 0 0 6px 0; }
+#blogPostView .ms-blog-body a { color: #003399; }
+#blogPostView .ms-blog-body img { max-width: 100%; height: auto; }
 
 /* ── BLURBS ── */
 .ms-blurb-section {
@@ -1005,23 +1037,18 @@ body.sun-mode {
           Kyle is building the AI front office for home service contractors.
         </div>
 
-        <!-- Blog Entries (plain text style like screenshot) -->
+        <!-- Blog Entries (loaded dynamically from GitHub Issues labeled "blog") -->
         <div style="margin-bottom:8px;">
           <div class="ms-blog-header">
-            Kyle's Latest Blog Entry [<a href="#">Subscribe to this Blog</a>]
+            Kyle's Latest Blog Entries [<a href="https://github.com/kylethumm90/kylethumm/issues?q=is%3Aissue+label%3Ablog" target="_blank">Subscribe to this Blog</a>]
           </div>
           <hr class="ms-hr">
-          <div class="ms-blog-entry">
-            Road to 60 Deals/Month &nbsp;(<a href="https://www.youtube.com/@kylethumm" target="_blank">view more</a>)
+          <div id="blogList">
+            <div class="ms-blog-entry" id="blogLoading">Loading latest posts...</div>
           </div>
-          <div class="ms-blog-entry">
-            Building handled. &nbsp;(<a href="https://usehandled.ai" target="_blank">view more</a>)
-          </div>
-          <div class="ms-blog-entry">
-            SolarGrade: Why I Built a Review Platform for Solar &nbsp;(<a href="https://solargrade.co" target="_blank">view more</a>)
-          </div>
+          <div id="blogPostView" style="display:none;"></div>
           <br>
-          <div class="ms-blog-viewall">[<a href="https://www.youtube.com/@kylethumm" target="_blank">View All Blog Entries</a>]</div>
+          <div class="ms-blog-viewall">[<a href="https://github.com/kylethumm90/kylethumm/issues?q=is%3Aissue+label%3Ablog" target="_blank">View All Blog Entries</a>]</div>
         </div>
 
         <hr class="ms-hr">
@@ -1418,6 +1445,126 @@ body.sun-mode {
 
   // Load existing comments on page load
   loadComments();
+
+  // ── Blog: load posts from GitHub Issues labeled "blog" ──
+  var BLOG_REPO = 'kylethumm90/kylethumm';
+  var BLOG_LABEL = 'blog';
+  var blogListEl = document.getElementById('blogList');
+  var blogPostEl = document.getElementById('blogPostView');
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function formatDate(iso) {
+    var d = new Date(iso);
+    return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
+  }
+
+  // Minimal markdown → HTML (headings, bold, italic, code, links, line breaks)
+  function renderMarkdown(md) {
+    var html = escapeHtml(md || '');
+    html = html.replace(/```([\s\S]*?)```/g, function(_, code) {
+      return '<pre style="background:#f4f4f4;padding:4px;overflow:auto;">' + code + '</pre>';
+    });
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/^### (.*)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^## (.*)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^# (.*)$/gm, '<h3>$1</h3>');
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+    html = html.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<i>$2</i>');
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    html = html.split(/\n{2,}/).map(function(p) {
+      return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+    }).join('');
+    return html;
+  }
+
+  function showList(posts) {
+    blogPostEl.style.display = 'none';
+    blogListEl.style.display = 'block';
+    if (!posts || posts.length === 0) {
+      blogListEl.innerHTML = '<div class="ms-blog-entry">No posts yet. Check back soon.</div>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < Math.min(posts.length, 5); i++) {
+      var p = posts[i];
+      html += '<div class="ms-blog-entry">' +
+        '<a href="#blog-' + p.number + '" data-blog-id="' + p.number + '">' +
+        escapeHtml(p.title) + '</a> ' +
+        '<span class="ms-blog-date">' + formatDate(p.created_at) + '</span>' +
+        '</div>';
+    }
+    blogListEl.innerHTML = html;
+    var links = blogListEl.querySelectorAll('a[data-blog-id]');
+    for (var j = 0; j < links.length; j++) {
+      links[j].addEventListener('click', function(e) {
+        e.preventDefault();
+        var id = this.getAttribute('data-blog-id');
+        var post = null;
+        for (var k = 0; k < posts.length; k++) {
+          if (String(posts[k].number) === String(id)) { post = posts[k]; break; }
+        }
+        if (post) showPost(post);
+      });
+    }
+  }
+
+  function showPost(post) {
+    blogListEl.style.display = 'none';
+    blogPostEl.style.display = 'block';
+    blogPostEl.innerHTML =
+      '<h3>' + escapeHtml(post.title) + '</h3>' +
+      '<div class="ms-blog-date">Posted ' + formatDate(post.created_at) + '</div>' +
+      '<div class="ms-blog-body">' + renderMarkdown(post.body) + '</div>' +
+      '<a class="ms-blog-back" href="#blog">&laquo; Back to all entries</a>' +
+      ' &nbsp;<a class="ms-blog-back" style="display:inline;" href="' +
+      escapeHtml(post.html_url) + '" target="_blank">Comment on GitHub &raquo;</a>';
+    var back = blogPostEl.querySelector('.ms-blog-back');
+    back.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.hash = '';
+      showList(window.__blogPosts || []);
+    });
+    window.scrollTo({ top: blogPostEl.offsetTop - 20, behavior: 'smooth' });
+  }
+
+  function loadBlog() {
+    var url = 'https://api.github.com/repos/' + BLOG_REPO +
+      '/issues?labels=' + encodeURIComponent(BLOG_LABEL) +
+      '&state=open&sort=created&direction=desc&per_page=10';
+    fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } })
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(issues) {
+        // Filter out pull requests (GitHub returns PRs as issues too)
+        var posts = issues.filter(function(i) { return !i.pull_request; });
+        window.__blogPosts = posts;
+        showList(posts);
+        // Deep-link support: #blog-123
+        var m = window.location.hash.match(/^#blog-(\d+)$/);
+        if (m) {
+          for (var i = 0; i < posts.length; i++) {
+            if (String(posts[i].number) === m[1]) { showPost(posts[i]); break; }
+          }
+        }
+      })
+      .catch(function(err) {
+        blogListEl.innerHTML = '<div class="ms-blog-entry">Could not load posts (' +
+          escapeHtml(err.message) + ').</div>';
+      });
+  }
+
+  loadBlog();
 
 })();
 
