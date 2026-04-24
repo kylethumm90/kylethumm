@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/blog/:slug", "destination": "/index.html" },
+    { "source": "/rss.xml", "destination": "/api/rss" }
+  ]
+}
