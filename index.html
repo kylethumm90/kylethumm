@@ -615,6 +615,35 @@ input, textarea, button, select {
 .ms-friends-count span {
   color: #ff0000;
   font-weight: bold;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.ms-friends-count span.bump {
+  transform: scale(1.35);
+  color: #009900;
+}
+.ms-friend-status {
+  font-size: 10px;
+  margin-left: 4px;
+  display: none;
+  align-items: center;
+  gap: 3px;
+  vertical-align: middle;
+}
+.ms-friend-status.is-visible { display: inline-flex; }
+.ms-friend-status.is-sent { color: #006600; font-weight: bold; }
+.ms-friend-status.is-done { color: #990000; font-weight: bold; }
+.ms-friend-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #cfd8e3;
+  border-top-color: #003366;
+  border-radius: 50%;
+  animation: msSpin 0.7s linear infinite;
+}
+@keyframes msSpin {
+  to { transform: rotate(360deg); }
 }
 .ms-friends-grid {
   display: grid;
@@ -1088,7 +1117,8 @@ body.sun-mode {
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#10133;</span>
-                <a href="https://www.linkedin.com/in/kylethumm" target="_blank">Add to Friends</a>
+                <a href="#" id="addFriendLink" onclick="sendFriendRequest(event)">Add to Friends</a>
+                <span id="addFriendStatus" class="ms-friend-status" aria-live="polite"></span>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#9733;</span>
@@ -1289,7 +1319,7 @@ body.sun-mode {
         <div class="ms-box">
           <div class="ms-box-header-tan">Kyle's Friend Space</div>
           <div class="ms-box-body">
-            <div class="ms-friends-count">Kyle has <span>5,183</span> Friends</div>
+            <div class="ms-friends-count">Kyle has <span id="friendCount">5,183</span> Friends</div>
             <div class="ms-friends-grid">
               <a class="ms-friend-card" href="https://usehandled.ai" target="_blank">
                 <img src="handled.png" alt="handled." class="ms-friend-img"
@@ -1835,6 +1865,57 @@ document.addEventListener('click', function(e) {
   var overlay = document.getElementById('contactModal');
   if (overlay && e.target === overlay) closeContactModal();
 });
+
+// ── Add to Friends (fake spinner + live counter) ──
+var friendClicks = 0;
+var friendBusy = false;
+var friendSentMessages = [
+  'Friend request sent!',
+  'Sent again!',
+  'Sent — we got it the first time.'
+];
+function formatFriendCount(n) {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function sendFriendRequest(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (friendBusy) return false;
+  friendBusy = true;
+  friendClicks++;
+
+  var status = document.getElementById('addFriendStatus');
+  var link = document.getElementById('addFriendLink');
+  status.className = 'ms-friend-status is-visible';
+  status.innerHTML = '<span class="ms-friend-spinner"></span><span>sending…</span>';
+  if (link) link.style.opacity = '0.5';
+
+  setTimeout(function() {
+    if (link) link.style.opacity = '';
+    if (friendClicks >= 4) {
+      status.className = 'ms-friend-status is-visible is-done';
+      status.textContent = friendClicks === 4
+        ? 'okay we get it 😅'
+        : 'seriously, we get it.';
+      friendBusy = false;
+      return;
+    }
+
+    var countEl = document.getElementById('friendCount');
+    if (countEl) {
+      var current = parseInt(countEl.textContent.replace(/,/g, ''), 10) || 0;
+      countEl.textContent = formatFriendCount(current + 1);
+      countEl.classList.add('bump');
+      setTimeout(function() { countEl.classList.remove('bump'); }, 250);
+    }
+
+    var msg = friendSentMessages[Math.min(friendClicks - 1, friendSentMessages.length - 1)];
+    status.className = 'ms-friend-status is-visible is-sent';
+    status.textContent = msg;
+    friendBusy = false;
+  }, 900);
+
+  return false;
+}
 </script>
 </body>
 </html>
