@@ -665,6 +665,102 @@ body.ms-no-scroll { overflow: hidden; }
 #blogPostView .ms-blog-body a { color: #003399; }
 #blogPostView .ms-blog-body img { max-width: 100%; height: auto; }
 
+/* ── FULL BLOG ROUTES (/blog, /blog/:slug) ── */
+.ms-blog-full-entry {
+  border-bottom: 1px dotted #b0b0b0;
+  padding: 8px 4px 10px 4px;
+}
+.ms-blog-full-entry:last-child { border-bottom: none; }
+.ms-blog-full-entry h3 {
+  font-size: 13px;
+  color: #003366;
+  margin: 0 0 2px 0;
+}
+.ms-blog-full-entry h3 a {
+  color: #003366;
+  text-decoration: none;
+}
+.ms-blog-full-entry h3 a:hover { text-decoration: underline; color: #FF5A00; }
+.ms-blog-full-entry .ms-blog-date {
+  font-size: 9px;
+  color: #888;
+  display: block;
+  margin-bottom: 4px;
+}
+.ms-blog-full-entry .ms-blog-excerpt {
+  font-size: 11px;
+  color: #333;
+  line-height: 1.5;
+}
+.ms-blog-full-post h2 {
+  font-size: 15px;
+  color: #003366;
+  margin: 0 0 2px 0;
+}
+.ms-blog-full-post .ms-blog-date {
+  font-size: 10px;
+  color: #888;
+  display: block;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ddd;
+}
+.ms-blog-full-post .ms-blog-body {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #000;
+}
+.ms-blog-full-post .ms-blog-body h3 {
+  font-size: 13px;
+  color: #003366;
+  margin: 10px 0 4px 0;
+}
+.ms-blog-full-post .ms-blog-body h4 {
+  font-size: 11px;
+  color: #003366;
+  margin: 8px 0 3px 0;
+}
+.ms-blog-full-post .ms-blog-body p { margin: 0 0 8px 0; }
+.ms-blog-full-post .ms-blog-body a { color: #003399; }
+.ms-blog-full-post .ms-blog-body img { max-width: 100%; height: auto; border: 1px solid #ccc; margin: 4px 0; }
+.ms-blog-full-post .ms-blog-body pre {
+  background: #f4f4f0;
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  overflow-x: auto;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.ms-blog-full-post .ms-blog-body code {
+  background: #f4f4f0;
+  border: 1px solid #ddd;
+  padding: 0 3px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+}
+.ms-blog-full-post .ms-blog-body pre code { border: 0; padding: 0; background: transparent; }
+.ms-blog-footer-nav {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dotted #b0b0b0;
+  font-size: 10px;
+}
+.ms-blog-footer-nav a { margin-right: 10px; }
+
+/* ── SUBSCRIBE MODAL (reuses contact-modal styles) ── */
+.ms-modal-overlay#subscribeModal.is-open { display: flex; }
+#subscribeModal .ms-modal { width: 380px; }
+#subscribeModal .ms-subscribe-copy {
+  font-size: 11px;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted #b0b0b0;
+}
+
 /* ── BLURBS ── */
 .ms-blurb-section {
   margin-bottom: 6px;
@@ -1014,6 +1110,32 @@ body.sun-mode {
   </div>
 </div>
 
+<!-- SUBSCRIBE MODAL -->
+<div class="ms-modal-overlay" id="subscribeModal" role="dialog" aria-modal="true" aria-labelledby="subscribeModalTitle">
+  <div class="ms-modal">
+    <div class="ms-modal-titlebar">
+      <span id="subscribeModalTitle">&#9993;&nbsp; Subscribe to Kyle's Blog</span>
+      <button type="button" class="ms-modal-close" aria-label="Close" onclick="closeSubscribeModal()">&times;</button>
+    </div>
+    <div class="ms-modal-body">
+      <div class="ms-subscribe-copy">
+        Be the first to hear Kyle's latest thoughts. No spam. Just occasional brain dumps about AI, home services, and whatever I'm building. Delivered straight to your inbox like it's 2006.
+      </div>
+      <form id="subscribeForm" onsubmit="return submitSubscribeForm(event);">
+        <div class="ms-form-row">
+          <label for="sfEmail">Email address</label>
+          <input type="email" id="sfEmail" name="email" maxlength="200" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="ms-form-actions">
+          <button type="button" class="ms-form-btn" onclick="closeSubscribeModal()">Cancel</button>
+          <button type="submit" class="ms-form-btn primary" id="sfSubmit">Subscribe</button>
+        </div>
+        <div class="ms-form-status" id="sfStatus"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- CONTACT MODAL (Send Kyle a Message) -->
 <div class="ms-modal-overlay" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
   <div class="ms-modal">
@@ -1318,6 +1440,7 @@ body.sun-mode {
 
       <!-- ═══════════ RIGHT COLUMN ═══════════ -->
       <td class="ms-right-col">
+        <div id="homeRightCol">
 
         <!-- Network Banner -->
         <div class="ms-network-banner">
@@ -1327,7 +1450,7 @@ body.sun-mode {
         <!-- Blog Entries (loaded dynamically from GitHub Issues labeled "blog") -->
         <div style="margin-bottom:8px;">
           <div class="ms-blog-header">
-            Kyle's Latest Blog Entries [<a href="https://github.com/kylethumm90/kylethumm/issues?q=is%3Aissue+label%3Ablog" target="_blank">Subscribe to this Blog</a>]
+            Kyle's Latest Blog Entries [<a href="#subscribe" onclick="openSubscribeModal(event)">Subscribe to this Blog</a>] [<a href="/rss.xml" target="_blank" rel="noopener">RSS</a>]
           </div>
           <hr class="ms-hr">
           <div id="blogList">
@@ -1335,7 +1458,7 @@ body.sun-mode {
           </div>
           <div id="blogPostView" style="display:none;"></div>
           <br>
-          <div class="ms-blog-viewall">[<a href="https://github.com/kylethumm90/kylethumm/issues?q=is%3Aissue+label%3Ablog" target="_blank">View All Blog Entries</a>]</div>
+          <div class="ms-blog-viewall">[<a href="/blog">View All Blog Entries</a>]</div>
         </div>
 
         <hr class="ms-hr">
@@ -1491,6 +1614,20 @@ body.sun-mode {
               <textarea id="guestMessage" maxlength="500" placeholder="Write something on Kyle's wall..."></textarea>
               <button class="ms-guestbook-submit" id="guestSubmit">Submit</button>
               <div class="ms-guestbook-confirm" id="guestConfirm">Comment posted! Tom would be proud. &#128526;</div>
+            </div>
+          </div>
+        </div>
+        </div><!-- /#homeRightCol -->
+
+        <!-- BLOG ROUTES (/blog, /blog/:slug) -->
+        <div id="blogRightCol" style="display:none;">
+          <div class="ms-box">
+            <div class="ms-box-header-tan"><span id="blogPageHeader">Kyle's Blog</span></div>
+            <div class="ms-box-body">
+              <div id="blogFullLoading" class="ms-blog-entry">Loading...</div>
+              <div id="blogFullIndex" style="display:none;"></div>
+              <div id="blogFullPost" style="display:none;"></div>
+              <div id="blogFullNav" class="ms-blog-footer-nav" style="display:none;"></div>
             </div>
           </div>
         </div>
@@ -1874,7 +2011,134 @@ body.sun-mode {
       });
   }
 
-  loadBlog();
+  // ── Blog full-page routes (/blog, /blog/:slug) ──
+  function kebabTitle(t) {
+    return (t || '')
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 60);
+  }
+  function postSlug(post) {
+    return post.number + (kebabTitle(post.title) ? '-' + kebabTitle(post.title) : '');
+  }
+  function excerpt(md, n) {
+    var text = (md || '').replace(/```[\s\S]*?```/g, '')
+      .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/[#>*_`]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return text.length > n ? text.slice(0, n) + '...' : text;
+  }
+  function showFullIndex(posts) {
+    var loading = document.getElementById('blogFullLoading');
+    var idx = document.getElementById('blogFullIndex');
+    var post = document.getElementById('blogFullPost');
+    var nav = document.getElementById('blogFullNav');
+    var header = document.getElementById('blogPageHeader');
+    if (loading) loading.style.display = 'none';
+    if (post) post.style.display = 'none';
+    if (idx) idx.style.display = 'block';
+    if (header) header.textContent = "Kyle's Blog";
+    document.title = "Kyle's Blog | MySpace.com";
+    if (!posts || posts.length === 0) {
+      idx.innerHTML = '<div class="ms-blog-full-entry">No posts yet. Check back soon.</div>';
+    } else {
+      var html = '';
+      for (var i = 0; i < posts.length; i++) {
+        var p = posts[i];
+        html += '<div class="ms-blog-full-entry">' +
+          '<h3><a href="/blog/' + postSlug(p) + '">' + escapeHtml(p.title) + '</a></h3>' +
+          '<span class="ms-blog-date">' + formatDate(p.created_at) + '</span>' +
+          '<div class="ms-blog-excerpt">' + escapeHtml(excerpt(p.body, 220)) + '</div>' +
+          '</div>';
+      }
+      idx.innerHTML = html;
+    }
+    if (nav) {
+      nav.style.display = 'block';
+      nav.innerHTML = '[<a href="/">Back to profile</a>] [<a href="#subscribe" onclick="openSubscribeModal(event);return false;">Subscribe</a>] [<a href="/rss.xml" target="_blank" rel="noopener">RSS</a>]';
+    }
+  }
+  function showFullPost(post) {
+    var loading = document.getElementById('blogFullLoading');
+    var idx = document.getElementById('blogFullIndex');
+    var postEl = document.getElementById('blogFullPost');
+    var nav = document.getElementById('blogFullNav');
+    var header = document.getElementById('blogPageHeader');
+    if (loading) loading.style.display = 'none';
+    if (idx) idx.style.display = 'none';
+    if (postEl) postEl.style.display = 'block';
+    if (header) header.textContent = post.title;
+    document.title = post.title + " | Kyle's Blog";
+    postEl.innerHTML =
+      '<div class="ms-blog-full-post">' +
+      '<h2>' + escapeHtml(post.title) + '</h2>' +
+      '<span class="ms-blog-date">' + formatDate(post.created_at) + '</span>' +
+      '<div class="ms-blog-body">' + renderMarkdown(post.body) + '</div>' +
+      '</div>';
+    if (nav) {
+      nav.style.display = 'block';
+      nav.innerHTML = '[<a href="/blog">View all entries</a>] [<a href="/">Back to profile</a>] [<a href="#subscribe" onclick="openSubscribeModal(event);return false;">Subscribe</a>]';
+    }
+  }
+  function showFullError(msg) {
+    var loading = document.getElementById('blogFullLoading');
+    var idx = document.getElementById('blogFullIndex');
+    var post = document.getElementById('blogFullPost');
+    if (loading) loading.style.display = 'none';
+    if (post) post.style.display = 'none';
+    if (idx) {
+      idx.style.display = 'block';
+      idx.innerHTML = '<div class="ms-blog-full-entry">' + escapeHtml(msg) + '</div>';
+    }
+  }
+  function loadBlogRoute(slug) {
+    var url = 'https://api.github.com/repos/' + BLOG_REPO +
+      '/issues?labels=' + encodeURIComponent(BLOG_LABEL) +
+      '&state=open&sort=created&direction=desc&per_page=100';
+    fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } })
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(issues) {
+        var posts = issues.filter(function(i) { return !i.pull_request; });
+        if (slug) {
+          var num = (slug.match(/^(\d+)/) || [])[1];
+          var post = null;
+          if (num) {
+            for (var i = 0; i < posts.length; i++) {
+              if (String(posts[i].number) === num) { post = posts[i]; break; }
+            }
+          }
+          if (!post) { showFullError('Post not found.'); return; }
+          showFullPost(post);
+        } else {
+          showFullIndex(posts);
+        }
+      })
+      .catch(function(err) {
+        showFullError('Could not load posts (' + err.message + ').');
+      });
+  }
+
+  var path = window.location.pathname || '';
+  if (path === '/blog' || path === '/blog/') {
+    document.getElementById('homeRightCol').style.display = 'none';
+    document.getElementById('blogRightCol').style.display = 'block';
+    loadBlogRoute(null);
+  } else if (path.indexOf('/blog/') === 0) {
+    document.getElementById('homeRightCol').style.display = 'none';
+    document.getElementById('blogRightCol').style.display = 'block';
+    var slug = path.slice('/blog/'.length).replace(/\/$/, '');
+    loadBlogRoute(slug);
+  } else {
+    loadBlog();
+  }
 
 })();
 
@@ -1904,6 +2168,70 @@ function openContactModal(e) {
 function closeContactModal() {
   document.getElementById('contactModal').classList.remove('is-open');
 }
+
+// ── Subscribe Modal (global for onclick handlers) ──
+function openSubscribeModal(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  var m = document.getElementById('subscribeModal');
+  if (!m) return;
+  m.classList.add('is-open');
+  var status = document.getElementById('sfStatus');
+  if (status) { status.style.display = 'none'; status.className = 'ms-form-status'; status.textContent = ''; }
+  var submit = document.getElementById('sfSubmit');
+  if (submit) { submit.disabled = false; submit.textContent = 'Subscribe'; }
+  setTimeout(function() {
+    var input = document.getElementById('sfEmail');
+    if (input) input.focus();
+  }, 50);
+}
+function closeSubscribeModal() {
+  var m = document.getElementById('subscribeModal');
+  if (m) m.classList.remove('is-open');
+}
+function submitSubscribeForm(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  var emailEl = document.getElementById('sfEmail');
+  var status = document.getElementById('sfStatus');
+  var submit = document.getElementById('sfSubmit');
+  var email = emailEl.value.trim();
+  if (!email || email.indexOf('@') < 1) {
+    status.className = 'ms-form-status error';
+    status.textContent = 'please enter a valid email.';
+    status.style.display = 'block';
+    return false;
+  }
+
+  status.className = 'ms-form-status';
+  status.textContent = 'Subscribing...';
+  status.style.display = 'block';
+  submit.disabled = true;
+  submit.textContent = 'Subscribing...';
+
+  var body = 'Please add this email to the blog subscriber list:\n\n' + email + '\n\n(sent via kylethumm.com subscribe form)';
+  var href = 'mailto:kyle@usehandled.ai' +
+    '?subject=' + encodeURIComponent('[kylethumm.com] New blog subscriber') +
+    '&body=' + encodeURIComponent(body);
+
+  // Give the "Subscribing..." state a beat to register, then trigger mail client.
+  setTimeout(function() {
+    window.location.href = href;
+    status.textContent = "You're in! Hit Send in your email app to confirm.";
+    submit.textContent = "You're in!";
+    setTimeout(function() {
+      closeSubscribeModal();
+      document.getElementById('subscribeForm').reset();
+    }, 2000);
+  }, 500);
+
+  return false;
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSubscribeModal();
+});
+document.addEventListener('click', function(e) {
+  var overlay = document.getElementById('subscribeModal');
+  if (overlay && e.target === overlay) closeSubscribeModal();
+});
 function submitContactForm(e) {
   if (e && e.preventDefault) e.preventDefault();
   var name = document.getElementById('cfName').value.trim();
