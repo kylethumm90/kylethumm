@@ -414,6 +414,138 @@ body.ms-no-scroll { overflow: hidden; }
   .ms-lightbox-close { top: 8px; right: 8px; width: 32px; height: 32px; font-size: 20px; }
 }
 
+/* ── AIM CHAT WINDOW ── */
+.aim-chat {
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 320px;
+  height: 420px;
+  z-index: 10002;
+  background: #ece9d8;
+  border: 1px solid #0831d9;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: #000;
+  flex-direction: column;
+}
+.aim-chat.is-open { display: flex; }
+.aim-chat-title {
+  background: linear-gradient(to bottom, #0831d9 0%, #1e40ea 45%, #0831d9 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  cursor: default;
+  user-select: none;
+}
+.aim-chat-title span:first-child::before {
+  content: "\1F7E1";
+  margin-right: 4px;
+  font-size: 10px;
+}
+.aim-chat-close {
+  background: #d4d0c8;
+  color: #000;
+  border: 1px solid #fff;
+  border-right-color: #606060;
+  border-bottom-color: #606060;
+  width: 18px;
+  height: 16px;
+  line-height: 12px;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  font-family: Tahoma, Verdana, sans-serif;
+}
+.aim-chat-close:active {
+  border-color: #606060 #fff #fff #606060;
+}
+.aim-chat-body {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #7f9db9;
+  margin: 4px;
+  padding: 6px;
+  overflow-y: auto;
+  line-height: 1.45;
+  word-wrap: break-word;
+}
+.aim-msg { margin-bottom: 4px; }
+.aim-msg-you .aim-msg-name { color: #c00000; font-weight: bold; }
+.aim-msg-kyle .aim-msg-name { color: #0000c0; font-weight: bold; }
+.aim-msg-error { color: #888; font-style: italic; }
+.aim-msg-name::after { content: ":"; }
+.aim-msg-text { margin-left: 4px; white-space: pre-wrap; }
+.aim-chat-status {
+  height: 14px;
+  padding: 0 8px;
+  color: #555;
+  font-style: italic;
+  font-size: 10px;
+  background: #ece9d8;
+}
+.aim-chat-form {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #ece9d8;
+  border-top: 1px solid #b5b2a4;
+}
+.aim-chat-form input[type="text"] {
+  flex: 1;
+  border: 1px solid #7f9db9;
+  padding: 3px 5px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 11px;
+  background: #fff;
+  color: #000;
+}
+.aim-chat-form input[type="text"]:focus {
+  outline: 1px solid #f7c544;
+  border-color: #f7c544;
+}
+.aim-chat-form input[type="text"]:disabled { background: #f4f4f0; color: #666; }
+.aim-chat-send {
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 11px;
+  padding: 2px 12px;
+  background: linear-gradient(to bottom, #ffffff, #d4d0c8);
+  border: 1px solid #000;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+}
+.aim-chat-send:active {
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+.aim-chat-send:disabled { color: #888; cursor: default; }
+@media (max-width: 480px) {
+  .aim-chat {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: auto;
+    height: 70vh;
+    margin: 0 6px 6px 6px;
+  }
+}
+
 /* ── PROFILE NAME ── */
 .ms-profile-name {
   font-size: 14px;
@@ -1030,6 +1162,20 @@ body.sun-mode {
   <button class="close-banner" onclick="closeEasterBanner()">&times;</button>
 </div>
 
+<!-- AIM CHAT WINDOW -->
+<div class="aim-chat" id="aimChat" role="dialog" aria-label="Instant message with Kyle">
+  <div class="aim-chat-title">
+    <span>KyleThumm06</span>
+    <button type="button" class="aim-chat-close" onclick="closeIMChat()" aria-label="Close">&times;</button>
+  </div>
+  <div class="aim-chat-body" id="aimChatBody" aria-live="polite"></div>
+  <div class="aim-chat-status" id="aimChatStatus"></div>
+  <form class="aim-chat-form" id="aimChatForm" onsubmit="return sendIMMessage(event)">
+    <input type="text" id="aimChatInput" autocomplete="off" maxlength="1000" placeholder="type a message...">
+    <button type="submit" class="aim-chat-send" id="aimChatSend">Send</button>
+  </form>
+</div>
+
 <!-- PICS LIGHTBOX -->
 <div class="ms-lightbox" id="picsLightbox" role="dialog" aria-modal="true" aria-label="Kyle's pics">
   <button type="button" class="ms-lightbox-close" aria-label="Close" onclick="closePicsLightbox()">&times;</button>
@@ -1214,7 +1360,7 @@ body.sun-mode {
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#128172;</span>
-                <a href="https://www.facebook.com/groups/aiautomationshomeservices" target="_blank">Instant Message</a>
+                <a href="#im" onclick="openIMChat(event)">Instant Message</a>
               </div>
               <div class="ms-contact-item">
                 <span class="ms-contact-icon">&#128683;</span>
@@ -1964,6 +2110,95 @@ function submitContactForm(e) {
   }, 1500);
   return false;
 }
+// ── AIM Chat (global for onclick handlers) ──
+var imChatMessages = [];
+var imChatBusy = false;
+
+function openIMChat(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  var chat = document.getElementById('aimChat');
+  if (!chat) return;
+  chat.classList.add('is-open');
+  setTimeout(function() {
+    var input = document.getElementById('aimChatInput');
+    if (input) input.focus();
+  }, 50);
+}
+function closeIMChat() {
+  var chat = document.getElementById('aimChat');
+  if (chat) chat.classList.remove('is-open');
+}
+function appendIMMessage(kind, name, text) {
+  var body = document.getElementById('aimChatBody');
+  if (!body) return;
+  var row = document.createElement('div');
+  row.className = 'aim-msg aim-msg-' + kind;
+  if (name) {
+    var nameEl = document.createElement('span');
+    nameEl.className = 'aim-msg-name';
+    nameEl.textContent = name;
+    row.appendChild(nameEl);
+  }
+  var textEl = document.createElement('span');
+  textEl.className = 'aim-msg-text';
+  textEl.textContent = text;
+  row.appendChild(textEl);
+  body.appendChild(row);
+  body.scrollTop = body.scrollHeight;
+}
+function setIMStatus(text) {
+  var el = document.getElementById('aimChatStatus');
+  if (el) el.textContent = text || '';
+}
+function setIMBusy(busy) {
+  imChatBusy = busy;
+  var input = document.getElementById('aimChatInput');
+  var send = document.getElementById('aimChatSend');
+  if (input) input.disabled = busy;
+  if (send) send.disabled = busy;
+  setIMStatus(busy ? 'KyleThumm06 is typing...' : '');
+}
+function sendIMMessage(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (imChatBusy) return false;
+  var input = document.getElementById('aimChatInput');
+  if (!input) return false;
+  var text = input.value.trim();
+  if (!text) return false;
+
+  appendIMMessage('you', 'You', text);
+  imChatMessages.push({ role: 'user', content: text });
+  input.value = '';
+  setIMBusy(true);
+
+  fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: imChatMessages })
+  }).then(function(res) {
+    return res.json().then(function(data) { return { ok: res.ok, status: res.status, data: data }; });
+  }).then(function(result) {
+    setIMBusy(false);
+    if (!result.ok) {
+      var errMsg = (result.data && result.data.error) || 'something broke, try again';
+      appendIMMessage('error', null, '[' + errMsg + ']');
+      return;
+    }
+    var reply = result.data && result.data.reply;
+    if (!reply) {
+      appendIMMessage('error', null, '[no reply, try again]');
+      return;
+    }
+    imChatMessages.push({ role: 'assistant', content: reply });
+    appendIMMessage('kyle', 'KyleThumm06', reply);
+  }).catch(function() {
+    setIMBusy(false);
+    appendIMMessage('error', null, '[connection dropped, try again]');
+  });
+
+  return false;
+}
+
 // ── Pics Lightbox (global for onclick handlers) ──
 function openPicsLightbox(e) {
   if (e && e.preventDefault) e.preventDefault();
