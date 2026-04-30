@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Weston's Shark Frenzy!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  #page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #game-wrapper {
+    position: relative;
+    width: 100vmin;
+    height: 100vmin;
+    max-width: 600px;
+    max-height: 600px;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    #game-wrapper {
+      width: 92vw;
+      height: 92vw;
+      max-width: 400px;
+      max-height: 400px;
+    }
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 4px solid #1a3a5c;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(0, 100, 255, 0.3), inset 0 0 60px rgba(0, 20, 60, 0.5);
+  }
+
+  #ui-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #ui-overlay.hidden { display: none; }
+
+  .screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    pointer-events: auto;
+  }
+
+  .screen.active { display: flex; }
+
+  .title {
+    font-size: 28px;
+    color: #00d4ff;
+    text-shadow: 3px 3px 0 #004466, 0 0 20px #00aaff88;
+    line-height: 1.4;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    color: #66ccff;
+    text-shadow: 1px 1px 0 #003355;
+  }
+
+  .score-display {
+    font-size: 14px;
+    color: #ffcc00;
+    text-shadow: 2px 2px 0 #664400;
+  }
+
+  .btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(180deg, #0088ff, #0055cc);
+    border: 3px solid #00aaff;
+    border-radius: 4px;
+    text-shadow: 1px 1px 0 #003366;
+    box-shadow: 0 4px 0 #003388, 0 0 15px #0066cc88;
+    transition: transform 0.1s, box-shadow 0.1s;
+    pointer-events: auto;
+  }
+
+  .btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #003388;
+  }
+
+  .hud {
+    position: absolute;
+    top: 12px; left: 12px; right: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+  }
+
+  .hud-item {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+    background: rgba(0,0,0,0.4);
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+
+  .size-bar-container {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    pointer-events: none;
+  }
+
+  .size-bar-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: #aaeeff;
+    text-shadow: 1px 1px 0 #000;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .size-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid #336688;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .size-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00cc66, #00ff88);
+    box-shadow: 0 0 8px #00ff6688;
+    transition: width 0.3s;
+    width: 0%;
+    border-radius: 4px;
+  }
+
+  /* Touch controls */
+  #touch-controls {
+    display: none;
+    pointer-events: auto;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    #touch-controls { display: block; }
+    .size-bar-container { bottom: 12px; }
+  }
+
+  .dpad {
+    position: relative;
+    width: 150px;
+    height: 150px;
+  }
+
+  .dpad-btn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 150, 255, 0.4);
+    border: 3px solid rgba(0, 180, 255, 0.8);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 0 10px rgba(0, 120, 255, 0.3);
+  }
+
+  .dpad-btn:active {
+    background: rgba(0, 200, 255, 0.6);
+    border-color: #00ddff;
+    box-shadow: 0 0 18px rgba(0, 180, 255, 0.6);
+  }
+
+  .dpad-up    { top: 0; left: 50%; transform: translateX(-50%); }
+  .dpad-down  { bottom: 0; left: 50%; transform: translateX(-50%); }
+  .dpad-left  { left: 0; top: 50%; transform: translateY(-50%); }
+  .dpad-right { right: 0; top: 50%; transform: translateY(-50%); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .float { animation: float 2s ease-in-out infinite; }
+
+  /* Back-to-arcade link */
+  #back-link {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #00d4ff;
+    text-decoration: none;
+    text-shadow: 0 0 6px #00aaff;
+    background: rgba(0,0,0,0.5);
+    padding: 6px 10px;
+    border: 2px solid #00aaff;
+    border-radius: 4px;
+    z-index: 100;
+  }
+  #back-link:hover { color: #fff200; border-color: #fff200; text-shadow: 0 0 6px #fff200; }
+</style>
+</head>
+<body>
+
+<a id="back-link" href="../arcade.html">&laquo; ARCADE</a>
+
+<div id="page-container">
+  <div id="game-wrapper">
+    <canvas id="game" width="300" height="300"></canvas>
+
+    <div class="hud" id="hud" style="display:none;">
+      <div class="hud-item" id="hud-score">SCORE: 0</div>
+      <div class="hud-item" id="hud-level">LVL 1</div>
+    </div>
+
+    <div class="size-bar-container" id="size-bar" style="display:none;">
+      <div class="size-bar-label">NEXT SIZE</div>
+      <div class="size-bar-bg">
+        <div class="size-bar-fill" id="size-fill"></div>
+      </div>
+    </div>
+
+    <div id="ui-overlay">
+      <div class="screen active" id="start-screen">
+        <div class="title float">WESTON'S<br>SHARK FRENZY!</div>
+        <div class="subtitle">EAT FISH. GET BIG.</div>
+        <button class="btn" id="start-btn">START</button>
+        <div class="subtitle" style="font-size:7px;color:#6699aa;margin-top:8px;">ARROW KEYS or TAP to move</div>
+      </div>
+
+      <div class="screen" id="gameover-screen">
+        <div class="title" style="color:#ff4466;">OH NO!</div>
+        <div class="score-display" id="final-score">SCORE: 0</div>
+        <div class="subtitle" id="final-msg">A bigger fish got you!</div>
+        <button class="btn" id="retry-btn">TRY AGAIN</button>
+      </div>
+
+      <div class="screen" id="levelup-screen">
+        <div class="title" style="color:#00ff88;font-size:18px;">SIZE UP!</div>
+        <div class="subtitle" id="levelup-msg">You grew bigger!</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="touch-controls">
+    <div class="dpad">
+      <div class="dpad-btn dpad-up" data-dir="up">&#9650;</div>
+      <div class="dpad-btn dpad-down" data-dir="down">&#9660;</div>
+      <div class="dpad-btn dpad-left" data-dir="left">&#9664;</div>
+      <div class="dpad-btn dpad-right" data-dir="right">&#9654;</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// AUDIO
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function initAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
+
+function playSound(type) {
+  if (!audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g);
+  g.connect(audioCtx.destination);
+  const t = audioCtx.currentTime;
+
+  if (type === 'eat') {
+    o.type = 'square';
+    o.frequency.setValueAtTime(400, t);
+    o.frequency.linearRampToValueAtTime(800, t + 0.08);
+    g.gain.setValueAtTime(0.15, t);
+    g.gain.linearRampToValueAtTime(0, t + 0.12);
+    o.start(t); o.stop(t + 0.12);
+  } else if (type === 'levelup') {
+    o.type = 'square';
+    o.frequency.setValueAtTime(500, t);
+    o.frequency.linearRampToValueAtTime(1000, t + 0.15);
+    o.frequency.linearRampToValueAtTime(1200, t + 0.3);
+    g.gain.setValueAtTime(0.15, t);
+    g.gain.linearRampToValueAtTime(0, t + 0.35);
+    o.start(t); o.stop(t + 0.35);
+  } else if (type === 'die') {
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(300, t);
+    o.frequency.linearRampToValueAtTime(80, t + 0.4);
+    g.gain.setValueAtTime(0.15, t);
+    g.gain.linearRampToValueAtTime(0, t + 0.5);
+    o.start(t); o.stop(t + 0.5);
+  }
+}
+
+// CONSTANTS
+const W = 300, H = 300;
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+// PIXEL ART
+function drawPixelShark(x, y, size, facingLeft, frame) {
+  const s = Math.max(2, Math.floor(size / 5));
+  ctx.save();
+  ctx.translate(Math.round(x), Math.round(y));
+  if (facingLeft) ctx.scale(-1, 1);
+
+  ctx.fillStyle = '#4488cc';
+  ctx.fillRect(-s*3, -s*1, s*6, s*3);
+  ctx.fillRect(-s*2, -s*2, s*5, s);
+  ctx.fillRect(-s*4, 0, s, s*2);
+
+  ctx.fillStyle = '#99ccee';
+  ctx.fillRect(-s*2, s*1, s*4, s);
+
+  ctx.fillStyle = '#336699';
+  ctx.fillRect(0, -s*3, s, s);
+  ctx.fillRect(-s, -s*2, s*2, s);
+
+  ctx.fillStyle = '#336699';
+  ctx.fillRect(-s*4, -s*2, s, s);
+  ctx.fillRect(-s*5, -s*2, s, s);
+  ctx.fillRect(-s*4, s*1, s, s);
+  ctx.fillRect(-s*5, s*1, s, s);
+
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(s*1, -s*1, s*2, s*2);
+  ctx.fillStyle = '#111';
+  ctx.fillRect(s*2, -s*0.5, s, s);
+
+  const mouthOpen = frame % 40 < 20;
+  ctx.fillStyle = '#ee4444';
+  if (mouthOpen) {
+    ctx.fillRect(s*3, s*0.5, s*1, s*1);
+  }
+
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(s*3, 0, s*0.5, s*0.5);
+  if (mouthOpen) {
+    ctx.fillRect(s*3, s*1.5, s*0.5, s*0.5);
+  }
+
+  ctx.restore();
+}
+
+function drawPixelFish(x, y, size, color, facingLeft, frame) {
+  const s = Math.max(1, Math.floor(size / 4));
+  ctx.save();
+  ctx.translate(Math.round(x), Math.round(y));
+  if (facingLeft) ctx.scale(-1, 1);
+
+  ctx.fillStyle = color;
+  ctx.fillRect(-s*2, -s, s*4, s*2);
+  ctx.fillRect(-s*3, 0, s, s);
+
+  ctx.fillStyle = shadeColor(color, 40);
+  ctx.fillRect(-s*1, 0, s*3, s);
+
+  ctx.fillStyle = shadeColor(color, -20);
+  ctx.fillRect(-s*3, -s*1.5, s, s);
+  ctx.fillRect(-s*3, s, s, s);
+  const wiggle = frame % 20 < 10 ? -s*0.5 : s*0.5;
+  ctx.fillRect(-s*3, -s + wiggle, s*0.5, s);
+
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(s, -s*0.5, s, s);
+  ctx.fillStyle = '#111';
+  ctx.fillRect(s + s*0.4, -s*0.2, s*0.5, s*0.5);
+
+  ctx.restore();
+}
+
+function drawPixelPuffer(x, y, size, frame) {
+  const s = Math.max(2, Math.floor(size / 4));
+  ctx.save();
+  ctx.translate(Math.round(x), Math.round(y));
+
+  ctx.fillStyle = '#ddaa33';
+  ctx.fillRect(-s*2, -s*2, s*4, s*4);
+  ctx.fillRect(-s*3, -s, s*6, s*2);
+
+  ctx.fillStyle = '#cc8822';
+  const spOff = frame % 30 < 15 ? 0 : s*0.3;
+  ctx.fillRect(-s*3 - spOff, -s*2, s, s);
+  ctx.fillRect(s*2 + spOff, -s*2, s, s);
+  ctx.fillRect(-s*3 - spOff, s*1, s, s);
+  ctx.fillRect(s*2 + spOff, s*1, s, s);
+  ctx.fillRect(0, -s*3 - spOff, s, s);
+  ctx.fillRect(0, s*2 + spOff, s, s);
+
+  ctx.fillStyle = '#ffdd77';
+  ctx.fillRect(-s, 0, s*2, s*2);
+
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(s*0.5, -s*1.5, s*1.5, s*1.5);
+  ctx.fillStyle = '#111';
+  ctx.fillRect(s*1, -s, s*0.7, s*0.7);
+
+  ctx.restore();
+}
+
+function shadeColor(col, amt) {
+  let c = parseInt(col.slice(1), 16);
+  let r = Math.min(255, Math.max(0, (c >> 16) + amt));
+  let g = Math.min(255, Math.max(0, ((c >> 8) & 0xff) + amt));
+  let b = Math.min(255, Math.max(0, (c & 0xff) + amt));
+  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6,'0')}`;
+}
+
+// BUBBLES
+const bubbles = [];
+for (let i = 0; i < 20; i++) {
+  bubbles.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: 1 + Math.random() * 2,
+    speed: 0.2 + Math.random() * 0.4,
+    alpha: 0.1 + Math.random() * 0.25
+  });
+}
+
+function drawBubbles() {
+  bubbles.forEach(b => {
+    b.y -= b.speed;
+    if (b.y < -5) { b.y = H + 5; b.x = Math.random() * W; }
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(150,220,255,${b.alpha})`;
+    ctx.fill();
+  });
+}
+
+function drawOceanBg() {
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#0a3060');
+  grad.addColorStop(0.5, '#0c2850');
+  grad.addColorStop(1, '#081830');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = '#2a4a3a';
+  ctx.fillRect(0, H - 12, W, 12);
+  ctx.fillStyle = '#3a5a4a';
+  for (let i = 0; i < W; i += 8) {
+    ctx.fillRect(i, H - 12 + Math.sin(i * 0.3) * 3, 6, 4);
+  }
+
+  const t = performance.now() * 0.001;
+  ctx.fillStyle = '#1a6a3a';
+  for (let sx = 20; sx < W; sx += 50) {
+    for (let j = 0; j < 4; j++) {
+      const sway = Math.sin(t * 1.5 + sx * 0.1 + j * 0.5) * 3;
+      ctx.fillRect(sx + sway, H - 14 - j * 6, 4, 7);
+    }
+  }
+
+  drawBubbles();
+}
+
+// PARTICLES
+const particles = [];
+
+function spawnParticles(x, y, color, count) {
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 4,
+      vy: (Math.random() - 0.5) * 4,
+      life: 20 + Math.random() * 15,
+      maxLife: 35,
+      color,
+      size: 1 + Math.random() * 2
+    });
+  }
+}
+
+function updateParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.95;
+    p.vy *= 0.95;
+    p.life--;
+    if (p.life <= 0) { particles.splice(i, 1); continue; }
+    const alpha = p.life / p.maxLife;
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = alpha;
+    ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+  }
+  ctx.globalAlpha = 1;
+}
+
+// GAME STATE
+const FISH_COLORS = ['#ff6644', '#ff9922', '#ffcc00', '#66dd55', '#dd44aa', '#ff77cc', '#77ddff', '#aa88ff'];
+const SIZE_NAMES = ['Baby', 'Small', 'Medium', 'Big', 'MEGA'];
+const SIZE_THRESHOLDS = [0, 8, 20, 40, 70];
+const FISH_TYPES = ['normal', 'normal', 'normal', 'puffer'];
+
+let state = 'start';
+let shark, fishes, score, sizeLevel, eatCount, frame;
+let keys = {};
+let shakeTimer = 0;
+let invincibleTimer = 0;
+
+function resetGame() {
+  shark = { x: W/2, y: H/2, size: 14, vx: 0, vy: 0, facingLeft: false };
+  fishes = [];
+  score = 0;
+  sizeLevel = 0;
+  eatCount = 0;
+  frame = 0;
+  shakeTimer = 0;
+  invincibleTimer = 0;
+  particles.length = 0;
+  for (let i = 0; i < 15; i++) spawnFish();
+}
+
+function spawnFish() {
+  const isEnemy = Math.random() < 0.15 + sizeLevel * 0.03;
+  const baseSize = isEnemy
+    ? shark.size * (1.2 + Math.random() * 0.8)
+    : 4 + Math.random() * (shark.size * 0.9);
+  const size = Math.max(4, Math.min(baseSize, shark.size * 2.2));
+
+  const side = Math.random() < 0.5 ? -1 : 1;
+  const type = FISH_TYPES[Math.floor(Math.random() * FISH_TYPES.length)];
+
+  fishes.push({
+    x: side === -1 ? -20 : W + 20,
+    y: 15 + Math.random() * (H - 40),
+    size,
+    color: FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)],
+    vx: (0.15 + Math.random() * 0.35) * -side * (type === 'puffer' ? 0.6 : 1),
+    vy: (Math.random() - 0.5) * 0.15,
+    facingLeft: side === 1,
+    type,
+    dangerous: size > shark.size * 0.9
+  });
+}
+
+function sharkRadius() { return shark.size * 0.8; }
+function fishRadius(f) { return f.size * 0.6; }
+
+// INPUT
+document.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.key] = false; });
+
+document.querySelectorAll('.dpad-btn').forEach(btn => {
+  const dir = btn.dataset.dir;
+  const setKey = (v) => {
+    const map = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+    keys[map[dir]] = v;
+  };
+  btn.addEventListener('touchstart', e => { e.preventDefault(); initAudio(); setKey(true); });
+  btn.addEventListener('touchend', e => { e.preventDefault(); setKey(false); });
+  btn.addEventListener('touchcancel', e => { setKey(false); });
+});
+
+// UI HELPERS
+const screens = {
+  start: document.getElementById('start-screen'),
+  gameover: document.getElementById('gameover-screen'),
+  levelup: document.getElementById('levelup-screen'),
+};
+const overlay = document.getElementById('ui-overlay');
+const hud = document.getElementById('hud');
+const sizeBar = document.getElementById('size-bar');
+
+function showScreen(name) {
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  if (name && screens[name]) {
+    screens[name].classList.add('active');
+    overlay.classList.remove('hidden');
+  } else {
+    overlay.classList.add('hidden');
+  }
+}
+
+function updateHUD() {
+  document.getElementById('hud-score').textContent = `SCORE: ${score}`;
+  document.getElementById('hud-level').textContent = SIZE_NAMES[sizeLevel] || 'MEGA';
+
+  const nextThreshold = SIZE_THRESHOLDS[sizeLevel + 1] || SIZE_THRESHOLDS[sizeLevel] + 30;
+  const prevThreshold = SIZE_THRESHOLDS[sizeLevel] || 0;
+  const pct = Math.min(100, ((eatCount - prevThreshold) / (nextThreshold - prevThreshold)) * 100);
+  document.getElementById('size-fill').style.width = pct + '%';
+}
+
+// GAME LOOP
+function update() {
+  frame++;
+
+  const accel = 0.35;
+  const maxSpeed = 2.2;
+  const friction = 0.88;
+
+  if (keys['ArrowUp'] || keys['w'] || keys['W']) shark.vy -= accel;
+  if (keys['ArrowDown'] || keys['s'] || keys['S']) shark.vy += accel;
+  if (keys['ArrowLeft'] || keys['a'] || keys['A']) { shark.vx -= accel; shark.facingLeft = true; }
+  if (keys['ArrowRight'] || keys['d'] || keys['D']) { shark.vx += accel; shark.facingLeft = false; }
+
+  shark.vx *= friction;
+  shark.vy *= friction;
+  shark.vx = Math.max(-maxSpeed, Math.min(maxSpeed, shark.vx));
+  shark.vy = Math.max(-maxSpeed, Math.min(maxSpeed, shark.vy));
+
+  shark.x += shark.vx;
+  shark.y += shark.vy;
+
+  const r = sharkRadius();
+  shark.x = Math.max(r, Math.min(W - r, shark.x));
+  shark.y = Math.max(r, Math.min(H - r - 12, shark.y));
+
+  if (invincibleTimer > 0) invincibleTimer--;
+
+  for (let i = fishes.length - 1; i >= 0; i--) {
+    const f = fishes[i];
+    f.x += f.vx;
+    f.y += f.vy;
+    f.y += Math.sin(frame * 0.05 + i) * 0.15;
+
+    if (f.x < -50 || f.x > W + 50 || f.y < -30 || f.y > H + 30) {
+      fishes.splice(i, 1);
+      continue;
+    }
+
+    const dx = shark.x - f.x;
+    const dy = shark.y - f.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const touchDist = sharkRadius() + fishRadius(f);
+
+    if (dist < touchDist) {
+      f.dangerous = f.size > shark.size * 0.9;
+
+      if (!f.dangerous) {
+        const points = Math.ceil(f.size);
+        score += points;
+        eatCount++;
+        playSound('eat');
+        spawnParticles(f.x, f.y, f.color, 8);
+        fishes.splice(i, 1);
+
+        const nextLevel = sizeLevel + 1;
+        if (nextLevel < SIZE_THRESHOLDS.length && eatCount >= SIZE_THRESHOLDS[nextLevel]) {
+          sizeLevel = nextLevel;
+          shark.size = 14 + sizeLevel * 6;
+          playSound('levelup');
+          spawnParticles(shark.x, shark.y, '#00ff88', 20);
+          showScreen('levelup');
+          document.getElementById('levelup-msg').textContent =
+            `You are now ${SIZE_NAMES[sizeLevel]}!`;
+          setTimeout(() => { if (state === 'playing') showScreen(null); }, 1200);
+        }
+
+        updateHUD();
+      } else if (invincibleTimer <= 0) {
+        playSound('die');
+        shakeTimer = 20;
+        spawnParticles(shark.x, shark.y, '#ff4444', 25);
+        state = 'gameover';
+        document.getElementById('final-score').textContent = `SCORE: ${score}`;
+        document.getElementById('final-msg').textContent =
+          score > 50 ? 'Great run!' : 'A bigger fish got you!';
+        hud.style.display = 'none';
+        sizeBar.style.display = 'none';
+        showScreen('gameover');
+        return;
+      }
+    }
+  }
+
+  if (frame % (35 - Math.min(sizeLevel * 4, 15)) === 0) spawnFish();
+
+  fishes.forEach(f => {
+    f.dangerous = f.size > shark.size * 0.9;
+  });
+}
+
+function draw() {
+  ctx.save();
+
+  if (shakeTimer > 0) {
+    shakeTimer--;
+    ctx.translate(
+      (Math.random() - 0.5) * shakeTimer * 0.8,
+      (Math.random() - 0.5) * shakeTimer * 0.8
+    );
+  }
+
+  drawOceanBg();
+
+  if (state === 'playing' || state === 'gameover') {
+    fishes.forEach(f => {
+      if (f.dangerous) {
+        ctx.fillStyle = 'rgba(255,50,50,0.15)';
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size * 1.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (f.type === 'puffer') {
+        drawPixelPuffer(f.x, f.y, f.size, frame);
+      } else {
+        drawPixelFish(f.x, f.y, f.size, f.color, f.facingLeft, frame);
+      }
+    });
+
+    if (state === 'playing') {
+      if (invincibleTimer > 0 && frame % 4 < 2) {
+        // blink when invincible
+      } else {
+        drawPixelShark(shark.x, shark.y, shark.size, shark.facingLeft, frame);
+      }
+    }
+
+    updateParticles();
+  } else {
+    drawPixelShark(W/2, H/2 + 50, 20, false, frame);
+  }
+
+  ctx.restore();
+}
+
+function gameLoop() {
+  if (state === 'playing') update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+document.getElementById('start-btn').addEventListener('click', () => {
+  initAudio();
+  resetGame();
+  state = 'playing';
+  hud.style.display = 'flex';
+  sizeBar.style.display = 'block';
+  showScreen(null);
+  updateHUD();
+});
+
+document.getElementById('retry-btn').addEventListener('click', () => {
+  initAudio();
+  resetGame();
+  state = 'playing';
+  hud.style.display = 'flex';
+  sizeBar.style.display = 'block';
+  showScreen(null);
+  updateHUD();
+});
+
+showScreen('start');
+gameLoop();
+</script>
+</body>
+</html>

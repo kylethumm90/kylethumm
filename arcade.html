@@ -429,11 +429,11 @@
 
   <div class="cabinets">
 
-    <a href="#" class="cabinet pink">
-      <div class="cab-screen"><span class="pixel-art pink">&#9829; &#9829;</span></div>
-      <div class="cab-title">CABINET 01</div>
-      <div class="cab-meta">A game by the Thumm boys<br>Coming soon</div>
-      <div class="cab-status coming">COMING SOON</div>
+    <a href="games/shark-frenzy.html" class="cabinet pink playable">
+      <div class="cab-screen"><span class="pixel-art pink">&#9763;</span></div>
+      <div class="cab-title">SHARK FRENZY</div>
+      <div class="cab-meta">By Weston Thumm<br>Eat fish. Get big.</div>
+      <div class="cab-status">&#9654; PLAY NOW</div>
     </a>
 
     <a href="#" class="cabinet">
@@ -481,11 +481,11 @@
 </div>
 
 <script>
-  // Click any cabinet to flash a "GAME OVER" style alert
+  // Click a non-playable cabinet to flash "GAME OVER". Playable cabinets navigate normally.
   document.querySelectorAll('.cabinet').forEach(function(cab) {
+    if (cab.classList.contains('playable')) return;
     cab.addEventListener('click', function(e) {
       e.preventDefault();
-      var title = cab.querySelector('.cab-title').textContent;
       var screen = cab.querySelector('.cab-screen');
       var original = screen.innerHTML;
       screen.innerHTML = '<span class="pixel-art" style="font-size:14px;letter-spacing:2px;">GAME<br>OVER</span>';
