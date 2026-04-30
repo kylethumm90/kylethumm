@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THUMM ARCADE - Insert Coin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════
+     THUMM ARCADE — 80s/90s arcade aesthetic
+     ═══════════════════════════════════════════════════ */
+  :root {
+    --neon-pink: #ff2bd6;
+    --neon-cyan: #00f0ff;
+    --neon-yellow: #fff200;
+    --neon-green: #39ff14;
+    --neon-purple: #b026ff;
+    --neon-orange: #ff6b00;
+    --bg-dark: #0a0014;
+    --bg-darker: #05000a;
+    --grid-color: rgba(255, 43, 214, 0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg-darker);
+    color: #fff;
+    font-family: 'VT323', 'Courier New', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated synthwave grid floor */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 0%, var(--bg-darker) 75%),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 39px,
+        var(--grid-color) 39px,
+        var(--grid-color) 40px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 39px,
+        var(--grid-color) 39px,
+        var(--grid-color) 40px
+      ),
+      radial-gradient(ellipse at 50% 100%, #2a0040 0%, var(--bg-darker) 70%);
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  /* CRT scanline overlay */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.18) 0px,
+      rgba(0,0,0,0.18) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: multiply;
+  }
+
+  /* Subtle CRT flicker */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    45% { opacity: 0.97; }
+    50% { opacity: 0.94; }
+    55% { opacity: 0.99; }
+  }
+
+  .crt {
+    animation: flicker 4s infinite;
+  }
+
+  /* ═══ TOP BAR — back to MySpace ═══ */
+  .top-bar {
+    background: #000;
+    border-bottom: 2px solid var(--neon-pink);
+    padding: 8px 16px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+  .top-bar a {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    text-shadow: 0 0 6px var(--neon-cyan);
+  }
+  .top-bar a:hover { color: var(--neon-yellow); text-shadow: 0 0 8px var(--neon-yellow); }
+  .top-bar .credits {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 6px var(--neon-yellow);
+    letter-spacing: 2px;
+  }
+
+  /* ═══ MARQUEE / TITLE ═══ */
+  .marquee {
+    text-align: center;
+    padding: 50px 20px 30px;
+    position: relative;
+  }
+
+  .arcade-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(28px, 7vw, 84px);
+    line-height: 1.2;
+    letter-spacing: 4px;
+    background: linear-gradient(180deg, #fff 0%, var(--neon-yellow) 30%, var(--neon-orange) 60%, var(--neon-pink) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter:
+      drop-shadow(0 0 8px var(--neon-pink))
+      drop-shadow(0 0 16px var(--neon-pink))
+      drop-shadow(0 0 30px var(--neon-purple));
+    animation: titleGlow 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes titleGlow {
+    from { filter: drop-shadow(0 0 6px var(--neon-pink)) drop-shadow(0 0 14px var(--neon-pink)) drop-shadow(0 0 22px var(--neon-purple)); }
+    to   { filter: drop-shadow(0 0 12px var(--neon-pink)) drop-shadow(0 0 24px var(--neon-pink)) drop-shadow(0 0 40px var(--neon-purple)); }
+  }
+
+  .subtitle {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--neon-cyan);
+    font-size: clamp(10px, 1.5vw, 14px);
+    letter-spacing: 3px;
+    margin-top: 18px;
+    text-shadow: 0 0 6px var(--neon-cyan), 0 0 12px var(--neon-cyan);
+  }
+
+  .insert-coin {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--neon-yellow);
+    font-size: clamp(11px, 1.6vw, 16px);
+    letter-spacing: 2px;
+    margin-top: 28px;
+    text-shadow: 0 0 6px var(--neon-yellow), 0 0 14px var(--neon-orange);
+    animation: blink 1s steps(2) infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* ═══ MARQUEE LIGHTS ═══ */
+  .lights {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 24px 0 10px;
+  }
+  .lights span {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--neon-yellow);
+    box-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-yellow);
+    animation: chase 1.4s linear infinite;
+  }
+  .lights span:nth-child(1) { background: var(--neon-pink);   box-shadow: 0 0 10px var(--neon-pink),   0 0 20px var(--neon-pink);   animation-delay: 0s; }
+  .lights span:nth-child(2) { background: var(--neon-cyan);   box-shadow: 0 0 10px var(--neon-cyan),   0 0 20px var(--neon-cyan);   animation-delay: 0.15s; }
+  .lights span:nth-child(3) { background: var(--neon-yellow); box-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-yellow); animation-delay: 0.30s; }
+  .lights span:nth-child(4) { background: var(--neon-green);  box-shadow: 0 0 10px var(--neon-green),  0 0 20px var(--neon-green);  animation-delay: 0.45s; }
+  .lights span:nth-child(5) { background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple); animation-delay: 0.60s; }
+  .lights span:nth-child(6) { background: var(--neon-orange); box-shadow: 0 0 10px var(--neon-orange), 0 0 20px var(--neon-orange); animation-delay: 0.75s; }
+
+  @keyframes chase {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(0.6); opacity: 0.4; }
+  }
+
+  /* ═══ HIGH-SCORE TICKER BAR ═══ */
+  .ticker {
+    background: #000;
+    border-top: 2px solid var(--neon-cyan);
+    border-bottom: 2px solid var(--neon-cyan);
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green);
+    padding: 10px 0;
+    letter-spacing: 2px;
+  }
+  .ticker-track {
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerScroll 28s linear infinite;
+  }
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+
+  /* ═══ GAMES GRID ═══ */
+  .arcade-floor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  .section-label {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--neon-pink);
+    font-size: clamp(14px, 2vw, 20px);
+    text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: 4px;
+    text-shadow: 0 0 8px var(--neon-pink), 0 0 16px var(--neon-pink);
+  }
+
+  .cabinets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+  }
+
+  .cabinet {
+    position: relative;
+    background: linear-gradient(180deg, #1a0033 0%, #0a001a 100%);
+    border: 3px solid var(--neon-cyan);
+    border-radius: 6px;
+    padding: 22px 18px 20px;
+    text-align: center;
+    box-shadow:
+      0 0 12px var(--neon-cyan),
+      inset 0 0 18px rgba(0, 240, 255, 0.15);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    overflow: hidden;
+  }
+  .cabinet::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
+  }
+  .cabinet:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--neon-yellow);
+    box-shadow:
+      0 0 22px var(--neon-yellow),
+      inset 0 0 25px rgba(255, 242, 0, 0.18);
+  }
+  .cabinet:hover::before { background: var(--neon-yellow); box-shadow: 0 0 12px var(--neon-yellow); }
+  .cabinet:hover .cab-title { color: var(--neon-yellow); text-shadow: 0 0 8px var(--neon-yellow); }
+
+  .cab-screen {
+    background: #000;
+    border: 2px solid #444;
+    border-radius: 4px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 28px;
+  }
+  .cab-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.35) 0px,
+      rgba(0,0,0,0.35) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+  }
+
+  .cab-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--neon-cyan);
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 6px var(--neon-cyan);
+    transition: color 0.18s, text-shadow 0.18s;
+  }
+  .cab-meta {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: #c8c0ff;
+    line-height: 1.3;
+  }
+  .cab-status {
+    margin-top: 12px;
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 5px 10px;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    text-shadow: 0 0 4px var(--neon-green);
+    letter-spacing: 1.5px;
+  }
+  .cab-status.coming {
+    border-color: var(--neon-orange);
+    color: var(--neon-orange);
+    text-shadow: 0 0 4px var(--neon-orange);
+  }
+
+  /* Per-cabinet color variants */
+  .cabinet.pink   { border-color: var(--neon-pink);   box-shadow: 0 0 12px var(--neon-pink),   inset 0 0 18px rgba(255,43,214,.15); }
+  .cabinet.pink::before   { background: var(--neon-pink);   box-shadow: 0 0 8px var(--neon-pink); }
+  .cabinet.pink .cab-title { color: var(--neon-pink);   text-shadow: 0 0 6px var(--neon-pink); }
+
+  .cabinet.green  { border-color: var(--neon-green);  box-shadow: 0 0 12px var(--neon-green),  inset 0 0 18px rgba(57,255,20,.15); }
+  .cabinet.green::before  { background: var(--neon-green);  box-shadow: 0 0 8px var(--neon-green); }
+  .cabinet.green .cab-title { color: var(--neon-green);  text-shadow: 0 0 6px var(--neon-green); }
+
+  .cabinet.purple { border-color: var(--neon-purple); box-shadow: 0 0 12px var(--neon-purple), inset 0 0 18px rgba(176,38,255,.15); }
+  .cabinet.purple::before { background: var(--neon-purple); box-shadow: 0 0 8px var(--neon-purple); }
+  .cabinet.purple .cab-title { color: var(--neon-purple); text-shadow: 0 0 6px var(--neon-purple); }
+
+  .cabinet.orange { border-color: var(--neon-orange); box-shadow: 0 0 12px var(--neon-orange), inset 0 0 18px rgba(255,107,0,.15); }
+  .cabinet.orange::before { background: var(--neon-orange); box-shadow: 0 0 8px var(--neon-orange); }
+  .cabinet.orange .cab-title { color: var(--neon-orange); text-shadow: 0 0 6px var(--neon-orange); }
+
+  .cabinet.yellow { border-color: var(--neon-yellow); box-shadow: 0 0 12px var(--neon-yellow), inset 0 0 18px rgba(255,242,0,.15); }
+  .cabinet.yellow::before { background: var(--neon-yellow); box-shadow: 0 0 8px var(--neon-yellow); }
+  .cabinet.yellow .cab-title { color: var(--neon-yellow); text-shadow: 0 0 6px var(--neon-yellow); }
+
+  /* Tiny pixel-art screen art using gradients/box-shadows */
+  .pixel-art {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 6px var(--neon-yellow), 2px 2px 0 #ff0080;
+    z-index: 1;
+  }
+  .pixel-art.cyan   { color: var(--neon-cyan);   text-shadow: 0 0 6px var(--neon-cyan),   2px 2px 0 #003a8c; }
+  .pixel-art.pink   { color: var(--neon-pink);   text-shadow: 0 0 6px var(--neon-pink),   2px 2px 0 #4b0030; }
+  .pixel-art.green  { color: var(--neon-green);  text-shadow: 0 0 6px var(--neon-green),  2px 2px 0 #003300; }
+  .pixel-art.purple { color: var(--neon-purple); text-shadow: 0 0 6px var(--neon-purple), 2px 2px 0 #2a0040; }
+  .pixel-art.orange { color: var(--neon-orange); text-shadow: 0 0 6px var(--neon-orange), 2px 2px 0 #4a1f00; }
+
+  /* ═══ FOOTER ═══ */
+  .arcade-footer {
+    text-align: center;
+    padding: 30px 20px 50px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #6a4a8a;
+    letter-spacing: 2px;
+    line-height: 2;
+  }
+  .arcade-footer a {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    text-shadow: 0 0 4px var(--neon-cyan);
+  }
+
+  /* ═══ MOBILE ═══ */
+  @media (max-width: 600px) {
+    .marquee { padding: 30px 14px 20px; }
+    .cabinets { gap: 18px; }
+    .top-bar { font-size: 14px; }
+  }
+</style>
+</head>
+<body class="crt">
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="top-bar">
+  <div>
+    <a href="index.html">&laquo; BACK TO MYSPACE</a>
+  </div>
+  <div class="credits">CREDITS &times; 99</div>
+</div>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee">
+  <div class="lights">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <h1 class="arcade-title">THUMM<br>ARCADE</h1>
+  <div class="subtitle">&#9670; A FAMILY OF GAMES BUILT WITH AI &#9670;</div>
+  <div class="insert-coin">&gt;&gt; INSERT COIN TO PLAY &lt;&lt;</div>
+</div>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker">
+  <div class="ticker-track">
+    HIGH SCORE: KYLE - 9,999,999 &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+    NEW CHALLENGER APPROACHING &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+    BUILT BY THE THUMM BOYS + AI &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+    ROUND 1 &nbsp;&nbsp;FIGHT! &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+    GAME OVER &mdash; CONTINUE? 9...8...7... &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+    PRESS START TO BEGIN &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+    HIGH SCORE: KYLE - 9,999,999 &nbsp;&nbsp;&#9733;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- ═══ GAMES GRID ═══ -->
+<div class="arcade-floor">
+  <div class="section-label">&laquo; SELECT YOUR GAME &raquo;</div>
+
+  <div class="cabinets">
+
+    <a href="#" class="cabinet pink">
+      <div class="cab-screen"><span class="pixel-art pink">&#9829; &#9829;</span></div>
+      <div class="cab-title">CABINET 01</div>
+      <div class="cab-meta">A game by the Thumm boys<br>Coming soon</div>
+      <div class="cab-status coming">COMING SOON</div>
+    </a>
+
+    <a href="#" class="cabinet">
+      <div class="cab-screen"><span class="pixel-art cyan">&#9606;&#9608;&#9606;</span></div>
+      <div class="cab-title">CABINET 02</div>
+      <div class="cab-meta">A game by the Thumm boys<br>Coming soon</div>
+      <div class="cab-status coming">COMING SOON</div>
+    </a>
+
+    <a href="#" class="cabinet green">
+      <div class="cab-screen"><span class="pixel-art green">&#9650;&#9660;&#9650;</span></div>
+      <div class="cab-title">CABINET 03</div>
+      <div class="cab-meta">A game by the Thumm boys<br>Coming soon</div>
+      <div class="cab-status coming">COMING SOON</div>
+    </a>
+
+    <a href="#" class="cabinet purple">
+      <div class="cab-screen"><span class="pixel-art purple">&#9787;</span></div>
+      <div class="cab-title">CABINET 04</div>
+      <div class="cab-meta">A game by the Thumm boys<br>Coming soon</div>
+      <div class="cab-status coming">COMING SOON</div>
+    </a>
+
+    <a href="#" class="cabinet orange">
+      <div class="cab-screen"><span class="pixel-art orange">&#9733;&#9733;</span></div>
+      <div class="cab-title">CABINET 05</div>
+      <div class="cab-meta">A game by the Thumm boys<br>Coming soon</div>
+      <div class="cab-status coming">COMING SOON</div>
+    </a>
+
+    <a href="#" class="cabinet yellow">
+      <div class="cab-screen"><span class="pixel-art">?</span></div>
+      <div class="cab-title">CABINET 06</div>
+      <div class="cab-meta">A mystery game<br>Stay tuned</div>
+      <div class="cab-status coming">COMING SOON</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="arcade-footer">
+  &copy; 2026 THUMM ARCADE &mdash; ALL RIGHTS RESERVED<br>
+  <a href="index.html">RETURN TO MAIN MENU</a>
+</div>
+
+<script>
+  // Click any cabinet to flash a "GAME OVER" style alert
+  document.querySelectorAll('.cabinet').forEach(function(cab) {
+    cab.addEventListener('click', function(e) {
+      e.preventDefault();
+      var title = cab.querySelector('.cab-title').textContent;
+      var screen = cab.querySelector('.cab-screen');
+      var original = screen.innerHTML;
+      screen.innerHTML = '<span class="pixel-art" style="font-size:14px;letter-spacing:2px;">GAME<br>OVER</span>';
+      setTimeout(function() { screen.innerHTML = original; }, 1200);
+    });
+  });
+</script>
+
+</body>
+</html>
