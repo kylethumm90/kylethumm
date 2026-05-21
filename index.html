@@ -362,7 +362,9 @@ input, textarea, button, select {
   width: 170px;
   min-width: 170px;
   cursor: pointer;
+  transition: opacity 0.3s ease;
 }
+.ms-profile-pic.is-fading { opacity: 0; }
 .ms-profile-info {
   font-size: 10px;
   line-height: 1.6;
@@ -1456,6 +1458,7 @@ body.sun-mode {
   // ── Profile Pic Click Counter (Easter Egg) ──
   var picClicks = 0;
   var picEl = document.getElementById('profilePic');
+  var picSwapBusy = false;
   if (picEl) {
     picEl.addEventListener('click', function() {
       picClicks++;
@@ -1464,6 +1467,24 @@ body.sun-mode {
       } else if (picClicks === 10) {
         window.location.href = 'mailto:kyle@usehandled.ai?subject=I%20like%20your%20energy';
       }
+
+      // Silent throwback swap (debounced for the full animation)
+      if (picSwapBusy) return;
+      picSwapBusy = true;
+      var original = picEl.getAttribute('src');
+      picEl.classList.add('is-fading');
+      setTimeout(function() {
+        picEl.setAttribute('src', 'myspace-kyle.jpg');
+        picEl.classList.remove('is-fading');
+        setTimeout(function() {
+          picEl.classList.add('is-fading');
+          setTimeout(function() {
+            picEl.setAttribute('src', original);
+            picEl.classList.remove('is-fading');
+            setTimeout(function() { picSwapBusy = false; }, 300);
+          }, 300);
+        }, 3000);
+      }, 300);
     });
   }
 
