@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MySpace.com | Kyle's Videos</title>
+<meta name="description" content="Videos by Kyle Thumm — ad creative, brand spots, and reels worth showing off.">
+<style>
+/* ── RESET & BASE ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #fff;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #000;
+  line-height: 1.4;
+}
+a { color: #003366; text-decoration: underline; }
+a:hover { color: #FF5A00; }
+img { border: 0; }
+table { border-collapse: collapse; }
+input, textarea, button, select {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 10px;
+}
+
+/* ── TOP NAV BAR ── */
+.ms-topnav {
+  background: #003366;
+  border-bottom: 1px solid #002244;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.ms-topnav-left { display: flex; align-items: center; gap: 0; white-space: nowrap; }
+.ms-topnav-logo { color: #fff; font-size: 12px; font-weight: bold; text-decoration: none; }
+.ms-topnav-logo:hover { color: #fff; text-decoration: underline; }
+.ms-topnav-sep { color: #99bbdd; font-size: 10px; margin: 0 4px; }
+.ms-topnav-link { color: #fff; font-size: 10px; text-decoration: underline; }
+.ms-topnav-center { display: flex; align-items: center; gap: 4px; }
+.ms-topnav-center label { color: #fff; font-size: 10px; cursor: pointer; white-space: nowrap; }
+.ms-topnav-center input[type="radio"] { margin: 0 1px 0 0; vertical-align: middle; }
+.ms-search-input { border: 1px solid #999; padding: 1px 3px; font-size: 10px; width: 120px; background: #fff; }
+.ms-search-btn { background: #ddd; border: 1px solid #999; padding: 1px 8px; font-size: 10px; cursor: pointer; color: #000; }
+.ms-search-btn:hover { background: #ccc; }
+.ms-topnav-right { display: flex; align-items: center; gap: 0; white-space: nowrap; }
+.ms-topnav-right a { color: #fff; font-size: 10px; }
+.ms-topnav-right .sep { color: #99bbdd; font-size: 10px; margin: 0 4px; }
+
+/* ── SECONDARY NAV BAR ── */
+.ms-subnav {
+  background: #003366;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.ms-subnav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+.ms-subnav a:hover { color: #fff; text-decoration: underline; }
+.ms-subnav a.is-active { color: #FF5A00; text-decoration: underline; }
+.ms-subnav-sep { color: #6699cc; font-size: 10px; padding: 0 1px; }
+
+/* ── MAIN LAYOUT ── */
+.ms-main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+/* ── PAGE HEADING ── */
+.ms-page-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  padding: 8px 0 4px;
+}
+.ms-page-sub {
+  font-size: 11px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* ── CONTENT BOXES ── */
+.ms-box { background: #fff; border: 1px solid #b0b0b0; margin-bottom: 6px; }
+.ms-box-header-tan {
+  background: #D5C19E;
+  color: #6B4B2A;
+  font-weight: bold;
+  font-size: 10px;
+  padding: 3px 6px;
+}
+.ms-box-body { padding: 8px; }
+
+/* ── VIDEO GALLERY ── */
+.ms-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.ms-video-card {
+  display: block;
+  border: 1px solid #ddd;
+  background: #000;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.ms-video-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  color: #000;
+}
+.ms-video-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000 center/cover no-repeat;
+  overflow: hidden;
+}
+.ms-video-thumb::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.65);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.ms-video-thumb::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -4px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid #fff;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  z-index: 2;
+}
+.ms-video-meta { background: #fff; padding: 4px 6px 6px; border-top: 1px solid #ddd; }
+.ms-video-title {
+  font-weight: bold;
+  font-size: 11px;
+  color: #003366;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ms-video-desc { font-size: 9px; color: #666; margin-top: 2px; }
+.ms-video-empty { font-size: 11px; color: #666; padding: 12px 4px; font-style: italic; text-align: center; }
+.ms-video-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 1px 5px;
+  border: 1px solid rgba(255,255,255,0.55);
+  z-index: 3;
+}
+
+/* ── VIDEO LIGHTBOX MODAL ── */
+@keyframes msModalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.ms-video-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10001;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.ms-video-modal-overlay.is-open {
+  display: flex;
+  animation: msModalFade 0.15s ease-out;
+}
+.ms-video-modal {
+  width: 880px;
+  max-width: 100%;
+  background: #fff;
+  border: 1px solid #5b91b5;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  font-family: Verdana, Arial, sans-serif;
+}
+.ms-video-modal-titlebar {
+  background: linear-gradient(to bottom, #6ea8cf 0%, #5b91b5 50%, #4a7da8 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #3a6a92;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+}
+.ms-video-modal-titlebar .ms-modal-close {
+  background: #c0c0c0;
+  color: #000;
+  border: 1px solid #fff;
+  border-right-color: #606060;
+  border-bottom-color: #606060;
+  width: 16px;
+  height: 14px;
+  line-height: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  font-family: Verdana, Arial, sans-serif;
+}
+.ms-video-modal-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+}
+.ms-video-modal-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.ms-video-modal.is-vertical { width: auto; }
+.ms-video-modal.is-vertical .ms-video-modal-frame {
+  width: min(44vh, 90vw, 400px);
+  aspect-ratio: 9 / 16;
+}
+
+/* ── BACK LINK ── */
+.ms-back-link {
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+
+/* ── FOOTER ── */
+.ms-footer {
+  max-width: 800px;
+  margin: 12px auto 24px;
+  padding: 0 8px;
+  text-align: center;
+}
+.ms-footer-links { margin-bottom: 6px; }
+.ms-footer-links a { font-size: 10px; margin: 0 4px; }
+.ms-footer-copy { font-size: 9px; color: #666; }
+.ms-footer-real { font-size: 8px; color: #999; margin-top: 2px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .ms-topnav { flex-direction: column; align-items: flex-start; }
+  .ms-topnav-center { flex-wrap: wrap; }
+  .ms-subnav { flex-wrap: wrap; }
+  .ms-search-input { width: 80px; }
+  .ms-video-grid { grid-template-columns: repeat(2, 1fr); }
+  .ms-video-modal-overlay { padding: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- VIDEO LIGHTBOX MODAL -->
+<div class="ms-video-modal-overlay" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle">
+  <div class="ms-video-modal" id="videoModalBox">
+    <div class="ms-video-modal-titlebar">
+      <span id="videoModalTitle">&#127916;&nbsp; Now Playing</span>
+      <button type="button" class="ms-modal-close" aria-label="Close" onclick="closeVideoModal()">&times;</button>
+    </div>
+    <div class="ms-video-modal-frame">
+      <iframe id="videoModalFrame" src="" title="Video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOP NAV ═══ -->
+<div class="ms-topnav">
+  <div class="ms-topnav-left">
+    <a href="index.html" class="ms-topnav-logo">MySpace.com</a>
+    <span class="ms-topnav-sep">|</span>
+    <a href="index.html" class="ms-topnav-link">Home</a>
+  </div>
+  <div class="ms-topnav-center">
+    <label><input type="radio" name="searchType" value="web" checked> The Web</label>
+    &nbsp;
+    <label><input type="radio" name="searchType" value="myspace"> MySpace</label>
+    &nbsp;
+    <input type="text" class="ms-search-input" placeholder="">
+    <button class="ms-search-btn">Search</button>
+  </div>
+  <div class="ms-topnav-right">
+    <a href="#">Help</a>
+    <span class="sep">|</span>
+    <a href="#">SignOut</a>
+  </div>
+</div>
+
+<!-- ═══ SECONDARY NAV ═══ -->
+<div class="ms-subnav">
+  <a href="index.html">Home</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Browse</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Search</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Invite</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Film</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Mail</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Blog</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Favorites</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Forum</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Groups</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Events</a><span class="ms-subnav-sep">|</span>
+  <a href="videos.html" class="is-active">Videos</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Music</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Comedy</a><span class="ms-subnav-sep">|</span>
+  <a href="#">Classifieds</a>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="ms-main">
+
+  <div class="ms-back-link">&laquo; <a href="index.html">Back to Kyle's Profile</a></div>
+
+  <div class="ms-page-title">Kyle's Videos</div>
+  <div class="ms-page-sub">
+    Ad creative, brand spots, and other things I'm proud of. Click any thumbnail to play.
+  </div>
+
+  <div class="ms-box">
+    <div class="ms-box-header-tan">Featured Videos</div>
+    <div class="ms-box-body">
+      <div class="ms-video-grid" id="videoGrid"></div>
+      <div style="text-align:right;">
+        <a href="https://www.youtube.com/@kylethumm" target="_blank">View All on YouTube &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="ms-footer">
+  <div class="ms-footer-links">
+    <a href="index.html">Profile</a>
+    <a href="https://usehandled.ai" target="_blank">handled.</a>
+    <a href="https://solargrade.co" target="_blank">SolarGrade</a>
+    <a href="https://www.youtube.com/@kylethumm" target="_blank">YouTube</a>
+    <a href="https://www.linkedin.com/in/kylethumm" target="_blank">LinkedIn</a>
+    <a href="mailto:kyle@usehandled.ai">Contact</a>
+  </div>
+  <div class="ms-footer-copy">&copy;2003&ndash;2026 MySpace.com. All Rights Reserved.</div>
+  <div class="ms-footer-real">Actually &copy;2026 Kyle Thumm. This is not MySpace.</div>
+</div>
+
+<script>
+// To add a video: drop in { id: '<youtube-id>', title: '...', desc: '...' }.
+// Add vertical: true for YouTube Shorts / 9:16 videos so they play in a portrait frame.
+// The YouTube ID is the part after "v=" or "/shorts/" in the URL.
+var KYLE_VIDEOS = [
+  { id: 'IIwzI2PXuOE', title: 'Elephant in the Room', desc: 'Rooftop Power' },
+  { id: 'dAWi2sa8Z9U', title: 'Lego AI Ad Video', desc: 'Rooftop Power · May 2026', vertical: true }
+];
+
+function renderVideoGallery() {
+  var grid = document.getElementById('videoGrid');
+  if (!grid) return;
+  if (!KYLE_VIDEOS.length) {
+    grid.outerHTML = '<div class="ms-video-empty">No videos yet — check back soon.</div>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < KYLE_VIDEOS.length; i++) {
+    var v = KYLE_VIDEOS[i];
+    var safeId = String(v.id).replace(/[^a-zA-Z0-9_-]/g, '');
+    var title = (v.title || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    var desc  = (v.desc  || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    var isVert = !!v.vertical;
+    var thumb = 'https://i.ytimg.com/vi/' + safeId + '/hqdefault.jpg';
+    var watchUrl = isVert ? 'https://www.youtube.com/shorts/' + safeId
+                          : 'https://www.youtube.com/watch?v=' + safeId;
+    html += '<a class="ms-video-card" href="' + watchUrl + '"' +
+            ' data-video-id="' + safeId + '" data-video-title="' + title + '"' +
+            ' data-vertical="' + (isVert ? '1' : '0') + '"' +
+            ' onclick="return openVideoModal(this);" aria-label="Play ' + title + '">' +
+              '<div class="ms-video-thumb" style="background-image:url(\'' + thumb + '\')">' +
+                (isVert ? '<span class="ms-video-badge">SHORT</span>' : '') +
+              '</div>' +
+              '<div class="ms-video-meta">' +
+                '<div class="ms-video-title">' + title + '</div>' +
+                (desc ? '<div class="ms-video-desc">' + desc + '</div>' : '') +
+              '</div>' +
+            '</a>';
+  }
+  grid.innerHTML = html;
+}
+
+function openVideoModal(card) {
+  if (card && card.preventDefault) card.preventDefault();
+  var id = card.getAttribute('data-video-id');
+  var title = card.getAttribute('data-video-title') || 'Now Playing';
+  var isVert = card.getAttribute('data-vertical') === '1';
+  if (!id) return false;
+  document.getElementById('videoModalBox').classList.toggle('is-vertical', isVert);
+  var frame = document.getElementById('videoModalFrame');
+  frame.src = 'https://www.youtube-nocookie.com/embed/' + id +
+              '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  document.getElementById('videoModalTitle').innerHTML = '&#127916;&nbsp; ' + title;
+  document.getElementById('videoModal').classList.add('is-open');
+  return false;
+}
+
+function closeVideoModal() {
+  var modal = document.getElementById('videoModal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  var frame = document.getElementById('videoModalFrame');
+  if (frame) frame.src = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeVideoModal();
+});
+document.addEventListener('click', function(e) {
+  var overlay = document.getElementById('videoModal');
+  if (overlay && e.target === overlay) closeVideoModal();
+});
+
+renderVideoGallery();
+</script>
+</body>
+</html>
