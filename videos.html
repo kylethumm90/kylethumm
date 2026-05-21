@@ -170,6 +170,19 @@ input, textarea, button, select {
 }
 .ms-video-desc { font-size: 9px; color: #666; margin-top: 2px; }
 .ms-video-empty { font-size: 11px; color: #666; padding: 12px 4px; font-style: italic; text-align: center; }
+.ms-video-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 1px 5px;
+  border: 1px solid rgba(255,255,255,0.55);
+  z-index: 3;
+}
 
 /* ── VIDEO LIGHTBOX MODAL ── */
 @keyframes msModalFade {
@@ -239,6 +252,11 @@ input, textarea, button, select {
   height: 100%;
   border: 0;
 }
+.ms-video-modal.is-vertical { width: auto; }
+.ms-video-modal.is-vertical .ms-video-modal-frame {
+  width: min(44vh, 90vw, 400px);
+  aspect-ratio: 9 / 16;
+}
 
 /* ── BACK LINK ── */
 .ms-back-link {
@@ -273,7 +291,7 @@ input, textarea, button, select {
 
 <!-- VIDEO LIGHTBOX MODAL -->
 <div class="ms-video-modal-overlay" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle">
-  <div class="ms-video-modal">
+  <div class="ms-video-modal" id="videoModalBox">
     <div class="ms-video-modal-titlebar">
       <span id="videoModalTitle">&#127916;&nbsp; Now Playing</span>
       <button type="button" class="ms-modal-close" aria-label="Close" onclick="closeVideoModal()">&times;</button>
@@ -365,9 +383,11 @@ input, textarea, button, select {
 
 <script>
 // To add a video: drop in { id: '<youtube-id>', title: '...', desc: '...' }.
-// The YouTube ID is the part after "v=" in the URL (e.g. youtu.be/<id> or youtube.com/watch?v=<id>).
+// Add vertical: true for YouTube Shorts / 9:16 videos so they play in a portrait frame.
+// The YouTube ID is the part after "v=" or "/shorts/" in the URL.
 var KYLE_VIDEOS = [
-  { id: 'IIwzI2PXuOE', title: 'Elephant in the Room', desc: 'Rooftop Power' }
+  { id: 'IIwzI2PXuOE', title: 'Elephant in the Room', desc: 'Rooftop Power' },
+  { id: 'dAWi2sa8Z9U', title: 'Vertical Short', desc: '', vertical: true }
 ];
 
 function renderVideoGallery() {
@@ -383,11 +403,17 @@ function renderVideoGallery() {
     var safeId = String(v.id).replace(/[^a-zA-Z0-9_-]/g, '');
     var title = (v.title || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
     var desc  = (v.desc  || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    var isVert = !!v.vertical;
     var thumb = 'https://i.ytimg.com/vi/' + safeId + '/hqdefault.jpg';
-    html += '<a class="ms-video-card" href="https://www.youtube.com/watch?v=' + safeId + '"' +
+    var watchUrl = isVert ? 'https://www.youtube.com/shorts/' + safeId
+                          : 'https://www.youtube.com/watch?v=' + safeId;
+    html += '<a class="ms-video-card" href="' + watchUrl + '"' +
             ' data-video-id="' + safeId + '" data-video-title="' + title + '"' +
+            ' data-vertical="' + (isVert ? '1' : '0') + '"' +
             ' onclick="return openVideoModal(this);" aria-label="Play ' + title + '">' +
-              '<div class="ms-video-thumb" style="background-image:url(\'' + thumb + '\')"></div>' +
+              '<div class="ms-video-thumb" style="background-image:url(\'' + thumb + '\')">' +
+                (isVert ? '<span class="ms-video-badge">SHORT</span>' : '') +
+              '</div>' +
               '<div class="ms-video-meta">' +
                 '<div class="ms-video-title">' + title + '</div>' +
                 (desc ? '<div class="ms-video-desc">' + desc + '</div>' : '') +
@@ -401,7 +427,9 @@ function openVideoModal(card) {
   if (card && card.preventDefault) card.preventDefault();
   var id = card.getAttribute('data-video-id');
   var title = card.getAttribute('data-video-title') || 'Now Playing';
+  var isVert = card.getAttribute('data-vertical') === '1';
   if (!id) return false;
+  document.getElementById('videoModalBox').classList.toggle('is-vertical', isVert);
   var frame = document.getElementById('videoModalFrame');
   frame.src = 'https://www.youtube-nocookie.com/embed/' + id +
               '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
