@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Wes's Code Cracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#232A53;
+    --ink-deep:#1A2040;
+    --paper:#FFF7E0;
+    --coral:#FF6B57;
+    --sun:#FFD23F;
+    --lime:#9BE564;
+    --aqua:#4ED8C7;
+    --pink:#FF8FC7;
+    --tang:#FFA94D;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Fredoka',sans-serif;
+    background:var(--ink);
+    color:var(--paper);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:16px 12px 40px;
+    overflow-x:hidden;
+  }
+  .stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;}
+  .stars-bg span{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,247,224,.35);animation:twinkle 3s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
+
+  .wrap{width:100%;max-width:560px;position:relative;z-index:1;}
+
+  header{text-align:center;margin-bottom:10px;}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink-deep);border:2px solid rgba(255,247,224,.18);
+    border-radius:999px;padding:6px 16px;font-size:13px;font-weight:600;
+    letter-spacing:2px;text-transform:uppercase;color:var(--sun);
+  }
+  h1{
+    margin:8px 0 2px;font-size:clamp(30px,8vw,42px);font-weight:700;
+    letter-spacing:1px;line-height:1.05;
+  }
+  h1 .hl{color:var(--coral);}
+  .sub{margin:0;font-size:15px;color:rgba(255,247,224,.7);font-weight:400;}
+
+  .hud{
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    margin:16px 0 12px;flex-wrap:wrap;
+  }
+  .levels{display:flex;gap:6px;}
+  .lvl{
+    font-family:inherit;font-weight:600;font-size:14px;
+    border:2px solid rgba(255,247,224,.25);background:transparent;color:var(--paper);
+    border-radius:14px;padding:8px 14px;cursor:pointer;transition:transform .12s,background .12s;
+  }
+  .lvl:active{transform:scale(.94);}
+  .lvl.on{background:var(--coral);border-color:var(--coral);color:#3B0D06;}
+  .right-hud{display:flex;align-items:center;gap:8px;}
+  .stars{
+    display:flex;align-items:center;gap:6px;font-weight:700;font-size:18px;
+    background:var(--ink-deep);border-radius:14px;padding:8px 14px;color:var(--sun);
+  }
+  .stars svg{width:20px;height:20px;}
+  .iconbtn{
+    width:40px;height:40px;border-radius:14px;border:2px solid rgba(255,247,224,.25);
+    background:transparent;color:var(--paper);cursor:pointer;display:flex;
+    align-items:center;justify-content:center;transition:transform .12s;
+  }
+  .iconbtn:active{transform:scale(.92);}
+  .iconbtn svg{width:20px;height:20px;}
+
+  .codes{
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+    margin-bottom:14px;min-height:38px;
+  }
+  .code-chip{
+    font-weight:600;font-size:17px;letter-spacing:2px;
+    background:var(--ink-deep);border:2px dashed rgba(255,247,224,.3);
+    color:var(--paper);border-radius:12px;padding:6px 14px;
+    transition:all .25s;
+  }
+  .code-chip.done{
+    border-style:solid;text-decoration:line-through;text-decoration-thickness:3px;
+    opacity:.95;transform:scale(.96);
+  }
+  .code-chip.done.c0{background:var(--lime);border-color:var(--lime);color:#1E3A05;}
+  .code-chip.done.c1{background:var(--aqua);border-color:var(--aqua);color:#063B34;}
+  .code-chip.done.c2{background:var(--pink);border-color:var(--pink);color:#4D0A2C;}
+  .code-chip.done.c3{background:var(--tang);border-color:var(--tang);color:#4A2602;}
+
+  .board{
+    display:grid;gap:6px;touch-action:none;user-select:none;-webkit-user-select:none;
+    background:var(--ink-deep);padding:10px;border-radius:22px;
+    border:2px solid rgba(255,247,224,.12);
+  }
+  .cell{
+    aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+    background:var(--paper);color:var(--ink);
+    border-radius:12px;font-weight:700;
+    font-size:clamp(15px,4.5vw,26px);
+    cursor:pointer;transition:transform .1s, background .12s, color .12s;
+    box-shadow:0 3px 0 rgba(0,0,0,.25);
+  }
+  .cell.sel{background:var(--sun);transform:scale(1.06);box-shadow:0 3px 0 rgba(0,0,0,.35);}
+  .cell.f0{background:var(--lime);color:#1E3A05;}
+  .cell.f1{background:var(--aqua);color:#063B34;}
+  .cell.f2{background:var(--pink);color:#4D0A2C;}
+  .cell.f3{background:var(--tang);color:#4A2602;}
+  .cell.pop{animation:pop .35s ease;}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-4deg)}100%{transform:scale(1)}}
+
+  .footer-row{display:flex;justify-content:center;margin-top:14px;}
+  .bigbtn{
+    font-family:inherit;font-weight:700;font-size:17px;letter-spacing:1px;
+    background:var(--sun);color:#4A3500;border:none;border-radius:16px;
+    padding:12px 26px;cursor:pointer;box-shadow:0 4px 0 #B98E0A;
+    transition:transform .12s;display:inline-flex;align-items:center;gap:8px;
+  }
+  .bigbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #B98E0A;}
+
+  .overlay{
+    position:fixed;inset:0;background:rgba(16,20,44,.82);
+    display:none;align-items:center;justify-content:center;z-index:10;padding:20px;
+  }
+  .overlay.show{display:flex;}
+  .win-card{
+    background:var(--paper);color:var(--ink);border-radius:26px;
+    padding:32px 28px;text-align:center;max-width:340px;width:100%;
+    animation:bounceIn .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes bounceIn{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+  .win-card h2{margin:0 0 4px;font-size:30px;font-weight:700;color:var(--coral);}
+  .win-card p{margin:0 0 18px;font-size:16px;}
+  .win-stars{font-size:34px;letter-spacing:6px;margin-bottom:6px;color:#E3A700;}
+
+  .confetti{position:fixed;top:-12px;border-radius:3px;z-index:11;pointer-events:none;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);}}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="stars-bg" id="starsBg"></div>
+<div class="wrap">
+  <header>
+    <div class="badge">&#x1F50E; Top secret mission</div>
+    <h1>Wes's <span class="hl">Code Cracker</span></h1>
+    <p class="sub">Drag across the tiles to find the hidden number codes</p>
+  </header>
+
+  <div class="hud">
+    <div class="levels">
+      <button class="lvl on" id="lvl-easy">Rookie</button>
+      <button class="lvl" id="lvl-medium">Agent</button>
+      <button class="lvl" id="lvl-hard">Master spy</button>
+    </div>
+    <div class="right-hud">
+      <div class="stars">
+        <svg viewBox="0 0 24 24" fill="#FFD23F"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+        <span id="score">0</span>
+      </div>
+      <button class="iconbtn" id="soundBtn" aria-label="Toggle sound">
+        <svg id="soundOnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 5.5a9 9 0 010 13"/></svg>
+        <svg id="soundOffIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="codes" id="codes"></div>
+  <div class="board" id="board"></div>
+
+  <div class="footer-row">
+    <button class="bigbtn" id="newBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg>
+      New mission
+    </button>
+  </div>
+</div>
+
+<div class="overlay" id="winOverlay">
+  <div class="win-card">
+    <div class="win-stars" id="winStars">&#9733;&#9733;&#9733;</div>
+    <h2>Code cracked!</h2>
+    <p id="winMsg">You found every secret code. Amazing work, agent!</p>
+    <button class="bigbtn" id="againBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+      Next mission
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var LEVELS = {
+    easy:   { size:6,  targets:4, minLen:3, maxLen:3, dirs:[[0,1],[1,0]] },
+    medium: { size:8,  targets:6, minLen:3, maxLen:4, dirs:[[0,1],[1,0],[1,1]] },
+    hard:   { size:10, targets:8, minLen:4, maxLen:5, dirs:[[0,1],[1,0],[1,1],[1,-1]] }
+  };
+  var CONFETTI_COLORS = ['#FF6B57','#FFD23F','#9BE564','#4ED8C7','#FF8FC7','#FFA94D'];
+
+  var level = 'easy';
+  var grid = [], size = 6, targets = [], totalStars = 0;
+  var startCell = null, selPath = [];
+  var soundOn = true;
+
+  var board = document.getElementById('board');
+  var codesEl = document.getElementById('codes');
+  var scoreEl = document.getElementById('score');
+  var winOverlay = document.getElementById('winOverlay');
+
+  /* ---------- background twinkle stars ---------- */
+  var bg = document.getElementById('starsBg');
+  for (var i = 0; i < 28; i++) {
+    var s = document.createElement('span');
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = (Math.random()*3) + 's';
+    bg.appendChild(s);
+  }
+
+  /* ---------- tiny sound engine ---------- */
+  var audioCtx = null;
+  function beep(freq, dur, type, vol, when) {
+    if (!soundOn) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var t = audioCtx.currentTime + (when || 0);
+      var o = audioCtx.createOscillator();
+      var g = audioCtx.createGain();
+      o.type = type || 'sine';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(vol || 0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + dur);
+    } catch(e){}
+  }
+  function sndSelect(){ beep(420, 0.06, 'square', 0.05); }
+  function sndFound(){
+    beep(523, 0.12, 'triangle', 0.14, 0);
+    beep(659, 0.12, 'triangle', 0.14, 0.09);
+    beep(784, 0.2,  'triangle', 0.16, 0.18);
+  }
+  function sndWin(){
+    [523,659,784,1047,784,1047].forEach(function(f, idx){
+      beep(f, 0.18, 'triangle', 0.16, idx * 0.12);
+    });
+  }
+  function sndMiss(){ beep(180, 0.12, 'sawtooth', 0.05); }
+
+  document.getElementById('soundBtn').addEventListener('click', function(){
+    soundOn = !soundOn;
+    document.getElementById('soundOnIcon').style.display = soundOn ? '' : 'none';
+    document.getElementById('soundOffIcon').style.display = soundOn ? 'none' : '';
+    if (soundOn) sndSelect();
+  });
+
+  /* ---------- puzzle generation ---------- */
+  function rnd(n){ return Math.floor(Math.random()*n); }
+
+  function makeNumber(minL, maxL, existing) {
+    for (var t = 0; t < 60; t++) {
+      var L = minL + rnd(maxL - minL + 1);
+      var str = String(1 + rnd(9));
+      for (var i = 1; i < L; i++) str += String(rnd(10));
+      if (existing.indexOf(str) === -1) return str;
+    }
+    return null;
+  }
+
+  function placeNumber(str, dirs) {
+    for (var t = 0; t < 250; t++) {
+      var d = dirs[rnd(dirs.length)];
+      var r = rnd(size), c = rnd(size);
+      var er = r + d[0]*(str.length-1), ec = c + d[1]*(str.length-1);
+      if (er < 0 || er >= size || ec < 0 || ec >= size) continue;
+      var cells = [], ok = true;
+      for (var i = 0; i < str.length; i++) {
+        var rr = r + d[0]*i, cc = c + d[1]*i;
+        var cur = grid[rr][cc];
+        if (cur !== null && cur !== str[i]) { ok = false; break; }
+        cells.push([rr, cc]);
+      }
+      if (!ok) continue;
+      for (var j = 0; j < str.length; j++) grid[cells[j][0]][cells[j][1]] = str[j];
+      return cells;
+    }
+    return null;
+  }
+
+  function newGame() {
+    var cfg = LEVELS[level];
+    size = cfg.size;
+    grid = [];
+    for (var r = 0; r < size; r++) { grid.push([]); for (var c = 0; c < size; c++) grid[r].push(null); }
+    targets = [];
+    var vals = [], guard = 0;
+    while (targets.length < cfg.targets && guard < 200) {
+      guard++;
+      var str = makeNumber(cfg.minLen, cfg.maxLen, vals);
+      if (!str) continue;
+      var cells = placeNumber(str, cfg.dirs);
+      if (cells) { targets.push({ val:str, cells:cells, found:false, color:targets.length % 4 }); vals.push(str); }
+    }
+    for (var r2 = 0; r2 < size; r2++)
+      for (var c2 = 0; c2 < size; c2++)
+        if (grid[r2][c2] === null) grid[r2][c2] = String(rnd(10));
+    winOverlay.classList.remove('show');
+    startCell = null; selPath = [];
+    render();
+  }
+
+  /* ---------- rendering ---------- */
+  function render() {
+    board.style.gridTemplateColumns = 'repeat(' + size + ', 1fr)';
+    board.innerHTML = '';
+    for (var r = 0; r < size; r++) {
+      for (var c = 0; c < size; c++) {
+        var d = document.createElement('div');
+        d.className = 'cell';
+        d.textContent = grid[r][c];
+        d.dataset.r = r; d.dataset.c = c;
+        board.appendChild(d);
+      }
+    }
+    targets.forEach(function(t){
+      if (t.found) t.cells.forEach(function(cl){ cellEl(cl[0], cl[1]).classList.add('f' + t.color); });
+    });
+    codesEl.innerHTML = '';
+    targets.forEach(function(t){
+      var ch = document.createElement('span');
+      ch.className = 'code-chip' + (t.found ? ' done c' + t.color : '');
+      ch.textContent = t.val;
+      codesEl.appendChild(ch);
+    });
+    scoreEl.textContent = totalStars;
+  }
+
+  function cellEl(r, c){ return board.children[r*size + c]; }
+
+  /* ---------- selection ---------- */
+  function pathFrom(a, b) {
+    var dr = b[0]-a[0], dc = b[1]-a[1];
+    if (!(dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc))) return null;
+    var sr = Math.sign(dr), sc = Math.sign(dc);
+    var len = Math.max(Math.abs(dr), Math.abs(dc)) + 1, out = [];
+    for (var i = 0; i < len; i++) out.push([a[0]+sr*i, a[1]+sc*i]);
+    return out;
+  }
+  function clearSel() {
+    selPath.forEach(function(cl){ cellEl(cl[0], cl[1]).classList.remove('sel'); });
+    selPath = [];
+  }
+  function showSel(path) {
+    if (path.length !== selPath.length) sndSelect();
+    clearSel();
+    selPath = path;
+    path.forEach(function(cl){ cellEl(cl[0], cl[1]).classList.add('sel'); });
+  }
+  function cellFromPoint(x, y) {
+    var el = document.elementFromPoint(x, y);
+    if (el && el.classList && el.classList.contains('cell'))
+      return [parseInt(el.dataset.r, 10), parseInt(el.dataset.c, 10)];
+    return null;
+  }
+
+  board.addEventListener('pointerdown', function(e){
+    var cl = cellFromPoint(e.clientX, e.clientY);
+    if (!cl) return;
+    e.preventDefault();
+    startCell = cl;
+    showSel([cl]);
+  });
+  document.addEventListener('pointermove', function(e){
+    if (!startCell) return;
+    var cl = cellFromPoint(e.clientX, e.clientY);
+    if (!cl) return;
+    var p = pathFrom(startCell, cl);
+    if (p) showSel(p);
+  });
+  document.addEventListener('pointerup', function(){
+    if (!startCell) return;
+    evaluate(selPath);
+    startCell = null;
+  });
+  document.addEventListener('pointercancel', function(){
+    clearSel(); startCell = null;
+  });
+
+  /* ---------- scoring & win ---------- */
+  function evaluate(path) {
+    if (path.length < 2) { clearSel(); return; }
+    var s = path.map(function(cl){ return grid[cl[0]][cl[1]]; }).join('');
+    var rev = s.split('').reverse().join('');
+    var hit = null;
+    for (var i = 0; i < targets.length; i++) {
+      var t = targets[i];
+      if (!t.found && (t.val === s || t.val === rev)) { hit = t; break; }
+    }
+    clearSel();
+    if (hit) {
+      hit.found = true;
+      totalStars++;
+      sndFound();
+      path.forEach(function(cl){
+        var el = cellEl(cl[0], cl[1]);
+        el.classList.add('f' + hit.color, 'pop');
+      });
+      render();
+      var lastPath = hit.cells;
+      lastPath.forEach(function(cl){ cellEl(cl[0], cl[1]).classList.add('pop'); });
+      if (targets.every(function(t){ return t.found; })) {
+        setTimeout(win, 450);
+      }
+    } else {
+      sndMiss();
+    }
+  }
+
+  function win() {
+    sndWin();
+    document.getElementById('winMsg').textContent =
+      'You found all ' + targets.length + ' secret codes. Amazing work, agent!';
+    winOverlay.classList.add('show');
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    for (var i = 0; i < 80; i++) {
+      var p = document.createElement('div');
+      p.className = 'confetti';
+      var sizePx = 6 + rnd(8);
+      p.style.width = sizePx + 'px';
+      p.style.height = (sizePx * 0.6) + 'px';
+      p.style.left = Math.random()*100 + 'vw';
+      p.style.background = CONFETTI_COLORS[rnd(CONFETTI_COLORS.length)];
+      p.style.animationDuration = (2 + Math.random()*2) + 's';
+      p.style.animationDelay = (Math.random()*0.6) + 's';
+      document.body.appendChild(p);
+      (function(node){ setTimeout(function(){ node.remove(); }, 5500); })(p);
+    }
+  }
+
+  /* ---------- controls ---------- */
+  ['easy','medium','hard'].forEach(function(k){
+    document.getElementById('lvl-' + k).addEventListener('click', function(){
+      level = k;
+      ['easy','medium','hard'].forEach(function(j){
+        document.getElementById('lvl-' + j).classList.toggle('on', j === k);
+      });
+      newGame();
+    });
+  });
+  document.getElementById('newBtn').addEventListener('click', newGame);
+  document.getElementById('againBtn').addEventListener('click', newGame);
+
+  newGame();
+})();
+</script>
+</body>
+</html>
